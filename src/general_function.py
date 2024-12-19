@@ -111,14 +111,20 @@ def build_non_existing_dirs(file_path: str):
 
 def pl_to_dict(df: pl.DataFrame) -> dict:
     """
-    Convert a Polars DataFrame with two columns into a dictionary.
+    Convert a Polars DataFrame with two columns into a dictionary. It is assumed that the 
+    first column contains the keys and the second column contains the values. The keys must 
+    be unique but Null values will be filtered.
 
     Args:
         df (pl.DataFrame): Polars DataFrame with two columns.
 
     Returns:
         dict: Dictionary representation of the DataFrame.
+
+    Raises:
+        ValueError: If the DataFrame does not have exactly two columns or if the keys are not unique.
     """
+    
     if df.shape[1] != 2:
         raise ValueError("DataFrame is not composed of two columns")
 
@@ -126,7 +132,7 @@ def pl_to_dict(df: pl.DataFrame) -> dict:
     df = df.drop_nulls(columns_name)
     if df[columns_name].is_duplicated().sum() != 0:
         raise ValueError("Key values are not unique")
-    return dict(df.to_numpy())
+    return dict(df.rows())
 
 def modify_string(string: str, format_str: dict) -> str:
     """
