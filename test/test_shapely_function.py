@@ -4,7 +4,7 @@ from shapely_function import (
     point_list_to_linestring, get_polygon_multipoint_intersection, find_closest_node_from_list,
     explode_multipolygon, geoalchemy2_to_shape, shape_to_geoalchemy2, get_closest_point_from_multi_point,
     remove_z_coordinates, get_valid_polygon_str, partition, generate_valid_polygon,
-    shape_list_to_str_list, generate_segment_list_from_multilinestring
+    shape_list_to_str_list, segment_list_from_multilinestring
 )
 
 class TestShapelyFunctions(unittest.TestCase):
@@ -87,9 +87,9 @@ class TestShapelyFunctions(unittest.TestCase):
         ]
         self.assertEqual(result, expected)
 
-    def test_generate_segment_list_from_multilinestring(self):
+    def test_segment_list_from_multilinestring(self):
         multi_linestring = MultiLineString([[(0, 0), (1, 1), (5, 3), (6, 3)], [(0, 10), (1, 1), (2, 2)]])
-        result = generate_segment_list_from_multilinestring(multi_linestring)
+        result = segment_list_from_multilinestring(multi_linestring)
         expected = [
             LineString([(0, 0), (1, 1)]),
             LineString([(1, 1), (5, 3)]),

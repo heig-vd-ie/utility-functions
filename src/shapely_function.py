@@ -273,7 +273,7 @@ def load_shape_from_geo_json(
     else:
         raise ValueError("Both srid_from and srid_to must be provided or None.")
 
-def generate_segment_list_from_multilinestring(multi_linestring: MultiLineString) -> list[LineString]:
+def segment_list_from_multilinestring(multi_linestring: MultiLineString) -> list[LineString]:
     """
     Generate a list of LineString segments from a MultiLineString.
 
