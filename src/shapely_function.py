@@ -1,4 +1,3 @@
-
 """
 This module provides various utility functions for working with geometric shapes using the Shapely library.
 Functions:
@@ -47,10 +46,29 @@ from config import settings
 
 
 def point_list_to_linestring(point_list_str: list[str]) -> str:
+    """
+    Convert a list of WKT point strings to a WKT LineString.
+
+    Args:
+        point_list_str (list[str]): The list of WKT point strings.
+
+    Returns:
+        str: The WKT LineString.
+    """
     return LineString(list(map(from_wkt, point_list_str))).wkt
 
 
 def get_polygon_multipoint_intersection(polygon_str: str, multipoint: MultiPoint) -> Optional[list[str]]:
+    """
+    Get the intersection points between a polygon and a multipoint.
+
+    Args:
+        polygon_str (str): The WKT string of the polygon.
+        multipoint (MultiPoint): The MultiPoint object.
+
+    Returns:
+        Optional[list[str]]: The list of WKT strings representing the intersection points.
+    """
     point_shape: Geometry = intersection(from_wkt(polygon_str), multipoint)
     
     if isinstance(point_shape, MultiPoint):
@@ -62,6 +80,17 @@ def get_polygon_multipoint_intersection(polygon_str: str, multipoint: MultiPoint
     return []
 
 def find_closest_node_from_list(data: dict, node_name: str, node_list_name: str) -> Optional[str]:
+    """
+    Find the closest node ID from a given node ID geometry mapping.
+
+    Args:
+        data (dict): The data dictionary containing node information.
+        node_name (str): The key for the node ID.
+        node_list_name (str): The key for the list of node IDs.
+
+    Returns:
+        Optional[str]: The closest node ID.
+    """
     if data["node_id"] is None:
         return None  
     if len(data[node_list_name]) == 0:
@@ -73,6 +102,15 @@ def find_closest_node_from_list(data: dict, node_name: str, node_list_name: str)
     return None
 
 def explode_multipolygon(geometry_str: str) -> list[Polygon]:
+    """
+    Explode a MultiPolygon WKT string into a list of Polygon objects.
+
+    Args:
+        geometry_str (str): The WKT string of the MultiPolygon.
+
+    Returns:
+        list[Polygon]: The list of Polygon objects.
+    """
     geometry_shape: Geometry = from_wkt(geometry_str)
     if isinstance(geometry_shape, Polygon):
         return [geometry_shape]
@@ -82,14 +120,43 @@ def explode_multipolygon(geometry_str: str) -> list[Polygon]:
 
     
 def geoalchemy2_to_shape(geo_str: str) -> Geometry:
+    """
+    Convert a GeoAlchemy2 WKBElement string to a Shapely Geometry object.
+
+    Args:
+        geo_str (str): The GeoAlchemy2 WKBElement string.
+
+    Returns:
+        Geometry: The Shapely Geometry object.
+    """
     return to_shape(WKBElement(str(geo_str)))
 
 def shape_to_geoalchemy2(geo: Geometry) -> str:
+    """
+    Convert a Shapely Geometry object to a GeoAlchemy2 WKBElement string.
+
+    Args:
+        geo (Geometry): The Shapely Geometry object.
+
+    Returns:
+        str: The GeoAlchemy2 WKBElement string.
+    """
     if isinstance(geo, Geometry):
         return from_shape(geo, srid=settings.GPS_SRID).desc
     return None
 
 def get_closest_point_from_multi_point(geo_str: str, multi_point: MultiPoint, max_distance: float=100) -> Optional[str]:
+    """
+    Find the closest point within a maximum distance from a given geometry WKT string.
+
+    Args:
+        geo_str (str): The WKT string of the geometry.
+        multi_point (MultiPoint): The MultiPoint object.
+        max_distance (float, optional): The maximum distance. Defaults to 100.
+
+    Returns:
+        Optional[str]: The WKT string of the closest point.
+    """
     geo = from_wkt(geo_str)
     _, closest_point = nearest_points(geo, multi_point)
     if distance(geo, closest_point) < max_distance:
@@ -97,15 +164,43 @@ def get_closest_point_from_multi_point(geo_str: str, multi_point: MultiPoint, ma
     return None
     
 def remove_z_coordinates(geom: Geometry)->Geometry:
+    """
+    Remove the Z coordinates from a geometry.
+
+    Args:
+        geom (Geometry): The Shapely Geometry object.
+
+    Returns:
+        Geometry: The Shapely Geometry object without Z coordinates.
+    """
     return transform(lambda x, y, z=None: (x, y), geom)
 
 def get_valid_polygon_str(polygon_str: dict) -> str:
+    """
+    Get a valid polygon WKT string from a dictionary.
+
+    Args:
+        polygon_str (dict): The dictionary containing polygon information.
+
+    Returns:
+        str: The valid polygon WKT string.
+    """
     polygon: Polygon = list(shape(polygon_str).geoms)[0] # type: ignore
     if polygon.is_valid:
         return polygon.wkt
     return polygon.convex_hull.wkt
 
 def grid_bounds(geom, delta):
+    """
+    Generate a grid of polygons within the bounds of a geometry.
+
+    Args:
+        geom (Geometry): The Shapely Geometry object.
+        delta (float): The grid cell size.
+
+    Returns:
+        list[Polygon]: The list of grid polygons.
+    """
     minx, miny, maxx, maxy = geom.bounds
     nx = int((maxx - minx)/delta)
     ny = int((maxy - miny)/delta)
@@ -118,11 +213,30 @@ def grid_bounds(geom, delta):
     return grid
 
 def partition(geom: Polygon, delta: float) -> list:
+    """
+    Partition a polygon into smaller polygons based on a grid.
+
+    Args:
+        geom (Polygon): The Shapely Polygon object.
+        delta (float): The grid cell size.
+
+    Returns:
+        list[Polygon]: The list of partitioned polygons.
+    """
     prepared_geom = prep(geom)
     grid = list(filter(prepared_geom.intersects, grid_bounds(geom, delta)))
     return grid
 
 def generate_valid_polygon(multipolygon_str: str) -> Optional[Polygon]:
+    """
+    Generate a valid polygon from a MultiPolygon WKT string.
+
+    Args:
+        multipolygon_str (str): The WKT string of the MultiPolygon.
+
+    Returns:
+        Optional[Polygon]: The valid polygon.
+    """
     shape: Geometry = from_wkt(multipolygon_str)
     if isinstance(shape, MultiPolygon):
         shape = shape.geoms[0]

@@ -24,6 +24,18 @@ NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
 
 def scan_switch_directory(
     oc: owncloud.Client, local_folder_path: str, switch_folder_path: str, download_anyway: bool) -> list[str]:
+    """
+    Scan a directory on the SWITCH server and return a list of file paths.
+
+    Args:
+        oc (owncloud.Client): The ownCloud client.
+        local_folder_path (str): The local folder path.
+        switch_folder_path (str): The SWITCH folder path.
+        download_anyway (bool): Whether to download files even if they already exist locally.
+
+    Returns:
+        list[str]: List of file paths.
+    """
     file_list = []
     build_non_existing_dirs(os.path.join(local_folder_path, switch_folder_path))
     for file_data in oc.list(switch_folder_path): # type: ignore
@@ -38,6 +50,14 @@ def scan_switch_directory(
     return file_list
 
 def download_from_switch(switch_folder_path: str, local_folder_path: str= ".cache", download_anyway: bool = False):
+    """
+    Download files from a SWITCH directory to a local folder.
+
+    Args:
+        switch_folder_path (str): The SWITCH folder path.
+        local_folder_path (str, optional): The local folder path. Defaults to ".cache".
+        download_anyway (bool, optional): Whether to download files even if they already exist locally. Defaults to False.
+    """
     oc: owncloud.Client = owncloud.Client.from_public_link(settings.SWITCH_LINK, folder_password=settings.SWITCH_PASS)
     with tqdm.tqdm(total = 1, desc=f"Scan {switch_folder_path} Switch remote directory", ncols=120) as pbar:
         file_list: list[str] = scan_switch_directory(
@@ -50,21 +70,31 @@ def download_from_switch(switch_folder_path: str, local_folder_path: str= ".cach
         oc.get_file(file_path, local_folder_path + file_path)
         
 
-def generate_log(name: str) -> logging.Logger:
+def generate_log(name: str, log_level: str= "info") -> logging.Logger:
     """
-    load configs of environment
-    :return: log for logging, config is list of all env vars
+    Generate a logger with the specified name and log level.
+
+    Args:
+        name (str): The name of the logger.
+        log_level (str, optional): The log level. Defaults to "info".
+
+    Returns:
+        logging.Logger: The generated logger.
     """
     log = logging.getLogger(name)
-    coloredlogs.install(level="info")
+    coloredlogs.install(level=log_level)
     return log
 
 
 def build_non_existing_dirs(file_path: str):
     """
-    build non existing directories
-    :param file_path:
-    :return: True
+    Build non-existing directories for a given file path.
+
+    Args:
+        file_path (str): The file path.
+
+    Returns:
+        bool: True if directories were created successfully.
     """
     file_path = os.path.normpath(file_path)
     # Split the path into individual directories
@@ -99,7 +129,9 @@ def pl_to_dict(df: pl.DataFrame) -> dict:
 
 def modify_string(string: str, format_str: dict) -> str:
     """
-    Modify a string by replacing substrings according to a format dictionary.
+    Modify a string by replacing substrings according to a format dictionary 
+    -   Input could contains RegEx.
+    -   The replacement is done in the order of the dictionary keys.
 
     Args:
         string (str): Input string.
@@ -113,21 +145,56 @@ def modify_string(string: str, format_str: dict) -> str:
         string = re.sub(str_in, str_out, string)
     return string
 
-def camel_to_snake(s):
+def camel_to_snake(s: str) -> str:
+    """
+    Convert a camelCase string to snake_case.
+
+    Args:
+        s (str): The camelCase string.
+
+    Returns:
+        str: The snake_case string.
+    """
     return (
         ''.join(
             [ '_'+ c.lower() if c.isupper() else c for c in s ]
         ).lstrip('_')
     )
 
-def snake_to_camel(snake_str):
+def snake_to_camel(snake_str: str) -> str:
+    """
+    Convert a snake_case string to CamelCase.
+
+    Args:
+        snake_str (str): The snake_case string.
+
+    Returns:
+        str: The CamelCase string.
+    """
     return "".join(x.capitalize() for x in snake_str.lower().split("_"))
 
 
-def convert_list_to_string(list_data)-> str:
+def convert_list_to_string(list_data: list) -> str:
+    """
+    Convert a list to a comma-separated string.
+
+    Args:
+        list_data (list): The list to convert.
+
+    Returns:
+        str: The comma-separated string.
+    """
     return ", ".join(map(str, list_data))
 
-def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str, ):
+def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str):
+    """
+    Save a Polars DataFrame as a GeoPackage file.
+
+    Args:
+        table (pl.DataFrame): The Polars DataFrame.
+        gpkg_file_name (str): The GeoPackage file name.
+        layer_name (str): The layer name.
+    """
     list_columns: list[str] = [name for name, col_type in dict(table.schema).items() if type(col_type) == pl.List]
     table_pd: pd.DataFrame = table.with_columns(
         c(list_columns).list.join(", ")
@@ -141,8 +208,14 @@ def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str, ):
     table_gpd.to_file(gpkg_file_name, layer=layer_name) 
 
 
-def dict_to_gpkg(data: dict, file_path:str):
+def dict_to_gpkg(data: dict, file_path: str):
+    """
+    Save a dictionary of Polars DataFrames as a GeoPackage file.
 
+    Args:
+        data (dict): The dictionary of Polars DataFrames.
+        file_path (str): The GeoPackage file path.
+    """
     with tqdm.tqdm(range(1), ncols=100, desc="Save input data in gpkg format") as pbar:
         for layer_name, table in data.items():
             if isinstance(table, pl.DataFrame):
@@ -150,6 +223,48 @@ def dict_to_gpkg(data: dict, file_path:str):
                     table_to_gpkg(table=table, gpkg_file_name=file_path, layer_name=layer_name)
         pbar.update()
 
+def dict_to_duckdb(data: dict[str, pl.DataFrame], file_path: str):
+    """
+    Save a dictionary of Polars DataFrames as a DuckDB file.
+
+    Args:
+        data (dict[str, pl.DataFrame]): The dictionary of Polars DataFrames.
+        file_path (str): The DuckDB file path.
+    """
+    build_non_existing_dirs(os.path.dirname(file_path))
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    with duckdb.connect(file_path) as con:
+        con.execute("SET TimeZone='UTC'")
+        for table_name, table_pl in tqdm.tqdm(data.items(), desc="Save dictionary into duckdb file", ncols=150):
+            query = f"CREATE TABLE {table_name} AS SELECT * FROM table_pl"
+            con.execute(query)
+                
+                
+def duckdb_to_dict(file_path: str) -> dict:
+    """
+    Load a DuckDB file into a dictionary of Polars DataFrames.
+
+    Args:
+        file_path (str): The DuckDB file path.
+
+    Returns:
+        dict: The dictionary of Polars DataFrames.
+    """
+    schema_dict: dict[str, pl.DataFrame] = {} # type: ignore
+
+    with duckdb.connect(database=file_path) as con:
+        con.execute("SET TimeZone='UTC'")
+        query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'main'"
+        pbar = tqdm.tqdm(
+            con.execute(query).fetchall(), ncols=150, 
+            desc="Read and validate tables from {} file".format(os.path.basename(file_path))
+            )
+        for table_name in pbar:
+            query: str = f"SELECT * FROM {table_name[0]}"
+            schema_dict[table_name[0]] = con.execute(query).pl()
+                    
+    return schema_dict
 
 
 # def filter_unique_nodes_from_list(node_id_list: pl.Expr)-> pl.Expr:
@@ -162,6 +277,16 @@ def dict_to_gpkg(data: dict, file_path:str):
 
 
 def dictionary_key_filtering(dictionary: dict, key_list: list) -> dict:
+    """
+    Filter a dictionary by a list of keys.
+
+    Args:
+        dictionary (dict): The dictionary to filter.
+        key_list (list): The list of keys to keep.
+
+    Returns:
+        dict: The filtered dictionary.
+    """
     return dict(filter(lambda x : x[0] in key_list, dictionary.items()))
 
 
@@ -171,7 +296,7 @@ def generate_uuid(base_value: str, base_uuid: uuid.UUID | None = None, added_str
 
     Args:
         base_value (str): The base value for generating the UUID.
-        base_uuid (str): The base UUID for generating the UUID.
+        base_uuid (uuid.UUID, optional): The base UUID for generating the UUID.
         added_string (str, optional): The optional added string. Defaults to "".
 
     Returns:

@@ -1,5 +1,5 @@
-Swiss-topo-API
-==============
+IE Utility Functions
+====================
 
 _API used to download data from [swiss geo admin](https://www.bfe.admin.ch/bfe/en/home/supply/digitalization-and-geoinformation/programming-interfaces/geoadmin-api.html)._
 

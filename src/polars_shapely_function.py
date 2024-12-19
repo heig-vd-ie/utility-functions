@@ -18,19 +18,57 @@ from config import settings
 
 
 def shape_intersect_polygon(geo_str: pl.Expr, polygon: Polygon) -> pl.Expr:
+    """
+    Check if geometries in a Polars expression intersect with a given polygon.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.
+        polygon (Polygon): The polygon to check for intersection.
+
+    Returns:
+        pl.Expr: A Polars expression with boolean values indicating intersection.
+    """
     return geo_str.pipe(wkt_to_shape_col).map_elements(lambda x: intersects(x, polygon), return_dtype=pl.Boolean)
 
-def get_branch_node_col(geo_str: pl.Expr) -> pl.Expr:
+def get_linestring_boundaries_col(line_str: pl.Expr) -> pl.Expr:
+    """
+    Get the boundary nodes of geometries in a Polars expression.
+
+    Args:
+        line_str (pl.Expr): The Polars expression containing linestring in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with lists of boundary nodes in WKT format.
+    """
     return (
-        geo_str.pipe(wkt_to_shape_col).map_elements(
+        line_str.pipe(wkt_to_shape_col).map_elements(
         lambda x: list(map(lambda point: point.wkt, x.boundary.geoms)), return_dtype=pl.List(pl.Utf8))
         )
 
 def get_geometry_list(df: pl.DataFrame, col_name: str = "geometry") -> list[Union[Point, LineString, Polygon]]:
-    
+    """
+    Get a list of geometries from a Polars DataFrame.
+
+    Args:
+        df (pl.DataFrame): The Polars DataFrame.
+        col_name (str, optional): The name of the geometry column. Defaults to "geometry".
+
+    Returns:
+        list[Union[Point, LineString, Polygon]]: The list of geometries.
+    """
     return df.select(c(col_name).pipe(wkt_to_shape_col))[col_name].to_list()
 
 def get_multigeometry_from_col(df: pl.DataFrame, col_name: str = "geometry") -> Union[MultiPoint, MultiLineString, MultiPolygon]:
+    """
+    Get a MultiGeometry object from a Polars DataFrame column.
+
+    Args:
+        df (pl.DataFrame): The Polars DataFrame.
+        col_name (str, optional): The name of the geometry column. Defaults to "geometry".
+
+    Returns:
+        Union[MultiPoint, MultiLineString, MultiPolygon]: The MultiGeometry object.
+    """
     geo_list: list[Union[Point, LineString, Polygon]] = get_geometry_list(df=df, col_name=col_name)
     if isinstance(geo_list[0], Point):
         return MultiPoint(geo_list) # type: ignore
@@ -40,50 +78,170 @@ def get_multigeometry_from_col(df: pl.DataFrame, col_name: str = "geometry") -> 
         return MultiPolygon(geo_list) # type: ignore
     
 def add_buffer(geo_str: pl.Expr, buffer_size: float) -> pl.Expr:
+    """
+    Add a buffer to geometries in a Polars expression.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.
+        buffer_size (float): The buffer size.
+
+    Returns:
+        pl.Expr: A Polars expression with buffered geometries in WKT format.
+    """
     return geo_str.pipe(wkt_to_shape_col).map_elements(lambda x: buffer(x, buffer_size).wkt, return_dtype=pl.Utf8)
 
 
 def calculate_line_length(line_str: pl.Expr) -> pl.Expr:
+    """
+    Calculate the length of LineString geometries in a Polars expression.
+
+    Args:
+        line_str (pl.Expr): The Polars expression containing LineString geometries in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with the lengths of the LineString geometries.
+    """
     return line_str.pipe(wkt_to_shape_col).map_elements(lambda x: x.length, return_dtype=pl.Float64)
 
 def shape_coordinate_transformer_col(shape_col: pl.Expr, crs_from: str, crs_to: str) -> pl.Expr:
+    """
+    Transform the coordinates of geometries in a Polars expression from one CRS to another.
+
+    Args:
+        shape_col (pl.Expr): The Polars expression containing geometries in WKT format.
+        crs_from (str): The source CRS.
+        crs_to (str): The target CRS.
+
+    Returns:
+        pl.Expr: A Polars expression with transformed geometries in WKT format.
+    """
     transformer = Transformer.from_crs(crs_from=CRS(crs_from), crs_to=CRS(crs_to) , always_xy=True).transform
-    return shape_col.map_elements(lambda x: transform(transformer, x), return_dtype=pl.Object)
+    return shape_col.map_elements(lambda x: transform(transformer, x).wkt, return_dtype=pl.Utf8)
 
 def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr) -> pl.Expr:
+    """
+    Generate Point geometries from x and y coordinates in Polars expressions.
+
+    Args:
+        x (pl.Expr): The Polars expression containing x coordinates.
+        y (pl.Expr): The Polars expression containing y coordinates.
+
+    Returns:
+        pl.Expr: A Polars expression with Point geometries in WKT format.
+    """
     return (
-        pl.concat_list([x, y]).map_elements(lambda coord: Point(*coord), return_dtype=pl.Object)
+        pl.concat_list([x, y]).map_elements(lambda coord: Point(*coord).wkt, return_dtype=pl.Utf8)
     )
 
 def generate_shape_linestring(coord_list: pl.Expr) -> pl.Expr:
+    """
+    Generate LineString geometries from coordinate lists in a Polars expression.
 
+    Args:
+        coord_list (pl.Expr): The Polars expression containing coordinate lists.
+
+    Returns:
+        pl.Expr: A Polars expression with LineString geometries.
+    """
     return (
-        coord_list.map_elements(lambda x: LineString(batched(x, 2)), return_dtype=pl.Object)
+        coord_list.map_elements(lambda x: LineString(batched(x, 2)).wkt, return_dtype=pl.Utf8)
     )
 
 def get_linestring_from_point_list(point_list_str: pl.Expr) ->  pl.Expr:
+    """
+    Generate LineString geometries from point lists in a Polars expression.
+
+    Args:
+        point_list_str (pl.Expr): The Polars expression containing point lists in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with LineString geometries in WKT format.
+    """
     return point_list_str.map_elements(point_list_to_linestring, return_dtype=pl.Utf8)
 
 def combine_shape(geometry_list_str: pl.Expr) ->  pl.Expr:
+    """
+    Combine multiple geometries into a single geometry in a Polars expression.
+
+    Args:
+        geometry_list_str (pl.Expr): The Polars expression containing geometry lists in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with combined geometries in WKT format.
+    """
     return geometry_list_str.map_elements(lambda x: union_all(list(map(from_wkt, x))).wkt, return_dtype=pl.Utf8)
 
 
 def shape_to_wkt_col(geometry: pl.Expr) ->  pl.Expr:
+    """
+    Convert geometries in a Polars expression to WKT format.
+
+    Args:
+        geometry (pl.Expr): The Polars expression containing geometries.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries in WKT format.
+    """
     return geometry.map_elements(lambda x: x.wkt, return_dtype=pl.Utf8)
 
 def wkt_to_shape_col(geometry: pl.Expr) ->  pl.Expr:
+    """
+    Convert WKT strings in a Polars expression to geometries.
+
+    Args:
+        geometry (pl.Expr): The Polars expression containing WKT strings.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries.
+    """
     return geometry.map_elements(from_wkt, return_dtype=pl.Object)
 
 def geojson_to_wkt_col(geometry: pl.Expr) ->  pl.Expr:
+    """
+    Convert GeoJSON strings in a Polars expression to WKT format.
+
+    Args:
+        geometry (pl.Expr): The Polars expression containing GeoJSON strings.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries in WKT format.
+    """
     return geometry.map_elements(lambda x: shape(x).wkt, return_dtype=pl.Utf8)
 
 def shape_to_geoalchemy2_col(geo: pl.Expr) -> pl.Expr:
+    """
+    Convert geometries in a Polars expression to GeoAlchemy2 format.
+
+    Args:
+        geo (pl.Expr): The Polars expression containing geometries.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries in GeoAlchemy2 format.
+    """
     return geo.map_elements(shape_to_geoalchemy2, return_dtype=pl.Utf8)
 
 def geoalchemy2_to_shape_col(geo_str: pl.Expr) -> pl.Expr:
+    """
+    Convert GeoAlchemy2 strings in a Polars expression to geometries.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing GeoAlchemy2 strings.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries.
+    """
     return geo_str.map_elements(geoalchemy2_to_shape, return_dtype=pl.Object)
 
 def wkt_to_geoalchemy_col(geo_str: pl.Expr) -> pl.Expr:
+    """
+    Convert WKT strings in a Polars expression to GeoAlchemy2 format.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing WKT strings.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries in GeoAlchemy2 format.
+    """
     return (
         geo_str.map_elements(from_wkt, return_dtype=pl.Object)
         .pipe(shape_coordinate_transformer_col, crs_from=settings.SWISS_SRID, crs_to=settings.GPS_SRID)
@@ -91,6 +249,15 @@ def wkt_to_geoalchemy_col(geo_str: pl.Expr) -> pl.Expr:
     )
 
 def geoalchemy2_to_wkt_col(geo_str: pl.Expr) -> pl.Expr:
+    """
+    Convert GeoAlchemy2 strings in a Polars expression to WKT format.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing GeoAlchemy2 strings.
+
+    Returns:
+        pl.Expr: A Polars expression with geometries in WKT format.
+    """
     return (
         geo_str.pipe(geoalchemy2_to_shape_col)
         .pipe(shape_coordinate_transformer_col, crs_from=settings.GPS_SRID, crs_to=settings.SWISS_SRID)
