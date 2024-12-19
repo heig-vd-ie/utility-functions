@@ -152,19 +152,19 @@ def modify_string(string: str, format_str: dict) -> str:
         string = re.sub(str_in, str_out, string)
     return string
 
-def camel_to_snake(s: str) -> str:
+def camel_to_snake(camel_str: str) -> str:
     """
     Convert a camelCase string to snake_case.
 
     Args:
-        s (str): The camelCase string.
+        camel_str (str): The camelCase string.
 
     Returns:
         str: The snake_case string.
     """
     return (
         ''.join(
-            [ '_'+ c.lower() if c.isupper() else c for c in s ]
+            [ '_'+ c.lower() if c.isupper() else c for c in camel_str ]
         ).lstrip('_')
     )
 
