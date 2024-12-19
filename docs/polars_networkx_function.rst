@@ -1,4 +1,4 @@
-polars\_networkx\_function module
+polars\_networkx\_function
 =================================
 
 .. automodule:: polars_networkx_function

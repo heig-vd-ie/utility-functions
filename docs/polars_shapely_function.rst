@@ -1,4 +1,4 @@
-polars\_shapely\_function module
+polars\_shapely\_function
 ================================
 
 .. automodule:: polars_shapely_function

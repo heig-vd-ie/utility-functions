@@ -1,38 +1,4 @@
-"""
-This module provides various utility functions for working with geometric shapes using the Shapely library.
-Functions:
-    get_polygon_list(geo_shape: Geometry) -> list[str]:
-        Returns a list of WKT strings representing the polygons in the given geometry.
-    point_list_to_linestring(point_list_str: list[str]) -> str:
-        Converts a list of WKT point strings to a WKT LineString.
-    get_polygon_multipoint_intersection(polygon_str: str, multipoint: MultiPoint) -> Optional[list[str]]:
-        Returns a list of WKT strings representing the intersection points between a polygon and a multipoint.
-    find_closest_node(data: dict, node_id_geo_mapping: dict) -> Optional[str]:
-        Finds the closest node ID from a given node ID geometry mapping.
-    explode_multipolygon(geometry_str: str) -> list[Polygon]:
-        Explodes a MultiPolygon WKT string into a list of Polygon objects.
-    get_geo_multipoints(data_df: pl.DataFrame, column_name: str = "geometry") -> MultiPoint:
-        Converts a DataFrame column of WKT strings to a MultiPoint object.
-    get_closest_point(geo_str: str, multi_point: MultiPoint, max_distance: float=100) -> Optional[str]:
-        Finds the closest point within a maximum distance from a given geometry WKT string.
-    linestring_from_node_str(node_str: list[str]) -> str:
-        Converts a list of WKT node strings to a WKT LineString.
-    calculate_line_length(line_str: pl.Expr) -> pl.Expr:
-        Calculates the length of a LineString expression.
-    filter_geo_from_polygon(geo: pl.Expr, polygon: Polygon) -> pl.Expr:
-        Filters geometries that intersect with a given polygon.
-    get_branch_node(geo: pl.Expr) -> pl.Expr:
-        Returns the boundary points of a geometry as a list of WKT strings.
-    get_geometry_list(df: pl.DataFrame) -> list[Geometry]:
-        Converts a DataFrame column of WKT strings to a list of Geometry objects.
-    add_buffer(geo: pl.Expr, buffer_size: float) -> pl.Expr:
-        Adds a buffer to a geometry expression and returns the buffered geometry as a WKT string.
-    geoalchemy2_to_shape(geo_str: str) -> Geometry:
-        Converts a GeoAlchemy2 WKBElement string to a Shapely Geometry object.
-    shape_to_geoalchemy2(geo: Geometry) -> str:
-        Converts a Shapely Geometry object to a GeoAlchemy2 WKBElement string.
-"""
-from typing import Optional
+from typing import Optional, Union
 from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull
 from shapely.ops import nearest_points, split, snap, linemerge, transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString
@@ -41,9 +7,10 @@ import numpy as np
 
 from geoalchemy2.shape import from_shape, to_shape
 from geoalchemy2.elements import WKBElement
+from math import ceil
 
-from config import settings
-
+SWISS_SRID = 2056
+GPS_SRID = 4326
 
 def point_list_to_linestring(point_list_str: list[str]) -> str:
     """
@@ -131,18 +98,19 @@ def geoalchemy2_to_shape(geo_str: str) -> Geometry:
     """
     return to_shape(WKBElement(str(geo_str)))
 
-def shape_to_geoalchemy2(geo: Geometry) -> str:
+def shape_to_geoalchemy2(geo: Geometry, srid: int = GPS_SRID) -> str:
     """
     Convert a Shapely Geometry object to a GeoAlchemy2 WKBElement string.
 
     Args:
         geo (Geometry): The Shapely Geometry object.
+        srid (int, optional): The spatial reference system identifier. Defaults to GPS_SRID = 4326.
 
     Returns:
         str: The GeoAlchemy2 WKBElement string.
     """
     if isinstance(geo, Geometry):
-        return from_shape(geo, srid=settings.GPS_SRID).desc
+        return from_shape(geo, srid=srid).desc
     return None
 
 def get_closest_point_from_multi_point(geo_str: str, multi_point: MultiPoint, max_distance: float=100) -> Optional[str]:
@@ -185,7 +153,7 @@ def get_valid_polygon_str(polygon_str: dict) -> str:
     Returns:
         str: The valid polygon WKT string.
     """
-    polygon: Polygon = list(shape(polygon_str).geoms)[0] # type: ignore
+    polygon: Polygon = list(polygon_str.wkt.geoms)[0] # type: ignore
     if polygon.is_valid:
         return polygon.wkt
     return polygon.convex_hull.wkt
@@ -202,12 +170,12 @@ def grid_bounds(geom, delta):
         list[Polygon]: The list of grid polygons.
     """
     minx, miny, maxx, maxy = geom.bounds
-    nx = int((maxx - minx)/delta)
-    ny = int((maxy - miny)/delta)
+    nx = int(ceil((maxx - minx)/delta)) + 1
+    ny = int(ceil((maxy - miny)/delta)) + 1
     gx, gy = np.linspace(minx,maxx,nx), np.linspace(miny,maxy,ny)
     grid = []
-    for i in range(len(gx)-1):
-        for j in range(len(gy)-1):
+    for i in range(len(gx) - 1):
+        for j in range(len(gy) - 1):
             poly_ij = Polygon([[gx[i],gy[j]],[gx[i],gy[j+1]],[gx[i+1],gy[j+1]],[gx[i+1],gy[j]]])
             grid.append( poly_ij )
     return grid
@@ -227,7 +195,7 @@ def partition(geom: Polygon, delta: float) -> list:
     grid = list(filter(prepared_geom.intersects, grid_bounds(geom, delta)))
     return grid
 
-def generate_valid_polygon(multipolygon_str: str) -> Optional[Polygon]:
+def generate_valid_polygon(multipolygon_str: str) -> Optional[Union[Polygon, MultiPolygon]]:
     """
     Generate a valid polygon from a MultiPolygon WKT string.
 
@@ -239,11 +207,14 @@ def generate_valid_polygon(multipolygon_str: str) -> Optional[Polygon]:
     """
     shape: Geometry = from_wkt(multipolygon_str)
     if isinstance(shape, MultiPolygon):
-        shape = shape.geoms[0]
+        return MultiPolygon(list(
+            map(
+                lambda x: x if x.is_valid 
+                else x.convex_hull, 
+                shape.geoms
+            )) # type: ignore
+        )
     elif isinstance(shape, Polygon):
-        pass
+        return shape if shape.is_valid else convex_hull(shape) # type: ignore
     else:
         return None
-    if shape.is_valid:
-        return shape
-    return convex_hull(shape) # type: ignore

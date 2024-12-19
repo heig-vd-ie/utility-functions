@@ -1,12 +1,10 @@
 from typing import Optional, Union
-from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, union_all
-from shapely.ops import nearest_points, transform
+from shapely import LineString, from_wkt,buffer, intersects, union_all
+from shapely.ops import transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 
 from itertools import batched
 
-from geoalchemy2.shape import from_shape, to_shape
-from geoalchemy2.elements import WKBElement
 
 import polars as pl
 from polars import col as c
@@ -14,7 +12,6 @@ from pyproj import CRS, Transformer
 
 from shapely_function import shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring
 
-from config import settings
 
 
 def shape_intersect_polygon(geo_str: pl.Expr, polygon: Polygon) -> pl.Expr:
@@ -103,20 +100,21 @@ def calculate_line_length(line_str: pl.Expr) -> pl.Expr:
     """
     return line_str.pipe(wkt_to_shape_col).map_elements(lambda x: x.length, return_dtype=pl.Float64)
 
-def shape_coordinate_transformer_col(shape_col: pl.Expr, crs_from: str, crs_to: str) -> pl.Expr:
+def shape_coordinate_transformer_col(shape_col: pl.Expr, crs_from: int, crs_to: int) -> pl.Expr:
     """
     Transform the coordinates of geometries in a Polars expression from one CRS to another.
 
     Args:
-        shape_col (pl.Expr): The Polars expression containing geometries in WKT format.
-        crs_from (str): The source CRS.
-        crs_to (str): The target CRS.
+        shape_col (pl.Expr): The Polars expression containing geometries.
+        crs_from (int): The source CRS.
+        crs_to (int): The target CRS.
 
     Returns:
-        pl.Expr: A Polars expression with transformed geometries in WKT format.
+        pl.Expr: A Polars expression with transformed geometries.
     """
-    transformer = Transformer.from_crs(crs_from=CRS(crs_from), crs_to=CRS(crs_to) , always_xy=True).transform
-    return shape_col.map_elements(lambda x: transform(transformer, x).wkt, return_dtype=pl.Utf8)
+    transformer = Transformer.from_crs(
+        crs_from=CRS(f"EPSG:{crs_from}"), crs_to=CRS(f"EPSG:{crs_to}"), always_xy=True).transform
+    return shape_col.map_elements(lambda x: transform(transformer, x), return_dtype=pl.Object)
 
 def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr) -> pl.Expr:
     """
@@ -232,34 +230,63 @@ def geoalchemy2_to_shape_col(geo_str: pl.Expr) -> pl.Expr:
     """
     return geo_str.map_elements(geoalchemy2_to_shape, return_dtype=pl.Object)
 
-def wkt_to_geoalchemy_col(geo_str: pl.Expr) -> pl.Expr:
+def wkt_to_geoalchemy_col(geo_str: pl.Expr, srid_from: Optional[int], srid_to: Optional[int]) -> pl.Expr:
     """
     Convert WKT strings in a Polars expression to GeoAlchemy2 format.
 
     Args:
         geo_str (pl.Expr): The Polars expression containing WKT strings.
+        srid_from (Optional[int]): The source spatial reference system identifier.
+        srid_to (Optional[int]): The target spatial reference system identifier.
 
     Returns:
         pl.Expr: A Polars expression with geometries in GeoAlchemy2 format.
-    """
-    return (
-        geo_str.map_elements(from_wkt, return_dtype=pl.Object)
-        .pipe(shape_coordinate_transformer_col, crs_from=settings.SWISS_SRID, crs_to=settings.GPS_SRID)
-        .pipe(shape_to_geoalchemy2_col)
-    )
 
-def geoalchemy2_to_wkt_col(geo_str: pl.Expr) -> pl.Expr:
+    Raises:
+        ValueError: If only one of srid_from or srid_to is provided.
+    """
+    if (srid_from is None) and (srid_to is None):
+        return (
+            geo_str.pipe(wkt_to_shape_col)
+            .pipe(shape_to_geoalchemy2_col)
+        )
+    elif (srid_from is not None) and (srid_to is not None):
+        return (
+            geo_str
+            .pipe(wkt_to_shape_col)
+            .pipe(shape_coordinate_transformer_col, crs_from=srid_from, crs_to=srid_to)
+            .pipe(shape_to_geoalchemy2_col)
+        )
+    else:
+        raise ValueError("Both srid_from and srid_to must be provided or None.")
+
+def geoalchemy2_to_wkt_col(geo_str: pl.Expr, srid_from: Optional[int], srid_to: Optional[int]) -> pl.Expr:
     """
     Convert GeoAlchemy2 strings in a Polars expression to WKT format.
 
     Args:
         geo_str (pl.Expr): The Polars expression containing GeoAlchemy2 strings.
+        srid_from (Optional[int]): The source spatial reference system identifier.
+        srid_to (Optional[int]): The target spatial reference system identifier.
 
     Returns:
         pl.Expr: A Polars expression with geometries in WKT format.
+
+    Raises:
+        ValueError: If only one of srid_from or srid_to is provided.
     """
-    return (
-        geo_str.pipe(geoalchemy2_to_shape_col)
-        .pipe(shape_coordinate_transformer_col, crs_from=settings.GPS_SRID, crs_to=settings.SWISS_SRID)
-        .map_elements(lambda x: x.wkt, return_dtype=pl.Utf8)
-    )
+    if (srid_from is None) and (srid_to is None):
+        return (
+            geo_str
+            .pipe(geoalchemy2_to_shape_col)
+            .pipe(shape_to_wkt_col)
+        )
+    elif (srid_from is not None) and (srid_to is not None):
+        return (
+            geo_str
+            .pipe(geoalchemy2_to_shape_col)
+            .pipe(shape_coordinate_transformer_col, crs_from=srid_from, crs_to=srid_to)
+            .pipe(shape_to_wkt_col)
+        )
+    else:
+        raise ValueError("Both srid_from and srid_to must be provided or None.")

@@ -1,8 +1,6 @@
 """
 Auxiliary functions
 """
-# import dotenv
-from typing import Optional
 import logging
 import os
 import uuid
@@ -18,7 +16,6 @@ import pandas as pd
 import geopandas as gpd
 from shapely import from_wkt
 
-from config import settings
 
 NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
 
@@ -49,16 +46,20 @@ def scan_switch_directory(
                 file_list.append(file_path)
     return file_list
 
-def download_from_switch(switch_folder_path: str, local_folder_path: str= ".cache", download_anyway: bool = False):
+def download_from_switch(
+    switch_folder_path: str, switch_link: str, switch_pass: str, local_folder_path: str= ".cache", 
+    download_anyway: bool = False):
     """
     Download files from a SWITCH directory to a local folder.
 
     Args:
         switch_folder_path (str): The SWITCH folder path.
+        switch_link (str): The public link to the SWITCH folder.
+        switch_pass (str): The password for the SWITCH folder.
         local_folder_path (str, optional): The local folder path. Defaults to ".cache".
         download_anyway (bool, optional): Whether to download files even if they already exist locally. Defaults to False.
     """
-    oc: owncloud.Client = owncloud.Client.from_public_link(settings.SWITCH_LINK, folder_password=settings.SWITCH_PASS)
+    oc: owncloud.Client = owncloud.Client.from_public_link(public_link=switch_link, folder_password=switch_pass)
     with tqdm.tqdm(total = 1, desc=f"Scan {switch_folder_path} Switch remote directory", ncols=120) as pbar:
         file_list: list[str] = scan_switch_directory(
             oc=oc, local_folder_path=local_folder_path, 

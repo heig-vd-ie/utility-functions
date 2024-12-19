@@ -1,4 +1,4 @@
-shapely\_function module
+shapely\_function
 ========================
 
 .. automodule:: shapely_function

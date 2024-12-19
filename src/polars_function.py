@@ -11,7 +11,6 @@ import numpy as np
 
 from general_function import modify_string, generate_log, generate_uuid
 
-from config import settings
 
 # Global variable
 log = generate_log(name=__name__)
@@ -61,7 +60,7 @@ def cast_boolean(col: pl.Expr) -> pl.Expr:
         "1": True, "true": True , "oui": True, "0": False, 
         "false": False, "vrai": True, "non": False, 
         "off": False, "on": True}
-    return col.str.to_lowercase().replace(format_str, default=False).cast(pl.Boolean)
+    return col.str.to_lowercase().replace_strict(format_str, default=False).cast(pl.Boolean)
 
 def modify_string_col(string_col: pl.Expr, format_str: dict) -> pl.Expr:
     """

@@ -1,4 +1,4 @@
-polars\_function module
+polars\_function
 =======================
 
 .. automodule:: polars_function

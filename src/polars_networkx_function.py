@@ -3,9 +3,8 @@ from polars import col as c
 from typing import Optional
 import networkx as nx
 
-from general_function import modify_string, generate_log, generate_uuid
+from general_function import generate_log
 
-from config import settings
 
 # Global variable
 log = generate_log(name=__name__)

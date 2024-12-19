@@ -27,6 +27,7 @@ extensions = [
     "sphinx_rtd_theme"
 ]
 
+add_module_names = False
 autodoc_member_order = 'alphabetical'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -43,7 +44,7 @@ html_css_files = [
     "custom.css",  # Include the custom CSS file
 ]
 
-# sphinx_rtd_size_width = "75%"
+sphinx_rtd_size_width = "60%"
 
 mathjax3_config = {
     "chtml": {'displayAlign': 'left'},
