@@ -10,8 +10,9 @@ import polars as pl
 from polars import col as c
 from pyproj import CRS, Transformer
 
-from shapely_function import shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring
-
+from shapely_function import (
+    shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer
+)
 
 
 def shape_intersect_polygon(geo_str: pl.Expr, polygon: Polygon) -> pl.Expr:
@@ -100,21 +101,20 @@ def calculate_line_length(line_str: pl.Expr) -> pl.Expr:
     """
     return line_str.pipe(wkt_to_shape_col).map_elements(lambda x: x.length, return_dtype=pl.Float64)
 
-def shape_coordinate_transformer_col(shape_col: pl.Expr, crs_from: int, crs_to: int) -> pl.Expr:
+def shape_coordinate_transformer_col(shape_col: pl.Expr, srid_from: int, srid_to: int) -> pl.Expr:
     """
     Transform the coordinates of geometries in a Polars expression from one CRS to another.
 
     Args:
         shape_col (pl.Expr): The Polars expression containing geometries.
-        crs_from (int): The source CRS.
-        crs_to (int): The target CRS.
+        srid_from (int): The source spatial reference system identifier.
+        srid_to (int): The target spatial reference system identifier.
 
     Returns:
         pl.Expr: A Polars expression with transformed geometries.
     """
-    transformer = Transformer.from_crs(
-        crs_from=CRS(f"EPSG:{crs_from}"), crs_to=CRS(f"EPSG:{crs_to}"), always_xy=True).transform
-    return shape_col.map_elements(lambda x: transform(transformer, x), return_dtype=pl.Object)
+    return shape_col.map_elements(
+        lambda x: shape_coordinate_transformer(x, srid_from=srid_from, srid_to=srid_to), return_dtype=pl.Object)
 
 def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr) -> pl.Expr:
     """
@@ -254,7 +254,7 @@ def wkt_to_geoalchemy_col(geo_str: pl.Expr, srid_from: Optional[int], srid_to: O
         return (
             geo_str
             .pipe(wkt_to_shape_col)
-            .pipe(shape_coordinate_transformer_col, crs_from=srid_from, crs_to=srid_to)
+            .pipe(shape_coordinate_transformer_col, srid_from=srid_from, srid_to=srid_to)
             .pipe(shape_to_geoalchemy2_col)
         )
     else:
@@ -285,7 +285,7 @@ def geoalchemy2_to_wkt_col(geo_str: pl.Expr, srid_from: Optional[int], srid_to: 
         return (
             geo_str
             .pipe(geoalchemy2_to_shape_col)
-            .pipe(shape_coordinate_transformer_col, crs_from=srid_from, crs_to=srid_to)
+            .pipe(shape_coordinate_transformer_col, srid_from=srid_from, srid_to=srid_to)
             .pipe(shape_to_wkt_col)
         )
     else:

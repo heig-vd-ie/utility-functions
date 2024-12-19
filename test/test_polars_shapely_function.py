@@ -47,7 +47,7 @@ class TestPolarsShapelyFunctions(unittest.TestCase):
     def test_shape_coordinate_transformer_col(self):
         df = pl.DataFrame({"geometry": [Point(1, 1)]})
         result = df.with_columns(c("geometry").pipe(
-            shape_coordinate_transformer_col, crs_from= 4326, crs_to = 2056).alias("transformed"))
+            shape_coordinate_transformer_col, srid_from= 4326, srid_to = 2056).alias("transformed"))
         self.assertEqual(set_precision(result["transformed"][0], 1), Point(1576839, -4479629))
 
     def test_generate_point_from_coordinates(self):
