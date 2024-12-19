@@ -24,7 +24,8 @@ extensions = [
     "nbsphinx",
     "myst_parser",
     "sphinx_copybutton",
-    "sphinx_rtd_theme"
+    # "sphinx_rtd_theme",
+    "pydata_sphinx_theme"
 ]
 
 add_module_names = False
@@ -37,14 +38,14 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
 html_static_path = ['_static']
 
 html_css_files = [
     "custom.css",  # Include the custom CSS file
 ]
 
-sphinx_rtd_size_width = "60%"
+# sphinx_rtd_size_width = "60%"
 
 mathjax3_config = {
     "chtml": {'displayAlign': 'left'},
