@@ -195,14 +195,16 @@ def convert_list_to_string(list_data: list) -> str:
 
 def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str):
     """
-    Save a Polars DataFrame as a GeoPackage file.
+    Save a Polars DataFrame as a GeoPackage file. As GeoPackage does not support list columns, 
+    the list columns are joined into a single string separated with a comma.
 
     Args:
         table (pl.DataFrame): The Polars DataFrame.
         gpkg_file_name (str): The GeoPackage file name.
         layer_name (str): The layer name.
     """
-    list_columns: list[str] = [name for name, col_type in dict(table.schema).items() if type(col_type) == pl.List]
+    list_columns: list[str] = [
+        name for name, col_type in dict(table.schema).items() if type(col_type) == pl.List]
     table_pd: pd.DataFrame = table.with_columns(
         c(list_columns).list.join(", ")
     ).to_pandas()
