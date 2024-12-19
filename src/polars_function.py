@@ -49,7 +49,8 @@ def cast_boolean(col: pl.Expr) -> pl.Expr:
         pl.Expr: The casted boolean column.
     """
     format_str = {
-        "1": True, "true": True , "oui": True, "0": False, "false": False, "vrai": True, "non": False, 
+        "1": True, "true": True , "oui": True, "0": False, 
+        "false": False, "vrai": True, "non": False, 
         "off": False, "on": True}
     return col.str.to_lowercase().replace(format_str, default=False).cast(pl.Boolean)
 
@@ -148,11 +149,11 @@ def parse_timestamp(
         return timestamp.dt.replace_time_zone("UTC", ambiguous='earliest').dt.cast_time_unit(time_unit="us")
     return timestamp.dt.cast_time_unit(time_unit="us")
 
-def cast_to_utc_timestamp(timestamp: pl.Expr, first_occurrence: pl.Expr) -> pl.Expr:
+def cast_to_utc_timestamp(timestamp: pl.Expr, initial_time_zone: str = "Europe/Zurich") -> pl.Expr:
     return (
-        pl.when(first_occurrence)
-        .then(timestamp.dt.replace_time_zone("Europe/Zurich", ambiguous='earliest'))
-        .otherwise(timestamp.dt.replace_time_zone("Europe/Zurich", ambiguous='latest'))
+        pl.when(timestamp.is_first_distinct())
+        .then(timestamp.dt.replace_time_zone(initial_time_zone, ambiguous='earliest'))
+        .otherwise(timestamp.dt.replace_time_zone(initial_time_zone, ambiguous='latest'))
         .dt.convert_time_zone("UTC")
     )
 

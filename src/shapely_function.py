@@ -34,9 +34,11 @@ Functions:
         Converts a Shapely Geometry object to a GeoAlchemy2 WKBElement string.
 """
 from typing import Optional
-from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects
-from shapely.ops import nearest_points
+from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull
+from shapely.ops import nearest_points, split, snap, linemerge, transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString
+from shapely.prepared import prep
+import numpy as np 
 
 from geoalchemy2.shape import from_shape, to_shape
 from geoalchemy2.elements import WKBElement
@@ -87,5 +89,47 @@ def shape_to_geoalchemy2(geo: Geometry) -> str:
         return from_shape(geo, srid=settings.GPS_SRID).desc
     return None
 
-
+def get_closest_point_from_multi_point(geo_str: str, multi_point: MultiPoint, max_distance: float=100) -> Optional[str]:
+    geo = from_wkt(geo_str)
+    _, closest_point = nearest_points(geo, multi_point)
+    if distance(geo, closest_point) < max_distance:
+        return closest_point.wkt
+    return None
     
+def remove_z_coordinates(geom: Geometry)->Geometry:
+    return transform(lambda x, y, z=None: (x, y), geom)
+
+def get_valid_polygon_str(polygon_str: dict) -> str:
+    polygon: Polygon = list(shape(polygon_str).geoms)[0] # type: ignore
+    if polygon.is_valid:
+        return polygon.wkt
+    return polygon.convex_hull.wkt
+
+def grid_bounds(geom, delta):
+    minx, miny, maxx, maxy = geom.bounds
+    nx = int((maxx - minx)/delta)
+    ny = int((maxy - miny)/delta)
+    gx, gy = np.linspace(minx,maxx,nx), np.linspace(miny,maxy,ny)
+    grid = []
+    for i in range(len(gx)-1):
+        for j in range(len(gy)-1):
+            poly_ij = Polygon([[gx[i],gy[j]],[gx[i],gy[j+1]],[gx[i+1],gy[j+1]],[gx[i+1],gy[j]]])
+            grid.append( poly_ij )
+    return grid
+
+def partition(geom: Polygon, delta: float) -> list:
+    prepared_geom = prep(geom)
+    grid = list(filter(prepared_geom.intersects, grid_bounds(geom, delta)))
+    return grid
+
+def generate_valid_polygon(multipolygon_str: str) -> Optional[Polygon]:
+    shape: Geometry = from_wkt(multipolygon_str)
+    if isinstance(shape, MultiPolygon):
+        shape = shape.geoms[0]
+    elif isinstance(shape, Polygon):
+        pass
+    else:
+        return None
+    if shape.is_valid:
+        return shape
+    return convex_hull(shape) # type: ignore

@@ -18,3 +18,5 @@ def generate_nx_edge(data: pl.Expr, nx_graph: nx.Graph) -> pl.Expr:
 def get_edge_data_list(nx_graph: nx.Graph, data_name: str) -> list:
     return list(map(lambda x: x[-1][data_name], nx_graph.edges(data=True)))
 
+def get_shortest_path(node_id_list: list, nx_graph: nx.Graph, weight: str="length") -> list[str]:
+    return list(nx.shortest_path(nx_graph, source=node_id_list[0], target=node_id_list[-1], weight=weight))
