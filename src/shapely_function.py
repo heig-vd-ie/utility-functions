@@ -1,10 +1,11 @@
+from ast import List
 import os
 import json
 
 from typing import Optional, Union
 from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull
 from shapely.ops import nearest_points, split, snap, linemerge, transform
-from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape
+from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
 import numpy as np 
 
@@ -271,3 +272,28 @@ def load_shape_from_geo_json(
         return shape_coordinate_transformer(geo_shape, srid_from=srid_from, srid_to=srid_to)  # type: ignore
     else:
         raise ValueError("Both srid_from and srid_to must be provided or None.")
+
+def generate_segment_list_from_multilinestring(multi_linestring: MultiLineString) -> list[LineString]:
+    """
+    Generate a list of LineString segments from a MultiLineString.
+
+    Args:
+        multi_linestring (MultiLineString): The MultiLineString object.
+
+    Returns:
+        list[LineString]: The list of LineString segments.
+    """
+    segments: MultiLineString = intersection(multi_linestring, multi_linestring) # type: ignore
+    return list(segments.geoms)  # type: ignore
+
+def shape_list_to_str_list(shape_list: list[Geometry]) -> list[str]:
+    """
+    Convert a list of Shapely Geometry objects to a list of WKT strings.
+
+    Args:
+        shape_list (list[Geometry]): The list of Shapely Geometry objects.
+
+    Returns:    
+        list[str]: The list of WKT strings.
+    """
+    return list(map(lambda x: x.wkt, shape_list)) # type: ignore

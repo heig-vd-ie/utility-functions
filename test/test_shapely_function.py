@@ -1,9 +1,10 @@
 import unittest
-from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon
+from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon, LineString, MultiLineString
 from shapely_function import (
     point_list_to_linestring, get_polygon_multipoint_intersection, find_closest_node_from_list,
     explode_multipolygon, geoalchemy2_to_shape, shape_to_geoalchemy2, get_closest_point_from_multi_point,
-    remove_z_coordinates, get_valid_polygon_str, partition, generate_valid_polygon
+    remove_z_coordinates, get_valid_polygon_str, partition, generate_valid_polygon,
+    shape_list_to_str_list, generate_segment_list_from_multilinestring
 )
 
 class TestShapelyFunctions(unittest.TestCase):
@@ -56,7 +57,6 @@ class TestShapelyFunctions(unittest.TestCase):
         result = remove_z_coordinates(point)
         self.assertEqual(result.wkt, "POINT (1 2)") # type: ignore
 
-
     def test_partition(self):
         polygon = Polygon([(0, 0), (2, 0), (2, 2), (0, 2), (0, 0)])
         result = partition(polygon, 1)
@@ -76,6 +76,28 @@ class TestShapelyFunctions(unittest.TestCase):
         linestring_str  = "LINESTRING (0 0, 0 1, 1 1, 1 0)"
         result = generate_valid_polygon(linestring_str)
         self.assertEqual(result, None) # type: ignore
+
+    def test_shape_list_to_str_list(self):
+        shape_list = [Point(1, 1), LineString([(0, 0), (1, 1)]), Polygon([(0, 0), (1, 0), (1, 1), (0, 1), (0, 0)])]
+        result = shape_list_to_str_list(shape_list)
+        expected = [
+            "POINT (1 1)",
+            "LINESTRING (0 0, 1 1)",
+            "POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))"
+        ]
+        self.assertEqual(result, expected)
+
+    def test_generate_segment_list_from_multilinestring(self):
+        multi_linestring = MultiLineString([[(0, 0), (1, 1), (5, 3), (6, 3)], [(0, 10), (1, 1), (2, 2)]])
+        result = generate_segment_list_from_multilinestring(multi_linestring)
+        expected = [
+            LineString([(0, 0), (1, 1)]),
+            LineString([(1, 1), (5, 3)]),
+            LineString([(5, 3), (6, 3)]),
+            LineString([(0, 10), (1, 1)]),
+            LineString([(1, 1), (2, 2)])
+        ]
+        self.assertEqual(result, expected)
 
 if __name__ == "__main__":
     unittest.main()
