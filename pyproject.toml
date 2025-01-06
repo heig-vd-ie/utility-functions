@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [
     {include = "general_function.py", from="src"},
     {include = "polars_function.py", from="src"},
-    {include = "polars_networkx_function.py", from="src"},
+    {include = "networkx_function.py", from="src"},
     {include = "shapely_function.py", from="src"},
     {include = "polars_shapely_function.py", from="src"},
 ]  
