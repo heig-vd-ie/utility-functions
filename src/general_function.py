@@ -17,6 +17,7 @@ import geopandas as gpd
 from shapely import from_wkt
 
 NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
+SWISS_SRID: int = 2056
 
 def scan_switch_directory(
     oc: owncloud.Client, local_folder_path: str, switch_folder_path: str, download_anyway: bool) -> list[str]:
@@ -192,7 +193,7 @@ def convert_list_to_string(list_data: list) -> str:
     """
     return ", ".join(map(str, list_data))
 
-def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str):
+def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str, srid: int = SWISS_SRID):
     """
     Save a Polars DataFrame as a GeoPackage file. As GeoPackage does not support list columns, 
     the list columns are joined into a single string separated with a comma.
@@ -201,6 +202,7 @@ def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str):
         table (pl.DataFrame): The Polars DataFrame.
         gpkg_file_name (str): The GeoPackage file name.
         layer_name (str): The layer name.
+        srid (int, optional): The SRID. Defaults to SWISS_SRID.
     """
     list_columns: list[str] = [
         name for name, col_type in dict(table.schema).items() if type(col_type) == pl.List]
@@ -211,24 +213,25 @@ def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str):
     table_pd["geometry"] = table_pd["geometry"].apply(from_wkt)
     table_pd = table_pd[table_pd.geometry.notnull()]
     table_gpd: gpd.GeoDataFrame = gpd.GeoDataFrame(
-        table_pd.dropna(axis=0, subset="geometry"), crs=settings.SWISS_SRID) # type: ignore
+        table_pd.dropna(axis=0, subset="geometry"), crs=srid) # type: ignore
     table_gpd = table_gpd[~table_gpd["geometry"].is_empty] # type: ignore
     table_gpd.to_file(gpkg_file_name, layer=layer_name) 
 
 
-def dict_to_gpkg(data: dict, file_path: str):
+def dict_to_gpkg(data: dict, file_path: str, srid: int = SWISS_SRID):
     """
     Save a dictionary of Polars DataFrames as a GeoPackage file.
 
     Args:
         data (dict): The dictionary of Polars DataFrames.
         file_path (str): The GeoPackage file path.
+        srid (int, optional): The SRID. Defaults to SWISS_SRID.
     """
     with tqdm.tqdm(range(1), ncols=100, desc="Save input data in gpkg format") as pbar:
         for layer_name, table in data.items():
             if isinstance(table, pl.DataFrame):
                 if not table.is_empty():
-                    table_to_gpkg(table=table, gpkg_file_name=file_path, layer_name=layer_name)
+                    table_to_gpkg(table=table, gpkg_file_name=file_path, layer_name=layer_name, srid=srid)
         pbar.update()
 
 def dict_to_duckdb(data: dict[str, pl.DataFrame], file_path: str):
