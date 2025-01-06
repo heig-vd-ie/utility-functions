@@ -4,7 +4,7 @@ from shapely_function import (
     point_list_to_linestring, get_polygon_multipoint_intersection, find_closest_node_from_list,
     explode_multipolygon, geoalchemy2_to_shape, shape_to_geoalchemy2, get_closest_point_from_multi_point,
     remove_z_coordinates, get_valid_polygon_str, partition, generate_valid_polygon,
-    shape_list_to_str_list, segment_list_from_multilinestring
+    shape_list_to_wkt_list, segment_list_from_multilinestring
 )
 
 class TestShapelyFunctions(unittest.TestCase):
@@ -79,7 +79,7 @@ class TestShapelyFunctions(unittest.TestCase):
 
     def test_shape_list_to_str_list(self):
         shape_list = [Point(1, 1), LineString([(0, 0), (1, 1)]), Polygon([(0, 0), (1, 0), (1, 1), (0, 1), (0, 0)])]
-        result = shape_list_to_str_list(shape_list)
+        result = shape_list_to_wkt_list(shape_list)
         expected = [
             "POINT (1 1)",
             "LINESTRING (0 0, 1 1)",

@@ -1,9 +1,12 @@
 from ast import List
+from operator import ge
 import os
 import json
 
 from typing import Optional, Union
-from shapely import Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull
+from shapely import (
+    Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
+    extract_unique_points)
 from shapely.ops import nearest_points, split, snap, linemerge, transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
@@ -286,7 +289,7 @@ def segment_list_from_multilinestring(multi_linestring: MultiLineString) -> list
     segments: MultiLineString = intersection(multi_linestring, multi_linestring) # type: ignore
     return list(segments.geoms)  # type: ignore
 
-def shape_list_to_str_list(shape_list: list[Geometry]) -> list[str]:
+def shape_list_to_wkt_list(shape_list: list[Geometry]) -> list[str]:
     """
     Convert a list of Shapely Geometry objects to a list of WKT strings.
 
@@ -297,3 +300,27 @@ def shape_list_to_str_list(shape_list: list[Geometry]) -> list[str]:
         list[str]: The list of WKT strings.
     """
     return list(map(lambda x: x.wkt, shape_list)) # type: ignore
+
+def wkt_list_to_shape_list(str_list: list[str]) -> list[Geometry]:
+    """
+    Convert a list of Shapely Geometry objects to a list of WKT strings.
+
+    Args:
+        shape_list (list[Geometry]): The list of Shapely Geometry objects.
+
+    Returns:    
+        list[str]: The list of WKT strings.
+    """
+    return list(map(from_wkt, str_list)) # type: ignore
+
+def multipoint_from_multilinestring(multilinestring: MultiLineString) -> MultiPoint:
+    """
+    Generate a MultiPoint from a MultiLineString by extracting unique points.
+
+    Args:
+        multilinestring (MultiLineString): The MultiLineString object.
+
+    Returns:
+        MultiPoint: The MultiPoint object containing unique points from the MultiLineString.
+    """
+    return MultiPoint(extract_unique_points(multilinestring))

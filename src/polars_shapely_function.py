@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from shapely import LineString, from_wkt,buffer, intersects, union_all
+from shapely import LineString, from_wkt,buffer, intersects, union_all, Geometry
 from shapely.ops import transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 
@@ -13,6 +13,19 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer
 )
+
+def shape_intersect_shape_col(geo_str: pl.Expr, geometry: Geometry) -> pl.Expr:
+    """
+    Check if geometries in a Polars expression intersect with a given polygon.
+
+    Args:
+        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.
+        polygon (Polygon): The polygon to check for intersection.
+
+    Returns:
+        pl.Expr: A Polars expression with boolean values indicating intersection.
+    """
+    return geo_str.pipe(wkt_to_shape_col).map_elements(lambda x: intersects(x, geometry), return_dtype=pl.Boolean)
 
 
 def shape_intersect_polygon(geo_str: pl.Expr, polygon: Polygon) -> pl.Expr:
@@ -56,7 +69,9 @@ def get_geometry_list(df: pl.DataFrame, col_name: str = "geometry") -> list[Unio
     """
     return df.select(c(col_name).pipe(wkt_to_shape_col))[col_name].to_list()
 
-def get_multigeometry_from_col(df: pl.DataFrame, col_name: str = "geometry") -> Union[MultiPoint, MultiLineString, MultiPolygon]:
+def get_multigeometry_from_col(
+    df: pl.DataFrame, col_name: str = "geometry"
+    ) -> Union[MultiPoint, MultiLineString, MultiPolygon]:
     """
     Get a MultiGeometry object from a Polars DataFrame column.
 

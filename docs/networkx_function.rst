@@ -1,7 +1,7 @@
-polars\_networkx\_function
+networkx\_function
 =================================
 
-.. automodule:: polars_networkx_function
+.. automodule:: networkx_function
    :members:
    :undoc-members:
    :show-inheritance:

@@ -6,6 +6,6 @@ Utility Functions documentation
 
    general_function
    polars_function
-   polars_networkx_function
    polars_shapely_function
    shapely_function
+   networkx_function

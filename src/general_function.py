@@ -16,7 +16,6 @@ import pandas as pd
 import geopandas as gpd
 from shapely import from_wkt
 
-
 NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
 
 def scan_switch_directory(

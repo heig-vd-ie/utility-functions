@@ -15,7 +15,8 @@ from general_function import modify_string, generate_log, generate_uuid
 # Global variable
 log = generate_log(name=__name__)
 
-def generate_uuid_col(col: pl.Expr, base_uuid: Optional[uuid.UUID] = None, added_string: str = "") -> pl.Expr:
+def generate_uuid_col(
+    col: pl.Expr, base_uuid: Optional[uuid.UUID] = None, added_string: str = "") -> pl.Expr:
     """
     Generate UUIDs for a column based on a base UUID and an optional added string.
 
