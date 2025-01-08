@@ -68,7 +68,7 @@ def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list
     return nx.multi_source_dijkstra(nx_graph, sources=set(source).difference(list(target)), target=target, weight=weight)[1]
 
 def get_shortest_path_dijkstra_col_from_multisource(
-    nx_graph: nx.Graph, source: list, target: pl.Expr, weight='weight') -> pl.Expr:
+    target: pl.Expr, nx_graph: nx.Graph, source: list, weight='weight') -> pl.Expr:
     """
     Get the shortest path between source and target nodes using Dijkstra's algorithm. Targets are stored in a polars columns  
     and return it as a column.
@@ -133,6 +133,20 @@ def get_edge_data_from_node_list(node_list: list, nx_graph: nx.Graph) -> list[di
         nx.subgraph(nx_graph, node_list).edges(data=True)
     ))
 
+def get_edge_param_from_node_list(node_list: list, nx_graph: nx.Graph, data_name: str) -> list[dict]:
+    """
+    Get edge parameter for a list of nodes from a NetworkX graph.
+
+    Args:
+        node_list (list): The list of node IDs.
+        nx_graph (nx.Graph): The NetworkX graph.
+        data_name(str): The name of the edge parameter to retrieve.
+    Returns:
+        list[dict]: The list of dictionaries containing every edge data.
+    """
+    return list(map(
+        lambda x:  x[-1][data_name], nx.subgraph(nx_graph, node_list).edges(data=True)
+    ))
 
 
 def get_connected_edges_data(nx_graph: nx.Graph) -> pl.DataFrame:
