@@ -1,4 +1,4 @@
-general\_function module
+general\_function
 ========================
 
 .. automodule:: general_function

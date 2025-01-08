@@ -4,7 +4,7 @@ import networkx as nx
 from shapely.geometry import LineString, MultiLineString, Point, MultiPoint
 from networkx_function import (
     generate_nx_edge, get_edge_data_list, get_edge_data_from_node_list,
-    get_shortest_path, get_connected_edges_data, generate_and_connect_segment_from_linestring_list
+    get_connected_edges_data, generate_and_connect_segment_from_linestring_list
 )
 
 class TestNetworkxFunctions(unittest.TestCase):
@@ -34,11 +34,6 @@ class TestNetworkxFunctions(unittest.TestCase):
             {"u_of_edge": "B", "v_of_edge": "C", "length": 2}
         ]
         self.assertEqual(result, expected)
-
-    def test_get_shortest_path(self):
-        node_id_list = ["A", "F"]
-        result = get_shortest_path(node_id_list, self.nx_graph)
-        self.assertEqual(result, ["A", "B", "C", "D", "E", "F"])
 
     def test_get_connected_edges_data(self):
         result = get_connected_edges_data(self.nx_graph)

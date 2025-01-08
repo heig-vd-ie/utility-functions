@@ -1,6 +1,6 @@
 import polars as pl
 from polars import col as c
-from typing import Optional
+from typing import Optional, Union
 import networkx as nx
 from shapely.geometry import LineString, MultiLineString, MultiPoint
 from shapely.ops import nearest_points
@@ -15,6 +15,79 @@ from general_function import generate_log
 
 # Global variable
 log = generate_log(name=__name__)
+
+
+def get_shortest_path_edge_data(nx_graph: nx.Graph, source, target, weight='weight'):
+    """
+    Get the edge data along the shortest path between source and target nodes in a graph.
+
+    Args:
+        nx_graph (nx.Graph): The graph to search.
+        source (node): Starting node for the path.
+        target (node): Ending node for the path.
+        weight (str, optional): The edge attribute to use as weight. Default is 'weight'.
+
+    Returns:
+        list: A list of edge data along the shortest path.
+    """
+    path = nx.shortest_path(nx_graph, source=source, target=target, weight=weight)
+    if path:
+        return list(map(lambda x: x[-1][weight], list(nx.subgraph(nx_graph, path).edges(data=True))))
+    else:
+        return None
+
+def get_node_neighbor_edge_data(nx_graph: nx.Graph, node):
+    """
+    Get the edge data for all neighbors of a specified node in a graph.
+
+    Args:
+        nx_graph (nx.Graph): The graph to search.
+        node (node): The node whose neighbors' edge data is to be retrieved.
+
+    Returns:
+        list: A list of all neighbors edge data of the specified node.
+    """
+    return list(map(
+        lambda x: {"u_of_edge": x[0],"v_of_edge": x[1]} | x[2], 
+        nx_graph.edges(node, data=True))
+    )
+
+def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list, target, weight: str ='weight'):
+    """
+    Get the shortest path between source and target nodes using Dijkstra's algorithm.
+
+    Args:
+        nx_graph (nx.Graph): The graph to search.
+        source (list): Starting node for the path.
+        target: Ending node for the path.
+        weight (str, optional): The edge attribute to use as weight. Default is 'weight'.
+
+    Returns:
+    list: A list of nodes in the shortest path.
+    """
+    return nx.multi_source_dijkstra(nx_graph, sources=set(source).difference(list(target)), target=target, weight=weight)[1]
+
+def get_shortest_path_dijkstra_col_from_multisource(
+    nx_graph: nx.Graph, source: list, target: pl.Expr, weight='weight') -> pl.Expr:
+    """
+    Get the shortest path between source and target nodes using Dijkstra's algorithm. Targets are stored in a polars columns  
+    and return it as a column.
+
+    Args:
+        nx_graph (nx.Graph): The graph to search.
+        source (list): Starting node for the path.
+        target (pl.Expr): Ending node for the path.
+        weight (str, optional): The edge attribute to use as weight. Default is 'weight'.
+
+    Returns:
+        pl.Expr: The Polars expression containing lists of shortest path nodes.
+    """
+    return (
+        target.map_elements(lambda x:
+            get_shortest_path_dijkstra_from_multisource(target=x, nx_graph=nx_graph, source=source, weight=weight),
+            return_dtype=pl.List(pl.Utf8))
+    )
+    
 
 
 def generate_nx_edge(data: pl.Expr, nx_graph: nx.Graph) -> pl.Expr:
@@ -62,22 +135,6 @@ def get_edge_data_from_node_list(node_list: list, nx_graph: nx.Graph) -> list[di
 
 
 
-
-def get_shortest_path(node_id_list: list, nx_graph: nx.Graph, weight: str="length") -> list[str]:
-    """
-    Get the shortest path between two nodes in a NetworkX graph.
-
-    Args:
-        node_id_list (list): The list of node IDs.
-        nx_graph (nx.Graph): The NetworkX graph.
-        weight (str, optional): The edge weight attribute. Defaults to "length".
-
-    Returns:
-        list[str]: The list of node IDs in the shortest path.
-    """
-    return list(nx.shortest_path(nx_graph, source=node_id_list[0], target=node_id_list[-1], weight=weight))
-
-
 def get_connected_edges_data(nx_graph: nx.Graph) -> pl.DataFrame:
     """
     Group all edges that are connected together in a NetworkX graph and return the result as a Polars DataFrame.
@@ -94,10 +151,8 @@ def get_connected_edges_data(nx_graph: nx.Graph) -> pl.DataFrame:
         lambda x: get_edge_data_from_node_list(node_list=x, nx_graph=nx_graph), 
         nx.connected_components(nx_graph)
     ))
-    return pl.DataFrame(
-        zip(range(len(edge_data)), edge_data),
-        schema=["graph_id", "data"]
-    ).explode("data").unnest("data")
+    return pl.DataFrame({"data": edge_data}, strict=False).with_row_index("graph_id").explode("data").unnest("data")
+
 
 def generate_and_connect_segment_from_linestring_list(linestring_list: list[LineString]) -> list[LineString]:
     """

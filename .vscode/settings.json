@@ -37,5 +37,8 @@
   "[julia]": {
     "editor.defaultFormatter": "julialang.language-julia"
   },
-  "julia.executablePath": "/home/ltomasini/.juliaup/bin/julia"
+  "julia.executablePath": "/home/ltomasini/.juliaup/bin/julia",
+  "cSpell.words": [
+    "multisource"
+  ]
   }

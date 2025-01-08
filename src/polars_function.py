@@ -3,7 +3,7 @@ import uuid
 import json
 from datetime import timedelta, datetime
 
-from typing import Optional
+from typing import Optional, Union
 
 import polars as pl
 from polars import col as c
@@ -14,6 +14,40 @@ from general_function import modify_string, generate_log, generate_uuid
 
 # Global variable
 log = generate_log(name=__name__)
+
+def cum_count_duplicates(cols_names: Union[str, list[str]]) -> pl.Expr:
+    """
+    Calculate the cumulative count of duplicate values in a specified column of a DataFrame, 
+    assigning half of the count as strict positive values and the other half as strict negative values.
+
+    Parameters:
+        cols_names (Union[str, list[str]]): The name of the column to check for duplicates.
+
+    Returns:
+        pl.Expr: A polar expression showing the cumulative count of duplicates.
+    Example:
+    >>> df = pl.DataFrame({"a": [1, 1, 2, 3, 4, 4, 4]})
+    >>> df.with_columns(cum_count_duplicates(cols_names="a").alias("cum_count")
+    ┌─────┬────────────┐
+    │ id  ┆ cum_count  │
+    │ --- ┆ ---        │
+    │ i64 ┆ i64        │
+    ╞═════╪════════════╡
+    │ 1   ┆ -1         │
+    │ 1   ┆ 1          │
+    │ 2   ┆ 1          │
+    │ 3   ┆ 1          │
+    │ 4   ┆ -1         │
+    │ 4   ┆ 1          │
+    │ 4   ┆ 2          │
+    └─────┴────────────┘
+    """
+    if isinstance(cols_names, str):
+        cols_names = [cols_names]
+    cum_count_col: pl.Expr  = (
+        c(cols_names[0]).cum_count().cast(pl.Int32) - c(cols_names[0]).count() // 2 -1).over(cols_names)
+    
+    return pl.when(cum_count_col < 0).then(cum_count_col).otherwise(cum_count_col+1)
 
 def generate_uuid_col(
     col: pl.Expr, base_uuid: Optional[uuid.UUID] = None, added_string: str = "") -> pl.Expr:

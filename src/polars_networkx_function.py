@@ -54,8 +54,6 @@ def get_edge_data_from_node_list(node_list: list, nx_graph: nx.Graph) -> list[di
     ))
 
 
-
-
 def get_shortest_path(node_id_list: list, nx_graph: nx.Graph, weight: str="length") -> list[str]:
     """
     Get the shortest path between two nodes in a NetworkX graph.

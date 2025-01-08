@@ -19,6 +19,93 @@ from math import ceil
 SWISS_SRID = 2056
 GPS_SRID = 4326
 
+
+def get_point_side(line: LineString, point: Point) -> Optional[str]:
+    """
+    Determine which side of a line a point is on.
+
+    Args:
+        point (Point): The point to check.
+        line (LineString): The line to check against.
+
+    Returns:
+        str: `start` if the point is to the beginning of the line, 1 if to the right, 
+        and `end` if it is at the end.
+    """
+    boundaries = list(line.boundary.geoms)
+    if point == boundaries[0]:
+        return "start"
+    elif point == boundaries[1]:
+        return "end"
+    else:
+        return None
+
+def get_nearest_point_within_distance(point: Point, point_list: MultiPoint, min_distance: float) -> Optional[Point]:
+    """
+    Find the nearest point within a specified distance from a given point.
+
+    Args:
+        point (Point): The reference point.
+        point_list (MultiPoint): The list of points to search.
+        min_distance (float): The minimum distance to search for the nearest point.
+
+    Returns:
+        Point or None: The nearest point within the specified distance, or None if no 
+        point is found.
+    """    
+    nearest_points_list = nearest_points(point_list, point)
+    if distance(*nearest_points_list) < min_distance:
+        return nearest_points_list[0]
+    return None
+
+def get_point_list_centroid(point_list: list[Point]) -> Point:
+    """
+    Calculate the centroid of a list of points.
+
+    Args:
+        points (Point): The list of points.
+
+    Returns:
+        Point: The centroid of the list of points.
+    """
+    return MultiPoint(point_list).centroid
+
+def get_multipoint_from_wkt_list(point_list: list[str]) -> MultiPoint:
+    """
+    Convert a list of WKT representations of points into a MultiPoint geometry.
+
+    Args:
+        point_list (list[str])): The list of WKT points strings.
+
+    Returns:
+        MultiPoint: The MultiPoint geometry.
+    """
+    return MultiPoint(list(map(from_wkt, point_list))) # type: ignore
+
+def get_multilinestring_from_wkt_list(linestring_list: list[str]) -> MultiPoint:
+    """
+    Convert a list of WKT representations of linestring into a MultiLineString geometry.
+
+    Args:
+        linestring_list (list[str]): The list of WKT linestring strings.
+    Returns:
+        MultiLineString: The MultiLineString geometry.
+    """
+    return MultiLineString(list(map(from_wkt, linestring_list))) # type: ignore
+
+def get_multipolygon_from_wkt_list(polygon_list: list[str]) -> MultiPolygon:
+    """
+    Convert a list of WKT representations of polygons into a MultiPolygon geometry.
+
+    Args:
+        polygon_list (list[str])): The list of WKT polygons strings.
+
+    Returns:
+        MultiPolygon: The MultiPolygon geometry.
+    """
+    return MultiPolygon(list(map(from_wkt, polygon_list))) # type: ignore
+
+
 def point_list_to_linestring(point_list_str: list[str]) -> str:
     """
     Convert a list of WKT point strings to a WKT LineString.
