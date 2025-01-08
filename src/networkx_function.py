@@ -17,7 +17,7 @@ from general_function import generate_log
 log = generate_log(name=__name__)
 
 
-def get_shortest_path_edge_data(nx_graph: nx.Graph, source, target, weight='weight'):
+def get_shortest_path_edge_data(nx_graph: nx.Graph, source, target, data_name: str, weight: str ='weight'):
     """
     Get the edge data along the shortest path between source and target nodes in a graph.
 
@@ -25,14 +25,14 @@ def get_shortest_path_edge_data(nx_graph: nx.Graph, source, target, weight='weig
         nx_graph (nx.Graph): The graph to search.
         source (node): Starting node for the path.
         target (node): Ending node for the path.
+        data_name (str): The name of the edge attribute to retrieve.
         weight (str, optional): The edge attribute to use as weight. Default is 'weight'.
-
     Returns:
         list: A list of edge data along the shortest path.
     """
     path = nx.shortest_path(nx_graph, source=source, target=target, weight=weight)
     if path:
-        return list(map(lambda x: x[-1][weight], list(nx.subgraph(nx_graph, path).edges(data=True))))
+        return list(map(lambda x: x[-1][data_name], list(nx.subgraph(nx_graph, path).edges(data=True))))
     else:
         return None
 
