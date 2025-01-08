@@ -54,21 +54,23 @@ def get_nearest_point_within_distance_col(point: pl.Expr, point_list: MultiPoint
     Returns:
         pl.Expr: An expression with the nearest points within the specified minimum distance.
 
-    Example:
+    Examples:
+    ~~~~~~~~~~
+    
     >>> data = {'geometry': [Point(0, 0).wkt, Point(2, 2).wkt, Point(4, 4).wkt]}
-    >>> df = pl.DataFrame(data)
-    >>> multi_point = MultiPoint([Point(1, 1), Point(10, 1), Point(2, 1)])
-    >>> df.with_column(get_nearest_point_within_distance_col(pl.col('geometry'), multi_point, 2).alias('nearest_point'))
+    ... df = pl.DataFrame(data)
+    ... multi_point = MultiPoint([Point(1, 1), Point(10, 1), Point(2, 1)])
+    ... df.with_column(get_nearest_point_within_distance_col(pl.col('geometry'), multi_point, 2).alias('nearest_point'))
     shape: (3, 2)
-    ┌───────────────────────────────────────┬───────────────────────────────────────┐
-    │ geometry                              ┆ nearest_point                         │
-    │ ---                                   ┆ ---                                   │
-    │ str                                   ┆ str                                   │
-    ╞═══════════════════════════════════════╪═══════════════════════════════════════╡
-    │ POINT (0 0)                           ┆ POINT (1 1)                           │
-    │ POINT (2 2)                           ┆ POINT (2 1)                           │
-    │ POINT (4 4)                           ┆ None                                  │
-    └───────────────────────────────────────┴───────────────────────────────────────┘
+    ┌─────────────────┬──────────────────┐
+    │ geometry        ┆ nearest_point    │
+    │ ---             ┆ ---              │
+    │ str             ┆ str              │
+    ╞═════════════════╪══════════════════╡
+    │ POINT (0 0)     ┆ POINT (1 1)      │
+    │ POINT (2 2)     ┆ POINT (2 1)      │
+    │ POINT (4 4)     ┆ None             │
+    └─────────────────┴──────────────────┘
     """
     return (
         point
@@ -114,18 +116,18 @@ def get_point_list_centroid_col(point_list: pl.Expr) -> pl.Expr:
         pl.Expr: An expression with the centroid points.
 
     Example:
+    
     >>> data = {'points': [Point(0, 0).wkt, Point(1, 1).wkt, Point(2, 2).wkt]}
-    >>> df = pl.DataFrame(data)
-    >>> result = df.with_column(get_point_list_centroid_col(pl.col('points')).alias('centroid'))
-    >>> print(result)
+    ... df = pl.DataFrame(data)
+    ... df.with_column(get_point_list_centroid_col(pl.col('points')).alias('centroid'))
     shape: (1, 1)
-    ┌───────────────────────────────────────┐
-    │ centroid                              │
-    │ ---                                   │
-    │ str                                   │
-    ╞═══════════════════════════════════════╡
-    │ POINT (1 1)                           │
-    └───────────────────────────────────────┘
+    ┌────────────────┐
+    │ centroid       │
+    │ ---            │
+    │ str            │
+    ╞════════════════╡
+    │ POINT (1 1)    │
+    └────────────────┘
     """    
     return (
         point_list.pipe(get_multipoint_from_wkt_list_col)
@@ -144,20 +146,23 @@ def generate_linestring_from_nearest_points_col(point: pl.Expr, multi_point: Mul
         pl.Expr: An expression with LineString geometries created from the nearest points.
 
     Example:
+    
     >>> data = {'geometry': [Point(0, 0).wkt, Point(2, 2).wkt]}
-    >>> df = pl.DataFrame(data)
-    >>> multi_point = MultiPoint([Point(0, 1), Point(1, 1), Point(2, 1)])
-    >>> df.with_column(generate_linestring_from_nearest_points_col(pl.col('geometry'), multi_point).alias('linestring'))
-
+    ... df = pl.DataFrame(data)
+    ... multi_point = MultiPoint([Point(0, 1), Point(1, 1), Point(2, 1)])
+    ... df.with_column(
+    ...     c(geometry).pipe(generate_linestring_from_nearest_points_col, multi_point=multi_point)
+    ...     .alias('linestring')
+    ... )
     shape: (3, 2)
-    ┌───────────────────────────────────────┬───────────────────────────────────────┐
-    │ geometry                              ┆ linestring                            │
-    │ ---                                   ┆ ---                                   │
-    │ str                                   ┆ str                                   │
-    ╞═══════════════════════════════════════╪═══════════════════════════════════════╡
-    │ POINT (0 0)                           ┆ LINESTRING (0 0, 0 1)                 │
-    │ POINT (2 2)                           ┆ LINESTRING (2 2, 2 1)                 │
-    └───────────────────────────────────────┴───────────────────────────────────────┘
+    ┌──────────────────┬─────────────────────────┐
+    │ geometry         ┆ linestring              │
+    │ ---              ┆ ---                     │
+    │ str              ┆ str                     │
+    ╞══════════════════╪═════════════════════════╡
+    │ POINT (0 0)      ┆ LINESTRING (0 0, 0 1)   │
+    │ POINT (2 2)      ┆ LINESTRING (2 2, 2 1)   │
+    └──────────────────┴─────────────────────────┘
     """
     return (
         point.pipe(wkt_to_shape_col)
@@ -175,10 +180,14 @@ def linestring_is_ring_col(linestring: pl.Expr) -> pl.Expr:
         pl.Expr: An expression indicating whether each LineString is a closed ring.
 
     Example:
-    >>> data = {'geometry': [LineString([(0, 0), (1, 1), (1, 0), (0, 0)]).wkt, LineString([(0, 0), (1, 1), (1, 0)]).wkt]}
-    >>> df = pl.DataFrame(data)
-    >>> df.with_column(linestring_is_ring_col(pl.col('geometry')).alias('is_ring'))
- 
+    
+    >>> data = {
+    ...     'geometry': [
+    ...         LineString([(0, 0), (1, 1), (1, 0), (0, 0)]).wkt, 
+    ...         LineString([(0, 0), (1, 1), (1, 0)]).wkt
+    ...     ]}
+    ... df = pl.DataFrame(data)
+    ... df.with_column(linestring_is_ring_col(pl.col('geometry')).alias('is_ring'))
     shape: (2, 2)
     ┌───────────────────────────────────────┬──────────┐
     │ geometry                              ┆ is_ring  │

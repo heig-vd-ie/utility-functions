@@ -25,9 +25,15 @@ def cum_count_duplicates(cols_names: Union[str, list[str]]) -> pl.Expr:
 
     Returns:
         pl.Expr: A polar expression showing the cumulative count of duplicates.
+        
     Example:
+    ~~~~~~~~
+    
     >>> df = pl.DataFrame({"a": [1, 1, 2, 3, 4, 4, 4]})
-    >>> df.with_columns(cum_count_duplicates(cols_names="a").alias("cum_count")
+    ... df.with_columns(
+    ...    cum_count_duplicates(cols_names="a").alias("cum_count")
+    ... )
+    shape: (7, 2)
     ┌─────┬────────────┐
     │ id  ┆ cum_count  │
     │ --- ┆ ---        │
@@ -41,6 +47,7 @@ def cum_count_duplicates(cols_names: Union[str, list[str]]) -> pl.Expr:
     │ 4   ┆ 1          │
     │ 4   ┆ 2          │
     └─────┴────────────┘
+    
     """
     if isinstance(cols_names, str):
         cols_names = [cols_names]
