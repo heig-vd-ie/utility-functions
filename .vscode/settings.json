@@ -39,6 +39,7 @@
   },
   "julia.executablePath": "/home/ltomasini/.juliaup/bin/julia",
   "cSpell.words": [
+    "distflow",
     "multisource"
   ]
   }
