@@ -272,3 +272,72 @@ def digitize_col(col: pl.Expr, min: float, max: float, nb_state: int) -> pl.Expr
         col.map_elements(lambda x: np.digitize(x, bins), return_dtype=pl.Int64)
     )
 
+
+def get_transfo_impedance(rated_v: pl.Expr, rated_s: pl.Expr, voltage_ratio: pl.Expr) -> pl.Expr:
+    """
+    Get the transformer impedance reported to its secondary (or resistance if real part) based on the short-circuit tests.
+
+    Args:
+        rated_v (pl.Expr): The rated voltage column [V].
+        rated_s (pl.Expr): The rated power column [VA].
+        voltage_ratio (pl.Expr): The ratio between the applied input voltage to get rated current when transformer 
+        secondary is short-circuited and the rated voltage [%].
+
+    Returns:
+        pl.Expr: The transformer impedance column [Ohm].
+    """
+    return voltage_ratio  / 100 * (rated_v**2)/ rated_s
+
+def get_transfo_admittance(voltage_level: pl.Expr, rated_s: pl.Expr, oc_current_ratio: pl.Expr) -> pl.Expr:
+    """
+    Get the transformer admittance reported to its secondary based on the open circuit test
+    Args:
+        voltage_level (pl.Expr): The voltage level column [V].
+        rated_s (pl.Expr): The rated power column [VA].
+        oc_current_ratio (pl.Expr): The ratio between the measured current when transformer secondary is opened and the
+        rated current [%].
+
+    Returns:
+        pl.Expr: The transformer admittance column [Simens].
+    """
+    return oc_current_ratio / 100 * rated_s / (voltage_level **2)
+
+def get_transfo_conductance(voltage_level: pl.Expr, iron_losses: pl.Expr) -> pl.Expr:
+    """
+    Get the transformer conductance reported to its secondary based on iron losses measurement.
+
+    Args:
+        voltage_level (pl.Expr): The voltage level column [V].
+        iron_losses (pl.Expr): The iron losses column [W].
+
+    Returns:
+        pl.Expr: The transformer conductance column [Simens].
+    """
+    return  iron_losses /(voltage_level**2)
+
+def get_transfo_resistance(voltage_level: pl.Expr, rated_s: pl.Expr, copper_losses: pl.Expr) -> pl.Expr:
+    """
+    Get the transformer resistance reported to its secondary based on copper losses measurement.
+
+    Args:
+        voltage_level (pl.Expr): The voltage level column [V].
+        rated_s (pl.Expr): The rated power column [VA].
+        copper_losses (pl.Expr): The copper losses column [W].
+
+    Returns:
+        pl.Expr: The transformer resistance column [Ohm].
+    """
+    return  copper_losses * ((voltage_level/rated_s)**2)
+
+def get_transfo_imaginary_component(module: pl.Expr, real: pl.Expr) -> pl.Expr:
+    """
+    Get the transformer imaginary component based on the module and real component.
+
+    Args:
+        module (pl.Expr): The module column [Ohm or Simens].
+        real (pl.Expr): The real component column [Ohm or Simens].
+
+    Returns:
+        pl.Expr: The transformer imaginary component column [Ohm or Simens].
+    """
+    return (np.sqrt(module ** 2 - real ** 2))
