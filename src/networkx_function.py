@@ -246,3 +246,27 @@ def generate_and_connect_segment_from_linestring_list(linestring_list: list[Line
             )
             segment_list.append(LineString(new_segment_points))
     return segment_list
+
+def generate_bfs_tree_with_edge_data(graph: nx.Graph, source):
+    """
+    Create a BFS tree from a graph while retaining edge data.
+    
+    Parameters:
+        graph (nx.Graph): The input graph.
+        source (node): The starting node for BFS.
+    
+    Returns:
+        nx.DiGraph: A directed BFS tree with edge data preserved.
+    """
+    # Create an empty directed graph for the BFS tree
+    bfs_tree = nx.DiGraph()
+    
+    # Add nodes to the BFS tree
+    
+    # Add edges to the BFS tree with preserved edge data
+    for u, v in nx.bfs_edges(graph, source):
+        
+        edge_data = graph.get_edge_data(u, v)
+        bfs_tree.add_edge(u, v, **edge_data)
+    
+    return bfs_tree
