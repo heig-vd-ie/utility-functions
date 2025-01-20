@@ -133,9 +133,25 @@ def get_edge_data_from_node_list(node_list: list, nx_graph: nx.Graph) -> list[di
         nx.subgraph(nx_graph, node_list).edges(data=True)
     ))
 
+def get_all_edge_data(nx_graph: nx.Graph) -> pl.DataFrame:
+    """
+    Get every edge data from a NetworkX graph.
+
+    Args:
+        nx_graph (nx.Graph): The NetworkX graph.
+
+    Returns:
+        pl.DataFrame: Polar DataFrame containing every edge data.
+    """
+    return pl.DataFrame(
+        list(nx_graph.edges(data=True)), 
+        strict=False, orient="row", 
+        schema=["u_of_edge", "v_of_edge", "data"]
+    ).unnest("data")
+
 def get_edge_param_from_node_list(node_list: list, nx_graph: nx.Graph, data_name: str) -> list[dict]:
     """
-    Get edge parameter for a list of nodes from a NetworkX graph.
+    Get edge parameter from a list of nodes from a NetworkX graph.
 
     Args:
         node_list (list): The list of node IDs.
@@ -230,27 +246,3 @@ def generate_and_connect_segment_from_linestring_list(linestring_list: list[Line
             )
             segment_list.append(LineString(new_segment_points))
     return segment_list
-
-def generate_bfs_tree_with_edge_data(graph: nx.Graph, source):
-    """
-    Create a BFS tree from a graph while retaining edge data.
-    
-    Parameters:
-        graph (nx.Graph): The input graph.
-        source (node): The starting node for BFS.
-    
-    Returns:
-        nx.DiGraph: A directed BFS tree with edge data preserved.
-    """
-    # Create an empty directed graph for the BFS tree
-    bfs_tree = nx.DiGraph()
-    
-    # Add nodes to the BFS tree
-    
-    # Add edges to the BFS tree with preserved edge data
-    for u, v in nx.bfs_edges(graph, source):
-        
-        edge_data = graph.get_edge_data(u, v)
-        bfs_tree.add_edge(u, v, **edge_data)
-    
-    return bfs_tree
