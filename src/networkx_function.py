@@ -295,9 +295,8 @@ def generate_shortest_path_length_matrix(
         "data": list(map(lambda x: list(x.items()), list(shortest_path[1])))
     }, strict=False).explode("data").with_columns(
         c("data").list.to_struct(fields=["y", "weight"]).alias("data")
-    ).unnest("data").with_columns(
-        pl.lit(1).alias("weight")
-    )
+    ).unnest("data")
+    
     value = [forced_weight]*h_pl.height if forced_weight is not None else h_pl["weight"].to_list()
 
     h_gb: gb.Matrix = gb.Matrix.from_coo( # type: ignore
