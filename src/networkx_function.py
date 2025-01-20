@@ -305,5 +305,6 @@ def generate_shortest_path_length_matrix(
         h_pl["y"].to_list(),
         value,
         nrows=len(nx_grid), ncols=len(nx_grid)
+        def_dtype=gb.DT.FP64
     )
     return h_gb
