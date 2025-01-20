@@ -2,6 +2,7 @@ import polars as pl
 from polars import col as c
 from typing import Optional, Union
 import networkx as nx
+import graphblas as gb
 from shapely.geometry import LineString, MultiLineString, MultiPoint
 from shapely.ops import nearest_points
 
@@ -270,3 +271,39 @@ def generate_bfs_tree_with_edge_data(graph: nx.Graph, source):
         bfs_tree.add_edge(u, v, **edge_data)
     
     return bfs_tree
+
+def generate_shortest_path_length_matrix(
+    nx_grid: nx.DiGraph, weight_name: Optional[str] = None, forced_weight: Optional[Union[int, float]] = None
+    ) -> gb.Matrix: # type: ignore
+    """
+    Generate a matrix of shortest path lengths between all pairs of nodes in a graph.
+
+    Args:
+        nx_graph (nx.Graph): The graph to process.
+        weight (str, optional): The edge attribute to use as weight. Default is 'weight'.
+        forced_weight (Optional[Union[int, float]], optional): The weight to use for all edges. Default is None.
+        
+    Returns:
+        gb.Matrix: A GraphBlas matrix where the rows and columns represent the nodes (from and to), 
+        and the values represent the shortest path lengths.
+
+    """
+    # ...existing code...
+    shortest_path = list(zip(*nx.shortest_path_length(nx_grid, weight=weight_name)))
+    h_pl: pl.DataFrame = pl.DataFrame({
+        "x": shortest_path[0],
+        "data": list(map(lambda x: list(x.items()), list(shortest_path[1])))
+    }).explode("data").with_columns(
+        c("data").list.to_struct(fields=["y", "weight"]).alias("data")
+    ).unnest("data").with_columns(
+        pl.lit(1).alias("weight")
+    )
+    value = [forced_weight]*h_pl.height if forced_weight is not None else h_pl["weight"].to_list()
+
+    h_gb: gb.Matrix = gb.Matrix.from_coo( # type: ignore
+        h_pl["x"].to_list(),
+        h_pl["y"].to_list(),
+        value,
+        nrows=len(nx_grid), ncols=len(nx_grid)
+    )
+    return h_gb

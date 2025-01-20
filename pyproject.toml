@@ -36,6 +36,7 @@ myst-parser = "^4.0.0"
 networkx = "^3.4.2"
 pyarrow = "^18.1.0"
 more-itertools = "^10.5.0"
+python-graphblas = "^2024.2.0"
 
 
 [build-system]
