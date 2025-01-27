@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "utility-function"
+name = "utility-functions"
 version = "0.1.0"
 description = ""
 authors = ["Tomasini Luca <luca.tomasini@heig-vd.ch>"]
