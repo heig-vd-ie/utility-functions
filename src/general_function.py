@@ -134,6 +134,34 @@ def pl_to_dict(df: pl.DataFrame) -> dict:
         raise ValueError("Key values are not unique")
     return dict(df.rows())
 
+def pl_to_dict_with_tuple(df: pl.DataFrame) -> dict:
+    """
+    Convert a Polars DataFrame with two columns into a dictionary where the first column
+    contains tuples as keys and the second column contains the values.
+
+    Args:
+        df (pl.DataFrame): Polars DataFrame with two columns.
+
+    Returns:
+        dict: Dictionary representation of the DataFrame with tuples as keys.
+
+    Raises:
+        ValueError: If the DataFrame does not have exactly two columns.
+
+    Example:
+    >>> import polars as pl
+    >>> data = {'key': [[1, 2], [3, 4], [5, 6]], 'value': [10, 20, 30]}
+    >>> df = pl.DataFrame(data)
+    >>> pl_to_dict_with_tuple(df)
+    {(1, 2): 10, (3, 4): 20, (5, 6): 30}
+    """
+    if df.shape[1] != 2:
+        raise ValueError("DataFrame is not composed of two columns")
+    return dict(map(
+        lambda data: (tuple(data[0]), data[1]), df.rows()
+    ))
+
+
 def modify_string(string: str, format_str: dict) -> str:
     """
     Modify a string by replacing substrings according to a format dictionary 
