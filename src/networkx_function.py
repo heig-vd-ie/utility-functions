@@ -307,3 +307,58 @@ def generate_shortest_path_length_matrix(
         dtype=float
     )
     return h_gb
+
+def generate_tree_graph_from_edge_data(
+    edge_data: pl.DataFrame, slack_node_id: Union[str, int, float], data_name: Optional[list[str]] = None
+    ) -> nx.DiGraph:
+    """
+    Generate a tree graph from edge data and a specified slack node.
+
+    Args:
+        edge_data (pl.DataFrame): The Polars DataFrame containing edge data.
+        slack_node_id (Union[str, int, float]): The ID of the slack node.
+        data_name (Optional[list[str]], optional): The list of edge data names to include. Defaults to None.
+
+    Returns:
+        nx.DiGraph: The generated tree graph with edge data preserved.
+
+    Raises:
+        ValueError: If the edge data names are invalid or if the grid is not a connected tree.
+
+    Example:
+    >>> import polars as pl
+    >>> import networkx as nx
+    >>> edge_data = pl.DataFrame({
+    ...     "u_of_edge": ["A", "C", "C"],
+    ...     "v_of_edge": ["B", "B", "D"],
+    ...     "weight": [1, 2, 3]
+    ... })
+    >>> slack_node_id = "A"
+    >>> tree_graph = generate_tree_graph_from_edge_data(edge_data, slack_node_id)
+    >>> print(tree_graph.edges(data=True))
+    [("A", "B", {"weight": 1}), ("B", "C", {"weight": 2}), ("C", "D", {"weight": 3})]
+    """
+    if data_name is None:
+        data_selector: pl.Expr = pl.struct(pl.all())
+    else:
+        if not all(name in edge_data.columns for name in data_name):
+            raise ValueError("Invalid edge data name")
+        if not all(name in data_name for name in ["u_of_edge", "v_of_edge"]):
+            raise ValueError("Missing u_of_edge or v_of_edge")
+        
+        data_selector: pl.Expr = pl.struct(data_name)
+    
+    if edge_data.filter(pl.any_horizontal(c("u_of_edge", "v_of_edge") == 0)).is_empty():
+        raise ValueError("The slack node is not in the grid")
+    
+    nx_grid: nx.Graph = nx.Graph()
+    _ = edge_data.with_columns(
+        data_selector.pipe(generate_nx_edge, nx_graph=nx_grid)
+    )
+    
+    if not nx.is_tree(nx_grid):
+        raise ValueError("The grid is not a tree")
+    elif not nx.is_connected(nx_grid):
+        raise ValueError("The grid is not connected")
+
+    return generate_bfs_tree_with_edge_data(nx_grid, slack_node_id)
