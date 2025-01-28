@@ -36,14 +36,15 @@ def scan_switch_directory(
     file_list = []
     build_non_existing_dirs(os.path.join(local_folder_path, switch_folder_path))
     for file_data in oc.list(switch_folder_path): # type: ignore
-        file_path: str = file_data.path
-        if file_data.file_type == "dir":
-            file_list.extend(scan_switch_directory(
-                oc=oc, local_folder_path=local_folder_path, 
-                switch_folder_path=file_path[1:], download_anyway=download_anyway))
-        else:
-            if (not os.path.exists(local_folder_path + file_path)) | download_anyway:
-                file_list.append(file_path)
+        if "_trash" not in file_data.name:
+            file_path: str = file_data.path
+            if file_data.file_type == "dir":
+                file_list.extend(scan_switch_directory(
+                    oc=oc, local_folder_path=local_folder_path, 
+                    switch_folder_path=file_path[1:], download_anyway=download_anyway))
+            else:
+                if (not os.path.exists(local_folder_path + file_path)) | download_anyway:
+                    file_list.append(file_path)
     return file_list
 
 def download_from_switch(
