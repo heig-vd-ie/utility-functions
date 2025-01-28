@@ -274,7 +274,7 @@ def generate_bfs_tree_with_edge_data(graph: nx.Graph, source):
 
 def generate_shortest_path_length_matrix(
     nx_grid: nx.Graph, weight_name: Optional[str] = None, forced_weight: Optional[Union[int, float]] = None
-    ) -> gb.Matrix: # type: ignore
+    ): # type: ignore
     """
     Generate a matrix of shortest path lengths between all pairs of nodes in a graph.
 
