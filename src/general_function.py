@@ -6,6 +6,7 @@ import os
 import uuid
 import coloredlogs
 import polars as pl
+import logging
 from polars import col as c
 
 import re 
@@ -244,8 +245,13 @@ def table_to_gpkg(table: pl.DataFrame, gpkg_file_name: str, layer_name: str, sri
     table_gpd: gpd.GeoDataFrame = gpd.GeoDataFrame(
         table_pd.dropna(axis=0, subset="geometry"), crs=srid) # type: ignore
     table_gpd = table_gpd[~table_gpd["geometry"].is_empty] # type: ignore
+    # Save gpkg without logging
+    logger = logging.getLogger("pyogrio")
+    previous_level = logger.level 
+    logger.setLevel(logging.WARNING)
     table_gpd.to_file(gpkg_file_name, layer=layer_name) 
-
+    logger.setLevel(previous_level)  
+    
 
 def dict_to_gpkg(data: dict, file_path: str, srid: int = SWISS_SRID):
     """
