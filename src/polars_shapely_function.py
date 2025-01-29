@@ -77,7 +77,7 @@ def get_nearest_point_within_distance_col(point: pl.Expr, point_list: MultiPoint
         .pipe(wkt_to_shape_col) 
         .map_elements(
             lambda x: get_nearest_point_within_distance(point=x, point_list=point_list, min_distance=min_distance), 
-            return_dtype=pl.UInt8)
+            return_dtype=pl.Utf8)
         )
     
 
