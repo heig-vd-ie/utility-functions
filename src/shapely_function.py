@@ -40,7 +40,7 @@ def get_point_side(line: LineString, point: Point) -> Optional[str]:
     else:
         return None
 
-def get_nearest_point_within_distance(point: Point, point_list: MultiPoint, min_distance: float) -> Optional[Point]:
+def get_nearest_point_within_distance(point: Point, point_list: MultiPoint, min_distance: float) -> Optional[str]:
     """
     Find the nearest point within a specified distance from a given point.
 
@@ -50,12 +50,12 @@ def get_nearest_point_within_distance(point: Point, point_list: MultiPoint, min_
         min_distance (float): The minimum distance to search for the nearest point.
 
     Returns:
-        Point or None: The nearest point within the specified distance, or None if no 
+        str or None: The nearest point in wkt format within the specified distance, or None if no 
         point is found.
     """    
     nearest_points_list = nearest_points(point_list, point)
     if distance(*nearest_points_list) < min_distance:
-        return nearest_points_list[0]
+        return nearest_points_list[0].wkt
     return None
 
 def get_point_list_centroid(point_list: list[Point]) -> Point:
