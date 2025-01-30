@@ -24,14 +24,7 @@ SWISS_SRID: int = 2056
 
 
 def extract_archive(file_name: str, extracted_folder: Optional[str] = None, force_extraction: bool = False) -> None:
-    """
-    Extract an archive file to a specified folder.
-
-    Args:
-        file_name (str): The name of the archive file.
-        extracted_folder (Optional[str], optional): The folder to extract the files to. Defaults to None.
-        force_extraction (bool, optional): Whether to force extraction even if the folder already exists. Defaults to False.
-    """
+    
     if extracted_folder is None:
         extracted_folder, extension = os.path.splitext(file_name)
     else:
@@ -53,17 +46,6 @@ def extract_archive(file_name: str, extracted_folder: Optional[str] = None, forc
 
 def scan_folder(
     folder_name: str, extension: Optional[Union[str, list[str]]] = None, file_names: Optional[str] = None) -> list[str]:
-    """
-    Scan a folder and return a list of file paths with specified extensions or names.
-
-    Args:
-        folder_name (str): The folder to scan.
-        extension (Optional[Union[str, list[str]]], optional): The file extensions to filter by. Defaults to None.
-        file_names (Optional[str], optional): The file names to filter by. Defaults to None.
-
-    Returns:
-        list[str]: List of file paths.
-    """
     file_list: list = []
     if isinstance(extension, str):
         extension = [extension]

@@ -346,3 +346,17 @@ def get_transfo_imaginary_component(module: pl.Expr, real: pl.Expr) -> pl.Expr:
         pl.Expr: The transformer imaginary component column [Ohm or Simens].
     """
     return (np.sqrt(module ** 2 - real ** 2))
+
+def concat_list_of_list(col_list: pl.Expr) -> pl.Expr:
+    """
+    Concatenate a column of lists into a list containing sublist.
+
+    Args:
+        col_list (pl.Expr): The column of lists to concatenate.
+
+    Returns:
+        pl.Expr: The concatenated list column.
+    """
+    return pl.concat_list(
+        col_list.map_elements(lambda x: [x], return_dtype=pl.List(pl.List(pl.Float64)))
+    )
