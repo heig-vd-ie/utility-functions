@@ -8,7 +8,9 @@ import coloredlogs
 import polars as pl
 import logging
 from polars import col as c
-
+from typing import Optional, Union
+import zipfile
+import tarfile
 import re 
 import owncloud
 import tqdm
@@ -19,6 +21,69 @@ from shapely import from_wkt
 
 NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
 SWISS_SRID: int = 2056
+
+
+def extract_archive(file_name: str, extracted_folder: Optional[str] = None, force_extraction: bool = False) -> None:
+    """
+    Extract an archive file to a specified folder.
+
+    Args:
+        file_name (str): The name of the archive file.
+        extracted_folder (Optional[str], optional): The folder to extract the files to. Defaults to None.
+        force_extraction (bool, optional): Whether to force extraction even if the folder already exists. Defaults to False.
+    """
+    if extracted_folder is None:
+        extracted_folder, extension = os.path.splitext(file_name)
+    else:
+        extension = os.path.splitext(file_name)[1]
+    
+    if not force_extraction and os.path.exists(extracted_folder):
+        return
+    if extension == ".tar":
+        file = tarfile.open(file_name, "r")
+    elif extension == ".tgz":
+        file = tarfile.open(file_name, "r:gz")
+    elif extension == ".zip":
+        file = zipfile.ZipFile(file_name, "r")
+    else:
+        raise ValueError(f"{extension} format not supported")
+    with tqdm.tqdm(total=1, desc=f"Extract {file_name} archive") as pbar:
+        file.extractall(extracted_folder, filter="data") # type: ignore
+        pbar.update(1)
+
+def scan_folder(
+    folder_name: str, extension: Optional[Union[str, list[str]]] = None, file_names: Optional[str] = None) -> list[str]:
+    """
+    Scan a folder and return a list of file paths with specified extensions or names.
+
+    Args:
+        folder_name (str): The folder to scan.
+        extension (Optional[Union[str, list[str]]], optional): The file extensions to filter by. Defaults to None.
+        file_names (Optional[str], optional): The file names to filter by. Defaults to None.
+
+    Returns:
+        list[str]: List of file paths.
+    """
+    file_list: list = []
+    if isinstance(extension, str):
+        extension = [extension]
+    for entry in list(os.scandir(folder_name)):
+        if entry.is_dir():
+            file_list.extend(scan_folder(folder_name=entry.path, extension=extension, file_names=file_names))
+        file_path = entry.path
+        file_ext = os.path.splitext(file_path)[1]
+        if extension is None:
+            if file_names is None:
+                file_list.append(file_path)
+            elif file_names in file_path:
+                file_list.append(file_path)
+        elif file_ext in extension:
+            if file_names is None:
+                file_list.append(file_path)
+            elif file_names in file_path:
+                file_list.append(file_path)  
+    return file_list
+
 
 def scan_switch_directory(
     oc: owncloud.Client, local_folder_path: str, switch_folder_path: str, download_anyway: bool) -> list[str]:
