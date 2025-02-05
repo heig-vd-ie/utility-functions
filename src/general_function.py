@@ -34,15 +34,22 @@ def extract_archive(file_name: str, extracted_folder: Optional[str] = None, forc
         return
     if extension == ".tar":
         file = tarfile.open(file_name, "r")
+        with tqdm.tqdm(total=1, desc=f"Extract {file_name} archive") as pbar:
+            file.extractall(extracted_folder, filter="data") # type: ignore
+            pbar.update(1)
     elif extension == ".tgz":
         file = tarfile.open(file_name, "r:gz")
+        with tqdm.tqdm(total=1, desc=f"Extract {file_name} archive") as pbar:
+            file.extractall(extracted_folder, filter="data") # type: ignore
+            pbar.update(1)
     elif extension == ".zip":
         file = zipfile.ZipFile(file_name, "r")
+        with tqdm.tqdm(total=1, desc=f"Extract {file_name} archive") as pbar:
+            file.extractall(extracted_folder) # type: ignore
+            pbar.update(1)
     else:
         raise ValueError(f"{extension} format not supported")
-    with tqdm.tqdm(total=1, desc=f"Extract {file_name} archive") as pbar:
-        file.extractall(extracted_folder, filter="data") # type: ignore
-        pbar.update(1)
+    
 
 def scan_folder(
     folder_name: str, extension: Optional[Union[str, list[str]]] = None, file_names: Optional[str] = None) -> list[str]:
@@ -329,7 +336,8 @@ def dict_to_duckdb(data: dict[str, pl.DataFrame], file_path: str):
         os.remove(file_path)
     with duckdb.connect(file_path) as con:
         con.execute("SET TimeZone='UTC'")
-        for table_name, table_pl in tqdm.tqdm(data.items(), desc="Save dictionary into duckdb file", ncols=150):
+        pbar = tqdm.tqdm(data.items(), ncols=150, desc="Save dictionary into duckdb file")
+        for table_name, table_pl in pbar:
             query = f"CREATE TABLE {table_name} AS SELECT * FROM table_pl"
             con.execute(query)
                 
@@ -358,15 +366,6 @@ def duckdb_to_dict(file_path: str) -> dict:
             schema_dict[table_name[0]] = con.execute(query).pl()
                     
     return schema_dict
-
-
-# def filter_unique_nodes_from_list(node_id_list: pl.Expr)-> pl.Expr:
-    
-#     return (
-#         pl.when(node_id_list.list.len() == 1)
-#         .then(node_id_list.list.get(0, null_on_oob=True))
-#         .otherwise(pl.lit(None))
-#     )
 
 
 def dictionary_key_filtering(dictionary: dict, key_list: list) -> dict:
