@@ -23,7 +23,26 @@ NAMESPACE_UUID: uuid.UUID = uuid.UUID('{bc4d4e0c-98c9-11ec-b909-0242ac120002}')
 SWISS_SRID: int = 2056
 
 
+def initialize_output_file(file_path: str):
+    """
+    Initialize an output file by creating necessary directories and removing the file if it already exists.
+
+    Args:
+        file_path (str): The path of the file to initialize.
+    """
+    build_non_existing_dirs(file_path=os.path.dirname(file_path))
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
 def extract_archive(file_name: str, extracted_folder: Optional[str] = None, force_extraction: bool = False) -> None:
+    """
+    Extract an archive file to a specified folder.
+
+    Args:
+        file_name (str): The name of the archive file.
+        extracted_folder (Optional[str], optional): The folder to extract the files to. Defaults to None.
+        force_extraction (bool, optional): Whether to force extraction even if the folder already exists. Defaults to False.
+    """
     
     if extracted_folder is None:
         extracted_folder, extension = os.path.splitext(file_name)
@@ -53,6 +72,17 @@ def extract_archive(file_name: str, extracted_folder: Optional[str] = None, forc
 
 def scan_folder(
     folder_name: str, extension: Optional[Union[str, list[str]]] = None, file_names: Optional[str] = None) -> list[str]:
+    """
+    Scan a folder and return a list of file paths with specified extensions or names.
+
+    Args:
+        folder_name (str): The folder to scan.
+        extension (Optional[Union[str, list[str]]], optional): The file extensions to filter by. Defaults to None.
+        file_names (Optional[str], optional): The file names to filter by. Defaults to None.
+
+    Returns:
+        list[str]: List of file paths.
+    """
     file_list: list = []
     if isinstance(extension, str):
         extension = [extension]
