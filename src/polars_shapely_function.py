@@ -319,19 +319,19 @@ def shape_coordinate_transformer_col(shape_col: pl.Expr, srid_from: int, srid_to
     return shape_col.map_elements(
         lambda x: shape_coordinate_transformer(x, srid_from=srid_from, srid_to=srid_to), return_dtype=pl.Object)
 
-def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr) -> pl.Expr:
+def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr, skip_nulls: bool = False) -> pl.Expr:
     """
     Generate Point geometries from x and y coordinates in Polars expressions.
 
     Args:
         x (pl.Expr): The Polars expression containing x coordinates.
         y (pl.Expr): The Polars expression containing y coordinates.
-
+        skip_nulls (bool): Whether to skip null values.
     Returns:
         pl.Expr: A Polars expression with Point geometries in WKT format.
     """
     return (
-        pl.concat_list([x, y]).map_elements(lambda coord: Point(*coord).wkt, return_dtype=pl.Utf8)
+        pl.concat_list([x, y]).map_elements(lambda coord: Point(*coord).wkt, return_dtype=pl.Utf8, skip_nulls=skip_nulls)
     )
 
 def generate_linestring_from_coordinates_list(coord_list: pl.Expr) -> pl.Expr:
