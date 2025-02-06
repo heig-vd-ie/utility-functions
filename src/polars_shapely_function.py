@@ -334,7 +334,7 @@ def generate_point_from_coordinates(x: pl.Expr, y: pl.Expr) -> pl.Expr:
         pl.concat_list([x, y]).map_elements(lambda coord: Point(*coord).wkt, return_dtype=pl.Utf8)
     )
 
-def generate_shape_linestring(coord_list: pl.Expr) -> pl.Expr:
+def generate_linestring_from_coordinates_list(coord_list: pl.Expr) -> pl.Expr:
     """
     Generate LineString geometries from coordinate lists in a Polars expression.
 
