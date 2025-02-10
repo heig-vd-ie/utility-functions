@@ -6,8 +6,8 @@ import json
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
-    extract_unique_points)
-from shapely.ops import nearest_points, split, snap, linemerge, transform
+    extract_unique_points, transform)
+from shapely.ops import nearest_points, split, snap, linemerge
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
 import numpy as np 
@@ -415,7 +415,7 @@ def multipoint_from_multilinestring(multilinestring: MultiLineString) -> MultiPo
 def move_geometry(data: dict) -> str:
     return (
         transform(
-            from_wkt(data["geometry"]), 
-            lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"] # type: ignore
+            geom = from_wkt(data["geometry"]),
+            func=lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"], # type: ignore
         ).wkt
     )
