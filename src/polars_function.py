@@ -360,3 +360,19 @@ def concat_list_of_list(col_list: pl.Expr) -> pl.Expr:
     return pl.concat_list(
         col_list.map_elements(lambda x: [x], return_dtype=pl.List(pl.List(pl.Float64)))
     )
+    
+def get_meta_data_string(metadata: pl.Expr)-> pl.Expr:
+    """
+    From a struct generate the corresponding json removing nul values.
+
+    Args:
+        metadata (pl.Expr): The struct column to convert to json.   
+
+    Returns:
+        pl.Expr: The json string column.
+    """
+    return (
+        metadata.map_elements(
+            lambda x: json.dumps({key: value for key, value in x.items() if value is not None}, ensure_ascii=False), 
+        return_dtype=pl.Utf8)
+    )
