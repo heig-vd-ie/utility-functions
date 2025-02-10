@@ -1,6 +1,6 @@
 from typing import Optional, Union
-from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points, transform
-from shapely.ops import transform, nearest_points
+from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points
+from shapely.ops import nearest_points
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 import numpy as np
 

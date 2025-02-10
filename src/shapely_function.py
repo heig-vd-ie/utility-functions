@@ -6,11 +6,16 @@ import json
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
-    extract_unique_points, transform)
-from shapely.ops import nearest_points, split, snap, linemerge
+    extract_unique_points)
+from shapely import transform as sh_transform
+
+from shapely.ops import nearest_points, split, snap, linemerge, transform
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
 import numpy as np 
+
+
+from pyproj import CRS, Transformer
 
 from geoalchemy2.shape import from_shape, to_shape
 from geoalchemy2.elements import WKBElement
@@ -312,8 +317,7 @@ def generate_valid_polygon(multipolygon_str: str) -> Optional[Union[Polygon, Mul
         return shape if shape.is_valid else convex_hull(shape) # type: ignore
     else:
         return None
-from shapely.ops import transform
-from pyproj import CRS, Transformer
+
 
 def shape_coordinate_transformer(shape: Geometry, srid_from: int, srid_to: int) -> Geometry:
     """
@@ -414,8 +418,8 @@ def multipoint_from_multilinestring(multilinestring: MultiLineString) -> MultiPo
 
 def move_geometry(data: dict) -> str:
     return (
-        transform(
-            geom = from_wkt(data["geometry"]),
-            func=lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"], # type: ignore
+        sh_transform(
+            geometry = from_wkt(data["geometry"]),
+            transformation=lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"], # type: ignore
         ).wkt
     )
