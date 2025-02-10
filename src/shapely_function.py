@@ -116,7 +116,7 @@ def point_list_to_linestring(point_list_str: list[str]) -> str:
     Returns:
         str: The WKT LineString.
     """
-    return LineString(list(map(from_wkt, point_list_str))).wkt
+    return LineString(list(map(from_wkt, point_list_str))).wkt # type: ignore
 
 
 def get_polygon_multipoint_intersection(polygon_str: str, multipoint: MultiPoint) -> Optional[list[str]]:
@@ -411,3 +411,11 @@ def multipoint_from_multilinestring(multilinestring: MultiLineString) -> MultiPo
         MultiPoint: The MultiPoint object containing unique points from the MultiLineString.
     """
     return MultiPoint(extract_unique_points(multilinestring))
+
+def move_geometry(data: dict) -> str:
+    return (
+        transform(
+            from_wkt(data["geometry"]), 
+            lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"] # type: ignore
+        ).wkt
+    )

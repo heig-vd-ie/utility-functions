@@ -1,7 +1,8 @@
 from typing import Optional, Union
-from shapely import LineString, from_wkt,buffer, intersects, union_all, Geometry, extract_unique_points
+from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points, transform
 from shapely.ops import transform, nearest_points
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
+import numpy as np
 
 from itertools import batched
 
@@ -12,7 +13,8 @@ from pyproj import CRS, Transformer
 
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
-    get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance
+    get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
+    move_geometry
 )
 
 
@@ -492,3 +494,9 @@ def geoalchemy2_to_wkt_col(geo_str: pl.Expr, srid_from: Optional[int], srid_to: 
         )
     else:
         raise ValueError("Both srid_from and srid_to must be provided or None.")
+    
+def move_geometry_col(geometry: pl.Expr, angle: pl.Expr, distance: pl.Expr) -> pl.Expr:
+    return (
+        pl.struct(angle.alias("angle"), geometry.alias("geometry"), distance.alias("distance"))
+        .map_elements(lambda x: move_geometry(x), return_dtype=pl.Utf8)
+    )
