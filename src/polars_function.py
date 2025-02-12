@@ -360,3 +360,56 @@ def concat_list_of_list(col_list: pl.Expr) -> pl.Expr:
     return pl.concat_list(
         col_list.map_elements(lambda x: [x], return_dtype=pl.List(pl.List(pl.Float64)))
     )
+
+
+def linear_interpolation_for_bound(x_col: pl.Expr, y_col: pl.Expr) -> pl.Expr:
+    """
+    Perform linear interpolation for boundary values in a column.
+
+    Args:
+        x_col (pl.Expr): The x-axis column.
+        y_col (pl.Expr): The y-axis column to interpolate.
+
+    Returns:
+        pl.Expr: The interpolated y-axis column.
+    """
+    a_diff: pl.Expr = y_col.diff()/x_col.diff()
+    x_diff: pl.Expr = x_col.diff().backward_fill()
+    y_diff: pl.Expr = pl.coalesce(
+        pl.when(y_col.is_null().or_(y_col.is_nan()))
+        .then(a_diff.forward_fill()*x_diff)
+        .otherwise(pl.lit(0)).cum_sum(),
+        pl.when(y_col.is_null().or_(y_col.is_nan()))
+        .then(-a_diff.backward_fill()*x_diff)
+        .otherwise(pl.lit(0)).cum_sum(reverse=True)
+    )
+
+    return y_col.backward_fill().forward_fill() + y_diff
+
+def linear_interpolation_using_cols(
+    df: pl.DataFrame, x_col: str, y_col: Union[list[str], str]
+    ) -> pl.DataFrame:
+    """
+    Perform linear interpolation on specified columns of a DataFrame.
+
+    Args:
+        df (pl.DataFrame): The DataFrame containing the data.
+        x_col (str): The name of the x-axis column.
+        y_col (Union[list[str], str]): The name(s) of the y-axis column(s) to interpolate.
+
+    Returns:
+        pl.DataFrame: The DataFrame with interpolated y-axis columns.
+    """
+    df = df.sort(x_col)
+    x = df[x_col].to_numpy()
+    if isinstance(y_col, str):
+        y_col = [y_col]
+    for col in y_col:
+        y = df[col].to_numpy()
+        mask = ~np.isnan(y)
+        df = df.with_columns(
+            pl.Series(np.interp(x, x[mask], y[mask], left=np.nan, right=np.nan)).fill_nan(None).alias(col)
+        ).with_columns(
+            linear_interpolation_for_bound(x_col=c(x_col), y_col=c(col)).alias(col)
+        )
+    return df

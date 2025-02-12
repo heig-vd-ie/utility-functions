@@ -10,6 +10,7 @@ packages = [
     {include = "networkx_function.py", from="src"},
     {include = "shapely_function.py", from="src"},
     {include = "polars_shapely_function.py", from="src"},
+    {include = "numpy_function.py", from="src"},
 ]  
 
 
