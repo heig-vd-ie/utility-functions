@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points
+from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points, line_merge
 from shapely.ops import nearest_points
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 import numpy as np
@@ -499,4 +499,36 @@ def move_geometry_col(geometry: pl.Expr, angle: pl.Expr, distance: pl.Expr) -> p
     return (
         pl.struct(angle.alias("angle"), geometry.alias("geometry"), distance.alias("distance"))
         .map_elements(lambda x: move_geometry(x), return_dtype=pl.Utf8)
+    )
+    
+def retrograde_multigeometry(geometry: pl.Expr) -> pl.Expr:
+    """
+    Extract the first geometry from a MultiGeometry and convert it to WKT format.
+
+    Args:
+        geometry (pl.Expr): The Polars expression containing MultiGeometry in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with the first geometry in WKT format.
+    """
+    return (
+        geometry.pipe(wkt_to_shape_col)
+            .map_elements(lambda x: x.geoms[0], return_dtype=pl.Object)\
+            .pipe(shape_to_wkt_col)
+    )
+
+def merge_linestring_list(geometry: pl.Expr) -> pl.Expr:
+    """
+    Merge a list of LineString geometries into a single LineString.
+
+    Args:
+        geometry (pl.Expr): The Polars expression containing a list of LineString geometries in WKT format.
+
+    Returns:
+        pl.Expr: A Polars expression with the merged LineString in WKT format.
+    """
+    return (
+        geometry.pipe(get_multilinestring_from_wkt_list_col)\
+        .map_elements(lambda x: line_merge(line=x), return_dtype=pl.Object)
+        .pipe(shape_to_wkt_col)
     )

@@ -2,11 +2,13 @@ from ast import List
 from operator import ge
 import os
 import json
+from itertools import chain
+from copy import deepcopy
 
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
-    extract_unique_points)
+    extract_unique_points, line_merge)
 from shapely import transform as sh_transform
 
 from shapely.ops import nearest_points, split, snap, linemerge, transform
@@ -423,3 +425,37 @@ def move_geometry(data: dict) -> str:
             transformation=lambda x: x + np.array([np.cos(-data["angle"]), np.sin(-data["angle"])])*data["distance"], # type: ignore
         ).wkt
     )
+    
+def merge_multilinestring_creating_missing_segments(mls: Union[MultiLineString, LineString]) -> LineString:
+    """
+    Merge a MultiLineString into a single LineString, creating missing segments if necessary.
+
+    Args:
+        mls (Union[MultiLineString, LineString]): The MultiLineString or LineString to merge.
+
+    Returns:
+        LineString: The merged LineString.
+
+    Raises:
+        ValueError: If the merging process fails.
+    """
+    if isinstance(mls, LineString):
+        return mls
+    multipoint_list= []
+    for line in mls.geoms:
+            multipoint_list.append(list(line.boundary.geoms))
+    new_segment = []    
+    for i, multipoint in enumerate(multipoint_list): 
+        remaining_list = deepcopy(multipoint_list)
+        remaining_list.pop(i)
+        new_nearest_points = nearest_points(g1=MultiPoint(multipoint), g2=MultiPoint(list(chain(*remaining_list))))
+        new_segment.append(LineString(sorted(LineString(new_nearest_points).coords)))
+        
+    new_linestring = line_merge(MultiLineString(list(mls.geoms) + list(set(new_segment))))
+    # print(new_linestring)
+    if isinstance(new_linestring, MultiLineString):
+        new_linestring= merge_multilinestring_creating_missing_segments(new_linestring)
+    if isinstance(new_linestring, LineString):
+        return new_linestring
+    
+    raise ValueError("Error in merge_multilinestring_creating_missing_segments")
