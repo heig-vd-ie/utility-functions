@@ -5,6 +5,7 @@ import json
 from itertools import chain
 from copy import deepcopy
 
+import re
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
@@ -426,7 +427,8 @@ def move_geometry(data: dict) -> str:
         ).wkt
     )
     
-def merge_multilinestring_creating_missing_segments(mls: Union[MultiLineString, LineString]) -> LineString:
+def merge_multilinestring_creating_missing_segments(
+    mls: Optional[Union[MultiLineString, LineString]]) -> Optional[LineString]:
     """
     Merge a MultiLineString into a single LineString, creating missing segments if necessary.
 
@@ -441,6 +443,8 @@ def merge_multilinestring_creating_missing_segments(mls: Union[MultiLineString, 
     """
     if isinstance(mls, LineString):
         return mls
+    if mls is None:
+        return None
     multipoint_list= []
     for line in mls.geoms:
             multipoint_list.append(list(line.boundary.geoms))
