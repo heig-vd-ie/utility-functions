@@ -136,6 +136,22 @@ def get_point_list_centroid_col(point_list: pl.Expr) -> pl.Expr:
         .map_elements(lambda x: x.centroid.wkt, return_dtype=pl.Utf8)
     )
     
+def get_polygon_centroid_col(polygon: pl.Expr) -> pl.Expr:
+    """
+    Calculate the centroid of a polygon in WKT format from a specified column containing geometric data.
+
+    Args:
+        polygon (pl.Expr): The expression representing the column containing the polygons.
+
+    Returns:
+        pl.Expr: An expression with the centroid points.
+
+    """    
+    return (
+        polygon.pipe(wkt_to_shape_col)
+        .map_elements(lambda x: x.centroid.wkt, return_dtype=pl.Utf8)
+    )
+
 def generate_linestring_from_nearest_points_col(point: pl.Expr, multi_point: MultiPoint):
     """
     Generate a LineString geometry from the nearest points within a specified distance in a column containing geometric data.
