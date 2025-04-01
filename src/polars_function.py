@@ -413,3 +413,18 @@ def linear_interpolation_using_cols(
             linear_interpolation_for_bound(x_col=c(x_col), y_col=c(col)).alias(col)
         )
     return df
+
+def replace_null_list(
+    col: pl.Expr, default_value: Optional[Union[list, str, int, float]] = None
+    ) -> pl.Expr:
+    """
+    Replace null values in a list column with a specified value.
+
+    Args:
+        col (pl.Expr): The list column to modify.
+        default_value (Optional[Union[list, str, int, float]], optional): The default value for nulls. Defaults to None.
+
+    Returns:
+        pl.Expr: The modified list column.
+    """
+    return pl.when(col == []).then(default_value).otherwise(col)
