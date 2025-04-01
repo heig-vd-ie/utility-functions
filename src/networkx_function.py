@@ -53,7 +53,7 @@ def get_node_neighbor_edge_data(nx_graph: nx.Graph, node):
         nx_graph.edges(node, data=True))
     )
 
-def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list, target, weight: str ='weight'):
+def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list, target, weight: Optional[str] ='weight'):
     """
     Get the shortest path between source and target nodes using Dijkstra's algorithm.
 
@@ -69,7 +69,7 @@ def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list
     return nx.multi_source_dijkstra(nx_graph, sources=set(source).difference(list(target)), target=target, weight=weight)[1]
 
 def get_shortest_path_dijkstra_col_from_multisource(
-    target: pl.Expr, nx_graph: nx.Graph, source: list, weight='weight') -> pl.Expr:
+    target: pl.Expr, nx_graph: nx.Graph, source: list, weight: Optional[str] ='weight') -> pl.Expr:
     """
     Get the shortest path between source and target nodes using Dijkstra's algorithm. Targets are stored in a polars columns  
     and return it as a column.
