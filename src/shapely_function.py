@@ -9,7 +9,7 @@ import re
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
-    extract_unique_points, line_merge)
+    extract_unique_points, line_merge, intersection_all)
 from shapely import transform as sh_transform
 
 from shapely.ops import nearest_points, split, snap, linemerge, transform, substring
@@ -487,3 +487,19 @@ def linestring_splitter(linestring_str: Optional[str], nb_split: int) -> Optiona
     return sub_line
 
 
+def get_geometry_list_intersection(geometry_list: list) -> Optional[str]:
+    """
+    Get the intersection of a list of geometries in WKT format.
+    Args:
+        geometry_list (list): The list of geometries in WKT format.
+    Returns:
+        str: The WKT string of the intersection of the geometries.
+    """
+    
+    multi_line= get_multilinestring_from_wkt_list(geometry_list)
+    multi_line = intersection_all(multi_line.geoms) # type: ignore
+    if isinstance(multi_line, MultiLineString):
+        multi_line = linemerge(multi_line)
+    if multi_line.is_empty:
+        return None
+    return multi_line.wkt
