@@ -463,3 +463,5 @@ def merge_multilinestring_creating_missing_segments(
         return new_linestring
     
     raise ValueError("Error in merge_multilinestring_creating_missing_segments")
+
+

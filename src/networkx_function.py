@@ -66,7 +66,7 @@ def get_shortest_path_dijkstra_from_multisource(nx_graph: nx.Graph, source: list
     Returns:
     list: A list of nodes in the shortest path.
     """
-    return nx.multi_source_dijkstra(nx_graph, sources=set(source).difference(list(target)), target=target, weight=weight)[1]
+    return nx.multi_source_dijkstra(nx_graph, sources=set(source).difference(list(target)), target=target, weight=weight)[1] # type: ignore
 
 def get_shortest_path_dijkstra_col_from_multisource(
     target: pl.Expr, nx_graph: nx.Graph, source: list, weight: Optional[str] ='weight') -> pl.Expr:
@@ -132,6 +132,23 @@ def get_edge_data_from_node_list(node_list: list, nx_graph: nx.Graph) -> list[di
     return list(map(
         lambda x: {"u_of_edge": x[0],"v_of_edge": x[1]} | x[2], 
         nx.subgraph(nx_graph, node_list).edges(data=True)
+    ))
+
+
+def get_edge_data_from_path(path: list, nx_graph: nx.Graph, data_name: str) -> list[dict]:
+    """
+    Get edge data for a path of nodes from a NetworkX graph.
+
+    Args:
+        path (list): The list of node IDs.
+        nx_graph (nx.Graph): The NetworkX graph.
+
+    Returns:
+        list[dict]: The list of dictionaries containing every edge data.
+    """
+    return list(map(
+        lambda x: nx_graph.get_edge_data(*x)[data_name], 
+        list(zip(path[:-1], path[1:]))
     ))
 
 def get_all_edge_data(nx_graph: nx.Graph) -> pl.DataFrame:

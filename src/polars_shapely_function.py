@@ -548,3 +548,4 @@ def merge_linestring_list(geometry: pl.Expr) -> pl.Expr:
         .map_elements(lambda x: line_merge(line=x), return_dtype=pl.Object)
         .pipe(shape_to_wkt_col)
     )
+    
