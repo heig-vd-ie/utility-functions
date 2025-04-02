@@ -564,3 +564,19 @@ def linestring_splitter_col(linestring: pl.Expr, nb_split: pl.Expr) -> pl.Expr:
         pl.struct(linestring.alias("linestring"), nb_split.alias("nb_split"))
         .map_elements(lambda x: linestring_splitter(x["linestring"], x["nb_split"]), return_dtype=pl.List(pl.Utf8))
     )
+    
+def get_geometry_difference(geometry: pl.Expr, diff_geom: Geometry) -> pl.Expr:
+    """
+    Get the geometry difference between two geometries.
+    Args:
+        geometry (pl.Expr): The geometry column in WKT format to be subtracted.
+        diff_geom (Geometry): The geometry to subtract from the original geometry.
+    Returns:
+        pl.Expr: The resulting geometry after the difference operation.
+    """
+    return (
+        geometry
+        .pipe(wkt_to_shape_col)
+        .map_elements(lambda x: x.difference(diff_geom), return_dtype=pl.Object)
+        .pipe(shape_to_wkt_col)
+    )
