@@ -12,7 +12,7 @@ from shapely import (
     extract_unique_points, line_merge)
 from shapely import transform as sh_transform
 
-from shapely.ops import nearest_points, split, snap, linemerge, transform
+from shapely.ops import nearest_points, split, snap, linemerge, transform, substring
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
 import numpy as np 
@@ -463,5 +463,27 @@ def merge_multilinestring_creating_missing_segments(
         return new_linestring
     
     raise ValueError("Error in merge_multilinestring_creating_missing_segments")
+
+
+def linestring_splitter(linestring_str: Optional[str], nb_split: int) -> Optional[list[str]]:
+    """
+    Split LineString in WKT format into a list of LineString with the same length.
+
+    Args:
+        linestring_str (Optional]): The LineString to split in in WKT format.
+        nb_split (int): The number of segments to split the LineString into.
+    Returns:
+        List[str]: The list of the splitted LineString.
+    """
+    if linestring_str is None:
+        return None
+    line: Geometry = from_wkt(linestring_str)
+    if not isinstance(line, LineString):
+        return None
+    sub_line: list[str] = list(map( 
+            lambda x : 
+            substring(line, start_dist=x*line.length/nb_split, end_dist=(x+1)*line.length/nb_split).wkt, range(nb_split)
+    ))
+    return sub_line
 
 

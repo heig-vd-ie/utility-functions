@@ -14,7 +14,7 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
     get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
-    move_geometry
+    move_geometry, linestring_splitter
 )
 
 
@@ -549,3 +549,18 @@ def merge_linestring_list(geometry: pl.Expr) -> pl.Expr:
         .pipe(shape_to_wkt_col)
     )
     
+
+def linestring_splitter_col(linestring: pl.Expr, nb_split: pl.Expr) -> pl.Expr:
+    """
+    Split LineString columns in WKT format into a list of LineString with the same length.
+
+    Args:
+        linestring_str (pl.Expr): The Polars expression containing LineStrings to split in in WKT format.
+        nb_split (pl.Expr): The Polars expression containing number of segments to split the LineString into.
+    Returns:
+        pl.Expr: A Polars expression with the splitted LineString.
+    """
+    return (
+        pl.struct(linestring.alias("linestring"), nb_split.alias("nb_split"))
+        .map_elements(lambda x: linestring_splitter(x["linestring"], x["nb_split"]), return_dtype=pl.List(pl.Utf8))
+    )
