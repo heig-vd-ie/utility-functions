@@ -379,3 +379,22 @@ def generate_tree_graph_from_edge_data(
         raise ValueError("The grid is not connected")
 
     return generate_bfs_tree_with_edge_data(nx_grid, slack_node_id)
+
+def get_shortest_path_between_col(source_col: pl.Expr, target_col: pl.Expr, nx_graph: nx.Graph, weight: Optional[str] = None) -> pl.Expr:
+    """
+    Get the shortest path between two columns in a NetworkX graph.
+
+    Args:
+        source_col (pl.Expr): The source column.
+        target_col (pl.Expr): The target column.
+        nx_graph (nx.Graph): The NetworkX graph.
+        weight (str, optional): The edge attribute to use as weight. Default is None.
+
+    Returns:
+        pl.Expr: A Polars expression containing the shortest path.
+    """
+    return (
+        pl.struct(source_col.alias("source"), target_col.alias("target")).map_elements(
+            lambda x: nx.shortest_path(G=nx_graph, source=x["source"], target=x["target"], weight=weight),
+            return_dtype=pl.List(pl.Utf8))
+    )
