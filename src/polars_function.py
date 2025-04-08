@@ -428,3 +428,4 @@ def replace_null_list(
         pl.Expr: The modified list column.
     """
     return pl.when(col == []).then(default_value).otherwise(col)
+

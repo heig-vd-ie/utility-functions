@@ -398,3 +398,4 @@ def get_shortest_path_between_col(source_col: pl.Expr, target_col: pl.Expr, nx_g
             lambda x: nx.shortest_path(G=nx_graph, source=x["source"], target=x["target"], weight=weight),
             return_dtype=pl.List(pl.Utf8))
     )
+    

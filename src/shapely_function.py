@@ -503,3 +503,24 @@ def get_geometry_list_intersection(geometry_list: list) -> Optional[str]:
     if multi_line.is_empty:
         return None
     return multi_line.wkt
+
+
+
+def remove_linestring_circle_from_multilinestring(shape_str: str) -> str:
+    """
+    Remove the circle in the multilinestring and merge results
+    Args:
+        shape_str (str): WKT representation of the geometry
+    Returns:
+        str: WKT representation of the geometry without the circle
+    1. Convert the WKT string to a Shapely geometry object.
+    2. Check if the geometry is a MultiLineString.
+    3. If it is, filter out the circular linestrings (those that are rings).
+    4. Merge the remaining linestrings using the `line_merge` function.
+    5. Return the WKT representation of the merged geometry.
+    """
+    multi_line: Geometry = from_wkt(shape_str)
+    if isinstance(multi_line, MultiLineString):
+        return line_merge(MultiLineString(list(filter(lambda x: not x.is_ring, multi_line.geoms)))).wkt # type: ignore
+    else:
+        return shape_str
