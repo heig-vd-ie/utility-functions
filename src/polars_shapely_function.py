@@ -593,5 +593,5 @@ def simplify_linestring_col(linestring: pl.Expr) -> pl.Expr:
         pl.Expr: The simplified LineString column.
     """
     return linestring.pipe(wkt_to_shape_col)\
-        .map_elements(lambda x: simplify_linestring(from_wkt(x)), return_dtype=pl.Object)\
+        .map_elements(lambda x: simplify_linestring(x), return_dtype=pl.Object)\
         .pipe(shape_to_wkt_col)
