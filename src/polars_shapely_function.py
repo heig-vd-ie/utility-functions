@@ -14,7 +14,7 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
     get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
-    move_geometry, linestring_splitter
+    move_geometry, linestring_splitter, simplify_linestring
 )
 
 
@@ -581,3 +581,17 @@ def get_geometry_difference(geometry: pl.Expr, diff_geom: Geometry) -> pl.Expr:
         .map_elements(lambda x: x.difference(diff_geom), return_dtype=pl.Object)
         .pipe(shape_to_wkt_col)
     )
+    
+def simplify_linestring_col(linestring: pl.Expr) -> pl.Expr:
+    """
+    Simplify a self-intersecting LineString column in a wkt formate.
+    
+    Args:
+        linestring (pl.Expr): The column containing LineString geometries in WKT format.
+        
+    Returns:
+        pl.Expr: The simplified LineString column.
+    """
+    return linestring.pipe(wkt_to_shape_col)\
+        .map_elements(lambda x: simplify_linestring(from_wkt(x)), return_dtype=pl.Object)\
+        .pipe(shape_to_wkt_col)

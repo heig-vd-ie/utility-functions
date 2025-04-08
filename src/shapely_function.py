@@ -9,14 +9,15 @@ import re
 from typing import Optional, Union
 from shapely import (
     Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
-    extract_unique_points, line_merge, intersection_all)
+    extract_unique_points, line_merge, intersection_all, is_simple)
 from shapely import transform as sh_transform
 
 from shapely.ops import nearest_points, split, snap, linemerge, transform, substring
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 from shapely.prepared import prep
 import numpy as np 
-
+import networkx as nx
+  
 
 from pyproj import CRS, Transformer
 
@@ -521,6 +522,26 @@ def remove_linestring_circle_from_multilinestring(shape_str: str) -> str:
     """
     multi_line: Geometry = from_wkt(shape_str)
     if isinstance(multi_line, MultiLineString):
+        # print(MultiLineString(list(filter(lambda x: not x.is_ring, multi_line.geoms))))
         return line_merge(MultiLineString(list(filter(lambda x: not x.is_ring, multi_line.geoms)))).wkt # type: ignore
     else:
         return shape_str
+
+
+
+def simplify_linestring(linestring: LineString):
+    """
+    Simplify a self-intersecting LineString.
+    
+    Args:
+        linestring (LineString): The LineString to simplify.
+        
+    Returns:
+        LineString: The simplified LineString.
+    """
+    if is_simple(linestring):
+        return linestring
+    coord_list = linestring.coords
+    nx_graph = nx.Graph()
+    nx_graph.add_edges_from(zip(coord_list[:-1], coord_list[1:]))
+    return LineString(nx.shortest_path(G=nx_graph, source=coord_list[0], target=coord_list[-1]))
