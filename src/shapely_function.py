@@ -8,7 +8,7 @@ from copy import deepcopy
 import re
 from typing import Optional, Union
 from shapely import (
-    Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull,
+    Geometry, LineString, from_wkt, intersection, distance, buffer, intersects, convex_hull, reverse,
     extract_unique_points, line_merge, intersection_all, is_simple)
 from shapely import transform as sh_transform
 
@@ -545,3 +545,25 @@ def simplify_linestring(linestring: LineString):
     nx_graph = nx.Graph()
     nx_graph.add_edges_from(zip(coord_list[:-1], coord_list[1:]))
     return LineString(nx.shortest_path(G=nx_graph, source=coord_list[0], target=coord_list[-1]))
+
+def force_linestring_direction(first_point_str: str, linestring_str: str) -> str:
+    """
+    Check if the point is in the direction of the linestring
+    
+    Args:
+        first_point_str (str): The point to check in WKT format
+        linestring_str (str): The linestring to check in WKT format
+    Returns:
+        str: The linestring in the right direction in WKT format
+    Raises:
+        ValueError: If the point is not in the linestring boundaries
+    """
+    first_point: Point = from_wkt(first_point_str) # type: ignore
+    linestring: LineString = from_wkt(linestring_str) # type: ignore
+
+    if linestring.boundary.geoms[0] == first_point:
+        return linestring_str
+    elif linestring.boundary.geoms[1] == first_point:
+        return reverse(linestring).wkt
+    else:
+        raise ValueError(f"from_geo {first_point_str} not in linsestring") 

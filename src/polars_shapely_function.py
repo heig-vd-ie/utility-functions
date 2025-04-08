@@ -14,7 +14,7 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
     get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
-    move_geometry, linestring_splitter, simplify_linestring
+    move_geometry, linestring_splitter, simplify_linestring, force_linestring_direction
 )
 
 
@@ -595,3 +595,21 @@ def simplify_linestring_col(linestring: pl.Expr) -> pl.Expr:
     return linestring.pipe(wkt_to_shape_col)\
         .map_elements(lambda x: simplify_linestring(x), return_dtype=pl.Object)\
         .pipe(shape_to_wkt_col)
+        
+        
+def force_linestring_direction_col(first_point_str: pl.Expr, linestring_str: pl.Expr) -> pl.Expr:
+    """
+    Check if the point is in the direction of the linestring
+    
+    Args:
+        first_point_str (pl.Expr): The point to check
+        linestring_str (pl.Expr): The linestring to check
+    Returns:
+        pl.Expr: The linestring in the right direction
+    Raises:
+        ValueError: If the point is not in the linestring boundaries
+    """
+    return pl.struct([first_point_str.alias("point"), linestring_str.alias("linestring")]).map_elements(
+        lambda x: force_linestring_direction(x["point"], x["linestring"]), 
+        return_dtype=pl.Utf8
+    )
