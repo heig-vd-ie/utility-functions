@@ -1,5 +1,6 @@
 from typing import Optional, Union
-from shapely import LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points, line_merge
+from shapely import (
+    LineString, from_wkt, buffer, intersects, union_all, Geometry, extract_unique_points, line_merge, intersection_all)
 from shapely.ops import nearest_points
 from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineString, shape, MultiLineString
 import numpy as np
@@ -14,7 +15,7 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
     get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
-    move_geometry, linestring_splitter, simplify_linestring, force_linestring_direction
+    move_geometry, linestring_splitter, simplify_linestring, force_linestring_direction, wkt_list_to_shape_list
 )
 
 
@@ -612,4 +613,17 @@ def force_linestring_direction_col(first_point_str: pl.Expr, linestring_str: pl.
     return pl.struct([first_point_str.alias("point"), linestring_str.alias("linestring")]).map_elements(
         lambda x: force_linestring_direction(x["point"], x["linestring"]), 
         return_dtype=pl.Utf8
+    )
+    
+def get_linestring_list_boundary_intersection_col(linestring_list: pl.Expr):
+    """
+    Get the intersection of the boundaries of a list of linestrings.
+    Args:
+        linestring_list (pl.Expr): A list of linestrings.
+    Returns:
+        pl.Expr: The intersection of the boundaries of the linestrings.
+    """
+    return linestring_list.map_elements(
+            lambda x: intersection_all(list(map(lambda line: line.boundary, wkt_list_to_shape_list(x)))).wkt,  # type: ignore
+            return_dtype=pl.Utf8
     )
