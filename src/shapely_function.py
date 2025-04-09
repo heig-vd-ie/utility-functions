@@ -527,6 +527,21 @@ def remove_linestring_circle_from_multilinestring(shape_str: str) -> str:
     else:
         return shape_str
 
+def simplify_multilinestring(linestring: Union[LineString, MultiLineString]) -> Union[LineString, MultiLineString]:
+    """
+    Simplify a MultiLineString by removing circular linestrings and merging the remaining segments.
+    
+    Args:
+        linestring (Union[LineString, MultiLineString]): The MultiLineString to simplify.
+        
+    Returns:
+        LineString: The simplified LineString.
+    """
+
+    if isinstance(linestring, LineString):
+        return simplify_linestring(linestring)
+    if isinstance(linestring, MultiLineString):
+        return line_merge(MultiLineString(list(map(lambda x: simplify_linestring(x), linestring.geoms)))) # type: ignore
 
 
 def simplify_linestring(linestring: LineString):

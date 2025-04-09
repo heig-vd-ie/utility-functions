@@ -15,7 +15,8 @@ from pyproj import CRS, Transformer
 from shapely_function import (
     shape_to_geoalchemy2, geoalchemy2_to_shape, point_list_to_linestring, shape_coordinate_transformer,
     get_multipoint_from_wkt_list, get_multilinestring_from_wkt_list, get_nearest_point_within_distance,
-    move_geometry, linestring_splitter, simplify_linestring, force_linestring_direction, wkt_list_to_shape_list
+    move_geometry, linestring_splitter, simplify_linestring, force_linestring_direction, wkt_list_to_shape_list,
+    simplify_multilinestring
 )
 
 
@@ -596,7 +597,20 @@ def simplify_linestring_col(linestring: pl.Expr) -> pl.Expr:
     return linestring.pipe(wkt_to_shape_col)\
         .map_elements(lambda x: simplify_linestring(x), return_dtype=pl.Object)\
         .pipe(shape_to_wkt_col)
+
+def simplify_multilinestring_col(linestring: pl.Expr) -> pl.Expr:
+    """
+    Simplify a self-intersecting LineString column in a wkt formate.
+    
+    Args:
+        linestring (pl.Expr): The column containing LineString geometries in WKT format.
         
+    Returns:
+        pl.Expr: The simplified LineString column.
+    """
+    return linestring.pipe(wkt_to_shape_col)\
+        .map_elements(lambda x: simplify_multilinestring(x), return_dtype=pl.Object)\
+        .pipe(shape_to_wkt_col)
         
 def force_linestring_direction_col(first_point_str: pl.Expr, linestring_str: pl.Expr) -> pl.Expr:
     """
