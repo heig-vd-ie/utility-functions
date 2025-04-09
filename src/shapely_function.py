@@ -559,7 +559,11 @@ def simplify_linestring(linestring: LineString):
     coord_list = linestring.coords
     nx_graph = nx.Graph()
     nx_graph.add_edges_from(zip(coord_list[:-1], coord_list[1:]))
-    return LineString(nx.shortest_path(G=nx_graph, source=coord_list[0], target=coord_list[-1]))
+    path = list(nx.shortest_path(G=nx_graph, source=coord_list[0], target=coord_list[-1]))
+    if len(path) > 1:
+        return LineString(path)
+    else:
+        return LineString(path*2)
 
 def force_linestring_direction(first_point_str: str, linestring_str: str) -> str:
     """
