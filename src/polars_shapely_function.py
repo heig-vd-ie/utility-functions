@@ -598,19 +598,29 @@ def simplify_linestring_col(linestring: pl.Expr) -> pl.Expr:
         .map_elements(lambda x: simplify_linestring(x), return_dtype=pl.Object)\
         .pipe(shape_to_wkt_col)
 
-def simplify_multilinestring_col(linestring: pl.Expr) -> pl.Expr:
+def simplify_multilinestring_col(multilinestring: pl.Expr, from_point: pl.Expr, to_point: pl.Expr) -> pl.Expr:
     """
-    Simplify a self-intersecting LineString column in a wkt formate.
+    Simplify a self-intersecting MultiLineString in format.
     
     Args:
-        linestring (pl.Expr): The column containing LineString geometries in WKT format.
+        multilinestring (pl.Expr): The MultiLineString to simplify. 
+        from_point (pl.Expr): The starting point of the path.
+        to_point (pl.Expr): The ending point of the path.
         
-    Returns:
-        pl.Expr: The simplified LineString column.
+    Returns:    
+        MultiLineString: The simplified MultiLineString.   
     """
-    return linestring.pipe(wkt_to_shape_col)\
-        .map_elements(lambda x: simplify_multilinestring(x), return_dtype=pl.Object)\
+    return pl.struct(
+            multilinestring.alias("multilinestring"),
+            from_point.alias("from_point"),
+            to_point.alias("to_point"),
+        ).map_elements(
+            lambda x: simplify_multilinestring(
+                multilinestring_str=x["multilinestring"], from_point_str=x["from_point"], to_point_str=x["to_point"]
+            ), 
+            return_dtype=pl.Object)\
         .pipe(shape_to_wkt_col)
+        
         
 def force_linestring_direction_col(first_point_str: pl.Expr, linestring_str: pl.Expr) -> pl.Expr:
     """

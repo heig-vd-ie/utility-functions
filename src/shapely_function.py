@@ -527,22 +527,6 @@ def remove_linestring_circle_from_multilinestring(shape_str: str) -> str:
     else:
         return shape_str
 
-def simplify_multilinestring(linestring: Union[LineString, MultiLineString]) -> Union[LineString, MultiLineString]:
-    """
-    Simplify a MultiLineString by removing circular linestrings and merging the remaining segments.
-    
-    Args:
-        linestring (Union[LineString, MultiLineString]): The MultiLineString to simplify.
-        
-    Returns:
-        LineString: The simplified LineString.
-    """
-
-    if isinstance(linestring, LineString):
-        return simplify_linestring(linestring)
-    if isinstance(linestring, MultiLineString):
-        return line_merge(MultiLineString(list(map(lambda x: simplify_linestring(x), linestring.geoms)))) # type: ignore
-
 
 def simplify_linestring(linestring: LineString):
     """
@@ -564,6 +548,38 @@ def simplify_linestring(linestring: LineString):
         return LineString(path)
     else:
         return LineString(path*2)
+
+
+def simplify_multilinestring(multilinestring_str: str, from_point_str: str, to_point_str: str):
+    """
+    Simplify a self-intersecting MultiLineString in format.
+    
+    Args:
+        multilinestring (str): The MultiLineString to simplify. 
+        from_point (str): The starting point of the path.
+        to_point (str): The ending point of the path.
+        
+    Returns:
+        MultiLineString: The simplified MultiLineString.
+    """
+    multilinestring = from_wkt(multilinestring_str)
+    from_point = from_wkt(from_point_str)
+    to_point = from_wkt(to_point_str)
+    
+    if is_simple(multilinestring):
+        return multilinestring
+    if isinstance(multilinestring, LineString):
+        multilinestring = MultiLineString([multilinestring])
+
+    nx_graph = nx.Graph()
+    for coord_list in list(map(lambda x: list(x.coords), list(multilinestring.geoms))): # type: ignore
+        nx_graph.add_edges_from(zip(coord_list[:-1], coord_list[1:]))
+    path = list(nx.shortest_path(G=nx_graph, source=list(from_point.coords)[0], target=list(to_point.coords)[0]))
+    if len(path) > 1:
+        return LineString(path)
+    else:
+        return LineString(path*2)
+
 
 def force_linestring_direction(first_point_str: str, linestring_str: str) -> str:
     """
