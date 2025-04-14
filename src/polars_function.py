@@ -429,3 +429,12 @@ def replace_null_list(
     """
     return pl.when(col == []).then(default_value).otherwise(col)
 
+def list_to_list_of_tuple(list_col: pl.Expr) -> pl.Expr:
+    """
+    Convert a list of lists to a list of tuples.
+    Args:
+        list_col: A polars expression representing a list of lists.
+    Returns:
+        A polars expression representing a list of tuples.
+    """
+    return list_col.map_elements(lambda x: [tuple(x)], return_dtype=pl.List(pl.Object))
