@@ -1,0 +1,1128 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>polars_shapely_function &#8212; IE Utility Functions  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/sphinx_rtd_size.css?v=6f3bdd73" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/polars_shapely_function';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IE Utility Functions  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">polars_shapely_function</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for polars_shapely_function</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LineString</span><span class="p">,</span> <span class="n">from_wkt</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">intersects</span><span class="p">,</span> <span class="n">union_all</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">,</span> <span class="n">extract_unique_points</span><span class="p">,</span> <span class="n">line_merge</span><span class="p">,</span> <span class="n">intersection_all</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">nearest_points</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiPolygon</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">MultiLineString</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">batched</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="kn">import</span> <span class="n">col</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely_function</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">shape_to_geoalchemy2</span><span class="p">,</span> <span class="n">geoalchemy2_to_shape</span><span class="p">,</span> <span class="n">point_list_to_linestring</span><span class="p">,</span> <span class="n">shape_coordinate_transformer</span><span class="p">,</span>
+    <span class="n">get_multipoint_from_wkt_list</span><span class="p">,</span> <span class="n">get_multilinestring_from_wkt_list</span><span class="p">,</span> <span class="n">get_nearest_point_within_distance</span><span class="p">,</span>
+    <span class="n">move_geometry</span><span class="p">,</span> <span class="n">linestring_splitter</span><span class="p">,</span> <span class="n">simplify_linestring</span><span class="p">,</span> <span class="n">force_linestring_direction</span><span class="p">,</span> <span class="n">wkt_list_to_shape_list</span><span class="p">,</span>
+    <span class="n">simplify_multilinestring</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_coordinates_list_from_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_coordinates_list_from_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_coordinates_list_from_col</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;geometry&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract a list of coordinates from a specified column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pl.DataFrame): The DataFrame to process.</span>
+<span class="sd">        col_name (str): The name of the column containing geometric data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of coordinates extracted from the specified column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">point_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">extract_unique_points</span><span class="p">(</span><span class="n">get_multigeometry_from_col</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">col_name</span><span class="o">=</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">geoms</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">point</span><span class="p">:</span> <span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="n">point_list</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_coordinates_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_coordinates_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_coordinates_col</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a new column to the DataFrame with coordinates extracted from a specified column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        col (pl.Expr): The column containing geometric data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        polars.DataFrame: The DataFrame with an additional column of coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Float64</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="get_nearest_point_within_distance_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_nearest_point_within_distance_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_nearest_point_within_distance_col</span><span class="p">(</span><span class="n">point</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">point_list</span><span class="p">:</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">min_distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the nearest point within a specified minimum distance from each point in a column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point (pl.Expr): The expression representing the column containing the reference points.</span>
+<span class="sd">        point_list (MultiPoint): The MultiPoint geometry containing the points to search.</span>
+<span class="sd">        min_distance (float): The minimum distance to search for the nearest point.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with the nearest points within the specified minimum distance.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    ~~~~~~~~~~</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; data = {&#39;geometry&#39;: [Point(0, 0).wkt, Point(2, 2).wkt, Point(4, 4).wkt]}</span>
+<span class="sd">    ... df = pl.DataFrame(data)</span>
+<span class="sd">    ... multi_point = MultiPoint([Point(1, 1), Point(10, 1), Point(2, 1)])</span>
+<span class="sd">    ... df.with_column(get_nearest_point_within_distance_col(pl.col(&#39;geometry&#39;), multi_point, 2).alias(&#39;nearest_point&#39;))</span>
+<span class="sd">    shape: (3, 2)</span>
+<span class="sd">    ┌─────────────────┬──────────────────┐</span>
+<span class="sd">    │ geometry        ┆ nearest_point    │</span>
+<span class="sd">    │ ---             ┆ ---              │</span>
+<span class="sd">    │ str             ┆ str              │</span>
+<span class="sd">    ╞═════════════════╪══════════════════╡</span>
+<span class="sd">    │ POINT (0 0)     ┆ POINT (1 1)      │</span>
+<span class="sd">    │ POINT (2 2)     ┆ POINT (2 1)      │</span>
+<span class="sd">    │ POINT (4 4)     ┆ None             │</span>
+<span class="sd">    └─────────────────┴──────────────────┘</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">point</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span> 
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_nearest_point_within_distance</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">point_list</span><span class="o">=</span><span class="n">point_list</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="n">min_distance</span><span class="p">),</span> 
+            <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="get_multipoint_from_wkt_list_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_multipoint_from_wkt_list_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_multipoint_from_wkt_list_col</span><span class="p">(</span><span class="n">point_list</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a column containing WKT representations of lines into a Multipoint geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point_list (pl.Expr): The expression representing the column containing list of Point.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with MultiPoint geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">point_list</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">get_multipoint_from_wkt_list</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_multilinestring_from_wkt_list_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_multilinestring_from_wkt_list_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_multilinestring_from_wkt_list_col</span><span class="p">(</span><span class="n">linestring_list</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a column containing WKT representations of lines into a MultiLineString geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        linestring_list (pl.Expr): The expression representing the column containing list of linestring.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with MultiLineString geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">linestring_list</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">get_multilinestring_from_wkt_list</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_point_list_centroid_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_point_list_centroid_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_point_list_centroid_col</span><span class="p">(</span><span class="n">point_list</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the centroid of a list of points from a specified column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point_list (pl.Expr): The expression representing the column containing the list of points.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with the centroid points.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; data = {&#39;points&#39;: [Point(0, 0).wkt, Point(1, 1).wkt, Point(2, 2).wkt]}</span>
+<span class="sd">    ... df = pl.DataFrame(data)</span>
+<span class="sd">    ... df.with_column(get_point_list_centroid_col(pl.col(&#39;points&#39;)).alias(&#39;centroid&#39;))</span>
+<span class="sd">    shape: (1, 1)</span>
+<span class="sd">    ┌────────────────┐</span>
+<span class="sd">    │ centroid       │</span>
+<span class="sd">    │ ---            │</span>
+<span class="sd">    │ str            │</span>
+<span class="sd">    ╞════════════════╡</span>
+<span class="sd">    │ POINT (1 1)    │</span>
+<span class="sd">    └────────────────┘</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">point_list</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">get_multipoint_from_wkt_list_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="get_polygon_centroid_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_polygon_centroid_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_polygon_centroid_col</span><span class="p">(</span><span class="n">polygon</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the centroid of a polygon in WKT format from a specified column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        polygon (pl.Expr): The expression representing the column containing the polygons.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with the centroid points.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">polygon</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_linestring_from_nearest_points_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.generate_linestring_from_nearest_points_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_linestring_from_nearest_points_col</span><span class="p">(</span><span class="n">point</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">multi_point</span><span class="p">:</span> <span class="n">MultiPoint</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a LineString geometry from the nearest points within a specified distance in a column containing geometric data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point (pl.Expr): The expression representing the column containing the reference points.</span>
+<span class="sd">        multi_point (MultiPoint): The MultiPoint geometry containing the points to search.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression with LineString geometries created from the nearest points.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; data = {&#39;geometry&#39;: [Point(0, 0).wkt, Point(2, 2).wkt]}</span>
+<span class="sd">    ... df = pl.DataFrame(data)</span>
+<span class="sd">    ... multi_point = MultiPoint([Point(0, 1), Point(1, 1), Point(2, 1)])</span>
+<span class="sd">    ... df.with_column(</span>
+<span class="sd">    ...     c(geometry).pipe(generate_linestring_from_nearest_points_col, multi_point=multi_point)</span>
+<span class="sd">    ...     .alias(&#39;linestring&#39;)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    shape: (3, 2)</span>
+<span class="sd">    ┌──────────────────┬─────────────────────────┐</span>
+<span class="sd">    │ geometry         ┆ linestring              │</span>
+<span class="sd">    │ ---              ┆ ---                     │</span>
+<span class="sd">    │ str              ┆ str                     │</span>
+<span class="sd">    ╞══════════════════╪═════════════════════════╡</span>
+<span class="sd">    │ POINT (0 0)      ┆ LINESTRING (0 0, 0 1)   │</span>
+<span class="sd">    │ POINT (2 2)      ┆ LINESTRING (2 2, 2 1)   │</span>
+<span class="sd">    └──────────────────┴─────────────────────────┘</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">point</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">LineString</span><span class="p">(</span><span class="n">nearest_points</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">multi_point</span><span class="p">))</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="linestring_is_ring_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.linestring_is_ring_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">linestring_is_ring_col</span><span class="p">(</span><span class="n">linestring</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the LineString geometries in a specified column form a closed ring.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        linestring (pl.Expr): The expression representing the column containing LineString geometries.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: An expression indicating whether each LineString is a closed ring.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; data = {</span>
+<span class="sd">    ...     &#39;geometry&#39;: [</span>
+<span class="sd">    ...         LineString([(0, 0), (1, 1), (1, 0), (0, 0)]).wkt, </span>
+<span class="sd">    ...         LineString([(0, 0), (1, 1), (1, 0)]).wkt</span>
+<span class="sd">    ...     ]}</span>
+<span class="sd">    ... df = pl.DataFrame(data)</span>
+<span class="sd">    ... df.with_column(linestring_is_ring_col(pl.col(&#39;geometry&#39;)).alias(&#39;is_ring&#39;))</span>
+<span class="sd">    shape: (2, 2)</span>
+<span class="sd">    ┌───────────────────────────────────────┬──────────┐</span>
+<span class="sd">    │ geometry                              ┆ is_ring  │</span>
+<span class="sd">    │ ---                                   ┆ ---      │</span>
+<span class="sd">    │ str                                   ┆ bool     │</span>
+<span class="sd">    ╞═══════════════════════════════════════╪══════════╡</span>
+<span class="sd">    │ LINESTRING (0 0, 1 1, 1 0, 0 0)       ┆ true     │</span>
+<span class="sd">    │ LINESTRING (0 0, 1 1, 1 0)            ┆ false    │</span>
+<span class="sd">    └───────────────────────────────────────┴──────────┘</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">return</span> <span class="n">linestring</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">is_closed</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Boolean</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="shape_intersect_shape_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.shape_intersect_shape_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shape_intersect_shape_col</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="n">Geometry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if geometries in a Polars expression intersect with a given polygon.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.</span>
+<span class="sd">        polygon (Polygon): The polygon to check for intersection.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with boolean values indicating intersection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geo_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">intersects</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">geometry</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Boolean</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="shape_intersect_polygon">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.shape_intersect_polygon">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shape_intersect_polygon</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">Polygon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if geometries in a Polars expression intersect with a given polygon.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.</span>
+<span class="sd">        polygon (Polygon): The polygon to check for intersection.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with boolean values indicating intersection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geo_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">intersects</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">polygon</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Boolean</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_linestring_boundaries_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_linestring_boundaries_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_linestring_boundaries_col</span><span class="p">(</span><span class="n">line_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the boundary nodes of geometries in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        line_str (pl.Expr): The Polars expression containing linestring in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with lists of boundary nodes in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">line_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">point</span><span class="p">:</span> <span class="n">point</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">geoms</span><span class="p">)),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">))</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_geometry_list">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_geometry_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_geometry_list</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;geometry&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a list of geometries from a Polars DataFrame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pl.DataFrame): The Polars DataFrame.</span>
+<span class="sd">        col_name (str, optional): The name of the geometry column. Defaults to &quot;geometry&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[Union[Point, LineString, Polygon]]: The list of geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">))[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_multigeometry_from_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_multigeometry_from_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_multigeometry_from_col</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;geometry&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">MultiPoint</span><span class="p">,</span> <span class="n">MultiLineString</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a MultiGeometry object from a Polars DataFrame column.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pl.DataFrame): The Polars DataFrame.</span>
+<span class="sd">        col_name (str, optional): The name of the geometry column. Defaults to &quot;geometry&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Union[MultiPoint, MultiLineString, MultiPolygon]: The MultiGeometry object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">geo_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Point</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">]]</span> <span class="o">=</span> <span class="n">get_geometry_list</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">col_name</span><span class="o">=</span><span class="n">col_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Point</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MultiPoint</span><span class="p">(</span><span class="n">geo_list</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">LineString</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MultiLineString</span><span class="p">(</span><span class="n">geo_list</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MultiPolygon</span><span class="p">(</span><span class="n">geo_list</span><span class="p">)</span> <span class="c1"># type: ignore</span></div>
+
+    
+<div class="viewcode-block" id="add_buffer">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.add_buffer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_buffer</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a buffer to geometries in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing geometries in WKT format.</span>
+<span class="sd">        buffer_size (float): The buffer size.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with buffered geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geo_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">buffer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">)</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_line_length">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.calculate_line_length">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_line_length</span><span class="p">(</span><span class="n">line_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the length of LineString geometries in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        line_str (pl.Expr): The Polars expression containing LineString geometries in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with the lengths of the LineString geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">line_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Float64</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shape_coordinate_transformer_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.shape_coordinate_transformer_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shape_coordinate_transformer_col</span><span class="p">(</span><span class="n">shape_col</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">srid_from</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">srid_to</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform the coordinates of geometries in a Polars expression from one CRS to another.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shape_col (pl.Expr): The Polars expression containing geometries.</span>
+<span class="sd">        srid_from (int): The source spatial reference system identifier.</span>
+<span class="sd">        srid_to (int): The target spatial reference system identifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with transformed geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">shape_col</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shape_coordinate_transformer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">srid_from</span><span class="o">=</span><span class="n">srid_from</span><span class="p">,</span> <span class="n">srid_to</span><span class="o">=</span><span class="n">srid_to</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_point_from_coordinates">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.generate_point_from_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_point_from_coordinates</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate Point geometries from x and y coordinates in Polars expressions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (pl.Expr): The Polars expression containing x coordinates.</span>
+<span class="sd">        y (pl.Expr): The Polars expression containing y coordinates.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with Point geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">concat_list</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">coord</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="o">*</span><span class="n">coord</span><span class="p">)</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_linestring_from_coordinates_list">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.generate_linestring_from_coordinates_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_linestring_from_coordinates_list</span><span class="p">(</span><span class="n">coord_list</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate LineString geometries from coordinate lists in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        coord_list (pl.Expr): The Polars expression containing coordinate lists.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with LineString geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">coord_list</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">LineString</span><span class="p">(</span><span class="n">batched</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_linestring_from_point_list">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_linestring_from_point_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_linestring_from_point_list</span><span class="p">(</span><span class="n">point_list_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate LineString geometries from point lists in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        point_list_str (pl.Expr): The Polars expression containing point lists in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with LineString geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">point_list_str</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">point_list_to_linestring</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="combine_shape">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.combine_shape">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">combine_shape</span><span class="p">(</span><span class="n">geometry_list_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Combine multiple geometries into a single geometry in a Polars expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry_list_str (pl.Expr): The Polars expression containing geometry lists in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with combined geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geometry_list_str</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">union_all</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">from_wkt</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="shape_to_wkt_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.shape_to_wkt_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shape_to_wkt_col</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geometries in a Polars expression to WKT format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The Polars expression containing geometries.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geometry</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="wkt_to_shape_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.wkt_to_shape_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wkt_to_shape_col</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert WKT strings in a Polars expression to geometries.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The Polars expression containing WKT strings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geometry</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">from_wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="geojson_to_wkt_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.geojson_to_wkt_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">geojson_to_wkt_col</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert GeoJSON strings in a Polars expression to WKT format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The Polars expression containing GeoJSON strings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geometry</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shape_to_geoalchemy2_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.shape_to_geoalchemy2_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shape_to_geoalchemy2_col</span><span class="p">(</span><span class="n">geo</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geometries in a Polars expression to GeoAlchemy2 format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo (pl.Expr): The Polars expression containing geometries.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries in GeoAlchemy2 format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">shape_to_geoalchemy2</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="geoalchemy2_to_shape_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.geoalchemy2_to_shape_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">geoalchemy2_to_shape_col</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert GeoAlchemy2 strings in a Polars expression to geometries.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing GeoAlchemy2 strings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">geo_str</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="n">geoalchemy2_to_shape</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="wkt_to_geoalchemy_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.wkt_to_geoalchemy_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wkt_to_geoalchemy_col</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">srid_from</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">srid_to</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert WKT strings in a Polars expression to GeoAlchemy2 format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing WKT strings.</span>
+<span class="sd">        srid_from (Optional[int]): The source spatial reference system identifier.</span>
+<span class="sd">        srid_to (Optional[int]): The target spatial reference system identifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries in GeoAlchemy2 format.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If only one of srid_from or srid_to is provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">srid_from</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">srid_to</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">geo_str</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_geoalchemy2_col</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">srid_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">srid_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">geo_str</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_coordinate_transformer_col</span><span class="p">,</span> <span class="n">srid_from</span><span class="o">=</span><span class="n">srid_from</span><span class="p">,</span> <span class="n">srid_to</span><span class="o">=</span><span class="n">srid_to</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_geoalchemy2_col</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both srid_from and srid_to must be provided or None.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="geoalchemy2_to_wkt_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.geoalchemy2_to_wkt_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">geoalchemy2_to_wkt_col</span><span class="p">(</span><span class="n">geo_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">srid_from</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">srid_to</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert GeoAlchemy2 strings in a Polars expression to WKT format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geo_str (pl.Expr): The Polars expression containing GeoAlchemy2 strings.</span>
+<span class="sd">        srid_from (Optional[int]): The source spatial reference system identifier.</span>
+<span class="sd">        srid_to (Optional[int]): The target spatial reference system identifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with geometries in WKT format.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If only one of srid_from or srid_to is provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">srid_from</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">srid_to</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">geo_str</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">geoalchemy2_to_shape_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">srid_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">srid_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">geo_str</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">geoalchemy2_to_shape_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_coordinate_transformer_col</span><span class="p">,</span> <span class="n">srid_from</span><span class="o">=</span><span class="n">srid_from</span><span class="p">,</span> <span class="n">srid_to</span><span class="o">=</span><span class="n">srid_to</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both srid_from and srid_to must be provided or None.&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="move_geometry_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.move_geometry_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">move_geometry_col</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">(</span><span class="n">angle</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">),</span> <span class="n">geometry</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">),</span> <span class="n">distance</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">move_geometry</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="retrograde_multigeometry">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.retrograde_multigeometry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">retrograde_multigeometry</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the first geometry from a MultiGeometry and convert it to WKT format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The Polars expression containing MultiGeometry in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with the first geometry in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">geometry</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">geoms</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="merge_linestring_list">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.merge_linestring_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_linestring_list</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merge a list of LineString geometries into a single LineString.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The Polars expression containing a list of LineString geometries in WKT format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with the merged LineString in WKT format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">geometry</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">get_multilinestring_from_wkt_list_col</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">line_merge</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">x</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="linestring_splitter_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.linestring_splitter_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">linestring_splitter_col</span><span class="p">(</span><span class="n">linestring</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">nb_split</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split LineString columns in WKT format into a list of LineString with the same length.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        linestring_str (pl.Expr): The Polars expression containing LineStrings to split in in WKT format.</span>
+<span class="sd">        nb_split (pl.Expr): The Polars expression containing number of segments to split the LineString into.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: A Polars expression with the splitted LineString.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">(</span><span class="n">linestring</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;linestring&quot;</span><span class="p">),</span> <span class="n">nb_split</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;nb_split&quot;</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">linestring_splitter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;linestring&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;nb_split&quot;</span><span class="p">]),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_geometry_difference">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_geometry_difference">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_geometry_difference</span><span class="p">(</span><span class="n">geometry</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">diff_geom</span><span class="p">:</span> <span class="n">Geometry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the geometry difference between two geometries.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        geometry (pl.Expr): The geometry column in WKT format to be subtracted.</span>
+<span class="sd">        diff_geom (Geometry): The geometry to subtract from the original geometry.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: The resulting geometry after the difference operation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">geometry</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">diff_geom</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="simplify_linestring_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.simplify_linestring_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simplify_linestring_col</span><span class="p">(</span><span class="n">linestring</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simplify a self-intersecting LineString column in a wkt formate.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        linestring (pl.Expr): The column containing LineString geometries in WKT format.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: The simplified LineString column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">linestring</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">wkt_to_shape_col</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">simplify_linestring</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="simplify_multilinestring_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.simplify_multilinestring_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simplify_multilinestring_col</span><span class="p">(</span><span class="n">multilinestring</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">from_point</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">to_point</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simplify a self-intersecting MultiLineString in format.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        multilinestring (pl.Expr): The MultiLineString to simplify. </span>
+<span class="sd">        from_point (pl.Expr): The starting point of the path.</span>
+<span class="sd">        to_point (pl.Expr): The ending point of the path.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:    </span>
+<span class="sd">        MultiLineString: The simplified MultiLineString.   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">(</span>
+            <span class="n">multilinestring</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;multilinestring&quot;</span><span class="p">),</span>
+            <span class="n">from_point</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;from_point&quot;</span><span class="p">),</span>
+            <span class="n">to_point</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;to_point&quot;</span><span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">simplify_multilinestring</span><span class="p">(</span>
+                <span class="n">multilinestring_str</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;multilinestring&quot;</span><span class="p">],</span> <span class="n">from_point_str</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;from_point&quot;</span><span class="p">],</span> <span class="n">to_point_str</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;to_point&quot;</span><span class="p">]</span>
+            <span class="p">),</span> 
+            <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Object</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">shape_to_wkt_col</span><span class="p">)</span></div>
+
+        
+        
+<div class="viewcode-block" id="force_linestring_direction_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.force_linestring_direction_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">force_linestring_direction_col</span><span class="p">(</span><span class="n">first_point_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">linestring_str</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the point is in the direction of the linestring</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        first_point_str (pl.Expr): The point to check</span>
+<span class="sd">        linestring_str (pl.Expr): The linestring to check</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: The linestring in the right direction</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the point is not in the linestring boundaries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">([</span><span class="n">first_point_str</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">),</span> <span class="n">linestring_str</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;linestring&quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">force_linestring_direction</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;point&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;linestring&quot;</span><span class="p">]),</span> 
+        <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span>
+    <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="get_linestring_list_boundary_intersection_col">
+<a class="viewcode-back" href="../polars_shapely_function.html#polars_shapely_function.get_linestring_list_boundary_intersection_col">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_linestring_list_boundary_intersection_col</span><span class="p">(</span><span class="n">linestring_list</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Expr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the intersection of the boundaries of a list of linestrings.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        linestring_list (pl.Expr): A list of linestrings.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pl.Expr: The intersection of the boundaries of the linestrings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">linestring_list</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">intersection_all</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="n">boundary</span><span class="p">,</span> <span class="n">wkt_list_to_shape_list</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Luca Tomasini.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
