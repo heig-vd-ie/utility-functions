@@ -99,10 +99,10 @@ def cast_boolean(col: pl.Expr) -> pl.Expr:
         pl.Expr: The casted boolean column.
     """
     format_str = {
-        "1": True, "true": True , "oui": True, "0": False, 
+        "1": True, "true": True , "oui": True, "1.0": True, "0": False, "0.0": False, 
         "false": False, "vrai": True, "non": False, 
         "off": False, "on": True}
-    return col.str.to_lowercase().replace_strict(format_str, default=False).cast(pl.Boolean)
+    return col.cast(pl.Utf8).str.to_lowercase().replace_strict(format_str, default=False).cast(pl.Boolean)
 
 def modify_string_col(string_col: pl.Expr, format_str: dict) -> pl.Expr:
     """
