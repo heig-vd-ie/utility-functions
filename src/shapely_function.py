@@ -17,7 +17,7 @@ from shapely.geometry import MultiPolygon, Polygon, MultiPoint, Point, LineStrin
 from shapely.prepared import prep
 import numpy as np 
 import networkx as nx
-  
+
 
 from pyproj import CRS, Transformer
 
@@ -601,4 +601,5 @@ def force_linestring_direction(first_point_str: str, linestring_str: str) -> str
     elif linestring.boundary.geoms[1] == first_point:
         return reverse(linestring).wkt
     else:
-        raise ValueError(f"from_geo {first_point_str} not in linsestring") 
+        print(f"from_geo {first_point_str} not in linsestring {linestring}") 
+        return linestring_str
