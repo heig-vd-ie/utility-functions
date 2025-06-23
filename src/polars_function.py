@@ -438,3 +438,16 @@ def list_to_list_of_tuple(list_col: pl.Expr) -> pl.Expr:
         A polars expression representing a list of tuples.
     """
     return list_col.map_elements(lambda x: [tuple(x)], return_dtype=pl.List(pl.Object))
+
+def keep_only_duplicated_list(data: pl.Expr) -> pl.Expr:
+    """
+    Return a boolean Polars expression indicating which rows in a list column are duplicates,
+    after sorting and joining the list elements with an underscore.
+    This function is useful for identifying rows in a DataFrame where the concatenated list of elements
+    contains duplicates no mater the position of the elements.
+    Args:
+        data (pl.Expr): A Polars expression representing a list column.
+    Returns:
+        pl.Expr: A boolean Polars expression indicating whether the concatenated list of elements is duplicated
+    """
+    return data.cast(pl.List(pl.Utf8)).list.sort().list.join(separator="_").is_duplicated()
