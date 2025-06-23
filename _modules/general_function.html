@@ -1,0 +1,853 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>general_function &#8212; IE Utility Functions  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/sphinx_rtd_size.css?v=6f3bdd73" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/general_function';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IE Utility Functions  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">general_function</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for general_function</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Auxiliary functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">coloredlogs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="kn">import</span> <span class="n">col</span> <span class="k">as</span> <span class="n">c</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">owncloud</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely</span><span class="w"> </span><span class="kn">import</span> <span class="n">from_wkt</span>
+
+<span class="n">NAMESPACE_UUID</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;{bc4d4e0c-98c9-11ec-b909-0242ac120002}&#39;</span><span class="p">)</span>
+<span class="n">SWISS_SRID</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2056</span>
+
+
+<div class="viewcode-block" id="initialize_output_file">
+<a class="viewcode-back" href="../general_function.html#general_function.initialize_output_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">initialize_output_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize an output file by creating necessary directories and removing the file if it already exists.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_path (str): The path of the file to initialize.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">build_non_existing_dirs</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_archive">
+<a class="viewcode-back" href="../general_function.html#general_function.extract_archive">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_archive</span><span class="p">(</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extracted_folder</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">force_extraction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract an archive file to a specified folder.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_name (str): The name of the archive file.</span>
+<span class="sd">        extracted_folder (Optional[str], optional): The folder to extract the files to. Defaults to None.</span>
+<span class="sd">        force_extraction (bool, optional): Whether to force extraction even if the folder already exists. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">extracted_folder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">extracted_folder</span><span class="p">,</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">force_extraction</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">extracted_folder</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.tar&quot;</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Extract </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> archive&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">extracted_folder</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.tgz&quot;</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r:gz&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Extract </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> archive&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">extracted_folder</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.zip&quot;</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Extract </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> archive&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">extracted_folder</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2"> format not supported&quot;</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="scan_folder">
+<a class="viewcode-back" href="../general_function.html#general_function.scan_folder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scan_folder</span><span class="p">(</span>
+    <span class="n">folder_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">file_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scan a folder and return a list of file paths with specified extensions or names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        folder_name (str): The folder to scan.</span>
+<span class="sd">        extension (Optional[Union[str, list[str]]], optional): The file extensions to filter by. Defaults to None.</span>
+<span class="sd">        file_names (Optional[str], optional): The file names to filter by. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[str]: List of file paths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="p">[</span><span class="n">extension</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">folder_name</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">file_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">scan_folder</span><span class="p">(</span><span class="n">folder_name</span><span class="o">=</span><span class="n">entry</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">extension</span><span class="p">,</span> <span class="n">file_names</span><span class="o">=</span><span class="n">file_names</span><span class="p">))</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">extension</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_names</span> <span class="ow">in</span> <span class="n">file_path</span><span class="p">:</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">file_ext</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_names</span> <span class="ow">in</span> <span class="n">file_path</span><span class="p">:</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>  
+    <span class="k">return</span> <span class="n">file_list</span></div>
+
+
+
+<div class="viewcode-block" id="scan_switch_directory">
+<a class="viewcode-back" href="../general_function.html#general_function.scan_switch_directory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scan_switch_directory</span><span class="p">(</span>
+    <span class="n">oc</span><span class="p">:</span> <span class="n">owncloud</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span> <span class="n">local_folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">switch_folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download_anyway</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scan a directory on the SWITCH server and return a list of file paths.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        oc (owncloud.Client): The ownCloud client.</span>
+<span class="sd">        local_folder_path (str): The local folder path.</span>
+<span class="sd">        switch_folder_path (str): The SWITCH folder path.</span>
+<span class="sd">        download_anyway (bool): Whether to download files even if they already exist locally.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[str]: List of file paths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">build_non_existing_dirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_folder_path</span><span class="p">,</span> <span class="n">switch_folder_path</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">file_data</span> <span class="ow">in</span> <span class="n">oc</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">switch_folder_path</span><span class="p">):</span> <span class="c1"># type: ignore</span>
+        <span class="k">if</span> <span class="s2">&quot;_trash&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">file_data</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file_data</span><span class="o">.</span><span class="n">path</span>
+            <span class="k">if</span> <span class="n">file_data</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;dir&quot;</span><span class="p">:</span>
+                <span class="n">file_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">scan_switch_directory</span><span class="p">(</span>
+                    <span class="n">oc</span><span class="o">=</span><span class="n">oc</span><span class="p">,</span> <span class="n">local_folder_path</span><span class="o">=</span><span class="n">local_folder_path</span><span class="p">,</span> 
+                    <span class="n">switch_folder_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">download_anyway</span><span class="o">=</span><span class="n">download_anyway</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">local_folder_path</span> <span class="o">+</span> <span class="n">file_path</span><span class="p">))</span> <span class="o">|</span> <span class="n">download_anyway</span><span class="p">:</span>
+                    <span class="n">file_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_list</span></div>
+
+
+<div class="viewcode-block" id="download_from_switch">
+<a class="viewcode-back" href="../general_function.html#general_function.download_from_switch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_from_switch</span><span class="p">(</span>
+    <span class="n">switch_folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">switch_link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">switch_pass</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> 
+    <span class="n">download_anyway</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download files from a SWITCH directory to a local folder.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        switch_folder_path (str): The SWITCH folder path.</span>
+<span class="sd">        switch_link (str): The public link to the SWITCH folder.</span>
+<span class="sd">        switch_pass (str): The password for the SWITCH folder.</span>
+<span class="sd">        local_folder_path (str, optional): The local folder path. Defaults to &quot;.cache&quot;.</span>
+<span class="sd">        download_anyway (bool, optional): Whether to download files even if they already exist locally. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">oc</span><span class="p">:</span> <span class="n">owncloud</span><span class="o">.</span><span class="n">Client</span> <span class="o">=</span> <span class="n">owncloud</span><span class="o">.</span><span class="n">Client</span><span class="o">.</span><span class="n">from_public_link</span><span class="p">(</span><span class="n">public_link</span><span class="o">=</span><span class="n">switch_link</span><span class="p">,</span> <span class="n">folder_password</span><span class="o">=</span><span class="n">switch_pass</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Scan </span><span class="si">{</span><span class="n">switch_folder_path</span><span class="si">}</span><span class="s2"> Switch remote directory&quot;</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+        <span class="n">file_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_switch_directory</span><span class="p">(</span>
+            <span class="n">oc</span><span class="o">=</span><span class="n">oc</span><span class="p">,</span> <span class="n">local_folder_path</span><span class="o">=</span><span class="n">local_folder_path</span><span class="p">,</span> 
+            <span class="n">switch_folder_path</span><span class="o">=</span><span class="n">switch_folder_path</span><span class="p">,</span> <span class="n">download_anyway</span><span class="o">=</span><span class="n">download_anyway</span><span class="p">)</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span>
+        <span class="n">file_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Download files from </span><span class="si">{</span><span class="n">switch_folder_path</span><span class="si">}</span><span class="s2"> Switch remote directory &quot;</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">120</span>
+        <span class="p">):</span>
+        <span class="n">oc</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">local_folder_path</span> <span class="o">+</span> <span class="n">file_path</span><span class="p">)</span></div>
+
+        
+
+<div class="viewcode-block" id="generate_log">
+<a class="viewcode-back" href="../general_function.html#general_function.generate_log">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_log</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a logger with the specified name and log level.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): The name of the logger.</span>
+<span class="sd">        log_level (str, optional): The log level. Defaults to &quot;info&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        logging.Logger: The generated logger.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">coloredlogs</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">log</span></div>
+
+
+
+<div class="viewcode-block" id="build_non_existing_dirs">
+<a class="viewcode-back" href="../general_function.html#general_function.build_non_existing_dirs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_non_existing_dirs</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build non-existing directories for a given file path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_path (str): The file path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if directories were created successfully.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="c1"># Split the path into individual directories</span>
+    <span class="n">dirs</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+    <span class="c1"># Check if each directory exists and create it if it doesn&#39;t</span>
+    <span class="n">current_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+        <span class="n">current_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_path</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">current_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">current_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="pl_to_dict">
+<a class="viewcode-back" href="../general_function.html#general_function.pl_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pl_to_dict</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a Polars DataFrame with two columns into a dictionary. It is assumed that the </span>
+<span class="sd">    first column contains the keys and the second column contains the values. The keys must </span>
+<span class="sd">    be unique but Null values will be filtered.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pl.DataFrame): Polars DataFrame with two columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary representation of the DataFrame.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the DataFrame does not have exactly two columns or if the keys are not unique.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DataFrame is not composed of two columns&quot;</span><span class="p">)</span>
+
+    <span class="n">columns_name</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_nulls</span><span class="p">(</span><span class="n">columns_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">columns_name</span><span class="p">]</span><span class="o">.</span><span class="n">is_duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Key values are not unique&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">rows</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="pl_to_dict_with_tuple">
+<a class="viewcode-back" href="../general_function.html#general_function.pl_to_dict_with_tuple">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pl_to_dict_with_tuple</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a Polars DataFrame with two columns into a dictionary where the first column</span>
+<span class="sd">    contains tuples as keys and the second column contains the values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pl.DataFrame): Polars DataFrame with two columns.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary representation of the DataFrame with tuples as keys.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the DataFrame does not have exactly two columns.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; import polars as pl</span>
+<span class="sd">    &gt;&gt;&gt; data = {&#39;key&#39;: [[1, 2], [3, 4], [5, 6]], &#39;value&#39;: [10, 20, 30]}</span>
+<span class="sd">    &gt;&gt;&gt; df = pl.DataFrame(data)</span>
+<span class="sd">    &gt;&gt;&gt; pl_to_dict_with_tuple(df)</span>
+<span class="sd">    {(1, 2): 10, (3, 4): 20, (5, 6): 30}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DataFrame is not composed of two columns&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">df</span><span class="o">.</span><span class="n">rows</span><span class="p">()</span>
+    <span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="modify_string">
+<a class="viewcode-back" href="../general_function.html#general_function.modify_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">modify_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">format_str</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify a string by replacing substrings according to a format dictionary </span>
+<span class="sd">    -   Input could contains RegEx.</span>
+<span class="sd">    -   The replacement is done in the order of the dictionary keys.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        string (str): Input string.</span>
+<span class="sd">        format_str (dict): Dictionary containing the substrings to be replaced and their replacements.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Modified string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">str_in</span><span class="p">,</span> <span class="n">str_out</span> <span class="ow">in</span> <span class="n">format_str</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">str_in</span><span class="p">,</span> <span class="n">str_out</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">string</span></div>
+
+
+<div class="viewcode-block" id="camel_to_snake">
+<a class="viewcode-back" href="../general_function.html#general_function.camel_to_snake">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">camel_to_snake</span><span class="p">(</span><span class="n">camel_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a camelCase string to snake_case.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        camel_str (str): The camelCase string.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The snake_case string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">camel_str</span> <span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="snake_to_camel">
+<a class="viewcode-back" href="../general_function.html#general_function.snake_to_camel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">snake_to_camel</span><span class="p">(</span><span class="n">snake_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a snake_case string to CamelCase.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        snake_str (str): The snake_case string.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The CamelCase string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snake_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="convert_list_to_string">
+<a class="viewcode-back" href="../general_function.html#general_function.convert_list_to_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_list_to_string</span><span class="p">(</span><span class="n">list_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a list to a comma-separated string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        list_data (list): The list to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The comma-separated string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">list_data</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="table_to_gpkg">
+<a class="viewcode-back" href="../general_function.html#general_function.table_to_gpkg">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">table_to_gpkg</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">gpkg_file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">srid</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SWISS_SRID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save a Polars DataFrame as a GeoPackage file. As GeoPackage does not support list columns, </span>
+<span class="sd">    the list columns are joined into a single string separated with a comma.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table (pl.DataFrame): The Polars DataFrame.</span>
+<span class="sd">        gpkg_file_name (str): The GeoPackage file name.</span>
+<span class="sd">        layer_name (str): The layer name.</span>
+<span class="sd">        srid (int, optional): The SRID. Defaults to SWISS_SRID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">list_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">col_type</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span> <span class="o">==</span> <span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">]</span>
+    <span class="n">table_pd</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+        <span class="n">c</span><span class="p">(</span><span class="n">list_columns</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">))</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="n">table_pd</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_pd</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">from_wkt</span><span class="p">)</span>
+    <span class="n">table_pd</span> <span class="o">=</span> <span class="n">table_pd</span><span class="p">[</span><span class="n">table_pd</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
+    <span class="n">table_gpd</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+        <span class="n">table_pd</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="n">srid</span><span class="p">)</span> <span class="c1"># type: ignore</span>
+    <span class="n">table_gpd</span> <span class="o">=</span> <span class="n">table_gpd</span><span class="p">[</span><span class="o">~</span><span class="n">table_gpd</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">is_empty</span><span class="p">]</span> <span class="c1"># type: ignore</span>
+    <span class="c1"># Save gpkg without logging</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;pyogrio&quot;</span><span class="p">)</span>
+    <span class="n">previous_level</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">level</span> 
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="n">table_gpd</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">gpkg_file_name</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer_name</span><span class="p">)</span> 
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">previous_level</span><span class="p">)</span>  </div>
+
+    
+
+<div class="viewcode-block" id="dict_to_gpkg">
+<a class="viewcode-back" href="../general_function.html#general_function.dict_to_gpkg">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_to_gpkg</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">srid</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SWISS_SRID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save a dictionary of Polars DataFrames as a GeoPackage file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (dict): The dictionary of Polars DataFrames.</span>
+<span class="sd">        file_path (str): The GeoPackage file path.</span>
+<span class="sd">        srid (int, optional): The SRID. Defaults to SWISS_SRID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Save input data in gpkg format&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                    <span class="n">table_to_gpkg</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">gpkg_file_name</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="n">layer_name</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="n">srid</span><span class="p">)</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="dict_to_duckdb">
+<a class="viewcode-back" href="../general_function.html#general_function.dict_to_duckdb">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_to_duckdb</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save a dictionary of Polars DataFrames as a DuckDB file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (dict[str, pl.DataFrame]): The dictionary of Polars DataFrames.</span>
+<span class="sd">        file_path (str): The DuckDB file path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">build_non_existing_dirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET TimeZone=&#39;UTC&#39;&quot;</span><span class="p">)</span>
+        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Save dictionary into duckdb file&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">table_pl</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE TABLE </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> AS SELECT * FROM table_pl&quot;</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div>
+
+                
+                
+<div class="viewcode-block" id="duckdb_to_dict">
+<a class="viewcode-back" href="../general_function.html#general_function.duckdb_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">duckdb_to_dict</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a DuckDB file into a dictionary of Polars DataFrames.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_path (str): The DuckDB file path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: The dictionary of Polars DataFrames.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">schema_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># type: ignore</span>
+
+    <span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET TimeZone=&#39;UTC&#39;&quot;</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT table_name FROM information_schema.tables WHERE table_schema = &#39;main&#39;&quot;</span>
+        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">(),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> 
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Read and validate tables from </span><span class="si">{}</span><span class="s2"> file&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
+            <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM </span><span class="si">{</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">schema_dict</span><span class="p">[</span><span class="n">table_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">pl</span><span class="p">()</span>
+                    
+    <span class="k">return</span> <span class="n">schema_dict</span></div>
+
+
+
+<div class="viewcode-block" id="dictionary_key_filtering">
+<a class="viewcode-back" href="../general_function.html#general_function.dictionary_key_filtering">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dictionary_key_filtering</span><span class="p">(</span><span class="n">dictionary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">key_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filter a dictionary by a list of keys.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dictionary (dict): The dictionary to filter.</span>
+<span class="sd">        key_list (list): The list of keys to keep.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: The filtered dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="generate_uuid">
+<a class="viewcode-back" href="../general_function.html#general_function.generate_uuid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_uuid</span><span class="p">(</span><span class="n">base_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_uuid</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">added_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a UUID based on a base value, base UUID, and an optional added string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        base_value (str): The base value for generating the UUID.</span>
+<span class="sd">        base_uuid (uuid.UUID, optional): The base UUID for generating the UUID.</span>
+<span class="sd">        added_string (str, optional): The optional added string. Defaults to &quot;&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The generated UUID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">base_uuid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">base_uuid</span><span class="o">=</span><span class="n">NAMESPACE_UUID</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid5</span><span class="p">(</span><span class="n">base_uuid</span><span class="p">,</span> <span class="n">added_string</span> <span class="o">+</span> <span class="n">base_value</span><span class="p">))</span></div>
+
+
+
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Luca Tomasini.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

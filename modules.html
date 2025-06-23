@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Utility Functions documentation &#8212; IE Utility Functions  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/css/sphinx_rtd_size.css?v=6f3bdd73" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="general_function" href="general_function.html" />
+    <link rel="prev" title="IE Utility Functions documentation" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IE Utility Functions  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Utility Functions documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="general_function.html">general_function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polars_function.html">polars_function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shapely_function.html">shapely_function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polars_shapely_function.html">polars_shapely_function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy_function.html">numpy_function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networkx_function.html">networkx_function</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Utility Functions documentation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="utility-functions-documentation">
+<h1>Utility Functions documentation<a class="headerlink" href="#utility-functions-documentation" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="general_function.html">general_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.build_non_existing_dirs"><code class="docutils literal notranslate"><span class="pre">build_non_existing_dirs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.convert_list_to_string"><code class="docutils literal notranslate"><span class="pre">convert_list_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.dict_to_duckdb"><code class="docutils literal notranslate"><span class="pre">dict_to_duckdb()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.dict_to_gpkg"><code class="docutils literal notranslate"><span class="pre">dict_to_gpkg()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.dictionary_key_filtering"><code class="docutils literal notranslate"><span class="pre">dictionary_key_filtering()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.download_from_switch"><code class="docutils literal notranslate"><span class="pre">download_from_switch()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.duckdb_to_dict"><code class="docutils literal notranslate"><span class="pre">duckdb_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.extract_archive"><code class="docutils literal notranslate"><span class="pre">extract_archive()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.generate_log"><code class="docutils literal notranslate"><span class="pre">generate_log()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.generate_uuid"><code class="docutils literal notranslate"><span class="pre">generate_uuid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.initialize_output_file"><code class="docutils literal notranslate"><span class="pre">initialize_output_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.modify_string"><code class="docutils literal notranslate"><span class="pre">modify_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.pl_to_dict"><code class="docutils literal notranslate"><span class="pre">pl_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.pl_to_dict_with_tuple"><code class="docutils literal notranslate"><span class="pre">pl_to_dict_with_tuple()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.scan_folder"><code class="docutils literal notranslate"><span class="pre">scan_folder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.scan_switch_directory"><code class="docutils literal notranslate"><span class="pre">scan_switch_directory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.snake_to_camel"><code class="docutils literal notranslate"><span class="pre">snake_to_camel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="general_function.html#general_function.table_to_gpkg"><code class="docutils literal notranslate"><span class="pre">table_to_gpkg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="polars_function.html">polars_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.cast_boolean"><code class="docutils literal notranslate"><span class="pre">cast_boolean()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.cast_float"><code class="docutils literal notranslate"><span class="pre">cast_float()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.cast_to_utc_timestamp"><code class="docutils literal notranslate"><span class="pre">cast_to_utc_timestamp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.concat_list_of_list"><code class="docutils literal notranslate"><span class="pre">concat_list_of_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.cum_count_duplicates"><code class="docutils literal notranslate"><span class="pre">cum_count_duplicates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.digitize_col"><code class="docutils literal notranslate"><span class="pre">digitize_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.generate_random_uuid"><code class="docutils literal notranslate"><span class="pre">generate_random_uuid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.generate_uuid_col"><code class="docutils literal notranslate"><span class="pre">generate_uuid_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_meta_data_string"><code class="docutils literal notranslate"><span class="pre">get_meta_data_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_transfo_admittance"><code class="docutils literal notranslate"><span class="pre">get_transfo_admittance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_transfo_conductance"><code class="docutils literal notranslate"><span class="pre">get_transfo_conductance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_transfo_imaginary_component"><code class="docutils literal notranslate"><span class="pre">get_transfo_imaginary_component()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_transfo_impedance"><code class="docutils literal notranslate"><span class="pre">get_transfo_impedance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.get_transfo_resistance"><code class="docutils literal notranslate"><span class="pre">get_transfo_resistance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.keep_only_duplicated_list"><code class="docutils literal notranslate"><span class="pre">keep_only_duplicated_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.keep_only_first_unique_list"><code class="docutils literal notranslate"><span class="pre">keep_only_first_unique_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.linear_interpolation_for_bound"><code class="docutils literal notranslate"><span class="pre">linear_interpolation_for_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.linear_interpolation_using_cols"><code class="docutils literal notranslate"><span class="pre">linear_interpolation_using_cols()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.list_to_list_of_tuple"><code class="docutils literal notranslate"><span class="pre">list_to_list_of_tuple()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.modify_string_col"><code class="docutils literal notranslate"><span class="pre">modify_string_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.parse_date"><code class="docutils literal notranslate"><span class="pre">parse_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.parse_timestamp"><code class="docutils literal notranslate"><span class="pre">parse_timestamp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_function.html#polars_function.replace_null_list"><code class="docutils literal notranslate"><span class="pre">replace_null_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shapely_function.html">shapely_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.explode_multipolygon"><code class="docutils literal notranslate"><span class="pre">explode_multipolygon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.find_closest_node_from_list"><code class="docutils literal notranslate"><span class="pre">find_closest_node_from_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.force_linestring_direction"><code class="docutils literal notranslate"><span class="pre">force_linestring_direction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.generate_valid_polygon"><code class="docutils literal notranslate"><span class="pre">generate_valid_polygon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.geoalchemy2_to_shape"><code class="docutils literal notranslate"><span class="pre">geoalchemy2_to_shape()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_closest_point_from_multi_point"><code class="docutils literal notranslate"><span class="pre">get_closest_point_from_multi_point()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_geometry_list_intersection"><code class="docutils literal notranslate"><span class="pre">get_geometry_list_intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_multilinestring_from_wkt_list"><code class="docutils literal notranslate"><span class="pre">get_multilinestring_from_wkt_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_multipoint_from_wkt_list"><code class="docutils literal notranslate"><span class="pre">get_multipoint_from_wkt_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_multipolygon_from_wkt_list"><code class="docutils literal notranslate"><span class="pre">get_multipolygon_from_wkt_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_nearest_point_within_distance"><code class="docutils literal notranslate"><span class="pre">get_nearest_point_within_distance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_point_list_centroid"><code class="docutils literal notranslate"><span class="pre">get_point_list_centroid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_point_side"><code class="docutils literal notranslate"><span class="pre">get_point_side()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_polygon_multipoint_intersection"><code class="docutils literal notranslate"><span class="pre">get_polygon_multipoint_intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.get_valid_polygon_str"><code class="docutils literal notranslate"><span class="pre">get_valid_polygon_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.grid_bounds"><code class="docutils literal notranslate"><span class="pre">grid_bounds()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.linestring_splitter"><code class="docutils literal notranslate"><span class="pre">linestring_splitter()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.load_shape_from_geo_json"><code class="docutils literal notranslate"><span class="pre">load_shape_from_geo_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.merge_multilinestring_creating_missing_segments"><code class="docutils literal notranslate"><span class="pre">merge_multilinestring_creating_missing_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.move_geometry"><code class="docutils literal notranslate"><span class="pre">move_geometry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.multipoint_from_multilinestring"><code class="docutils literal notranslate"><span class="pre">multipoint_from_multilinestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.partition"><code class="docutils literal notranslate"><span class="pre">partition()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.point_list_to_linestring"><code class="docutils literal notranslate"><span class="pre">point_list_to_linestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.remove_linestring_circle_from_multilinestring"><code class="docutils literal notranslate"><span class="pre">remove_linestring_circle_from_multilinestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.remove_z_coordinates"><code class="docutils literal notranslate"><span class="pre">remove_z_coordinates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.segment_list_from_multilinestring"><code class="docutils literal notranslate"><span class="pre">segment_list_from_multilinestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.shape_coordinate_transformer"><code class="docutils literal notranslate"><span class="pre">shape_coordinate_transformer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.shape_list_to_wkt_list"><code class="docutils literal notranslate"><span class="pre">shape_list_to_wkt_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.shape_to_geoalchemy2"><code class="docutils literal notranslate"><span class="pre">shape_to_geoalchemy2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.simplify_linestring"><code class="docutils literal notranslate"><span class="pre">simplify_linestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.simplify_multilinestring"><code class="docutils literal notranslate"><span class="pre">simplify_multilinestring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapely_function.html#shapely_function.wkt_list_to_shape_list"><code class="docutils literal notranslate"><span class="pre">wkt_list_to_shape_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="polars_shapely_function.html">polars_shapely_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.add_buffer"><code class="docutils literal notranslate"><span class="pre">add_buffer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.calculate_line_length"><code class="docutils literal notranslate"><span class="pre">calculate_line_length()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.combine_shape"><code class="docutils literal notranslate"><span class="pre">combine_shape()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.force_linestring_direction_col"><code class="docutils literal notranslate"><span class="pre">force_linestring_direction_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.generate_linestring_from_coordinates_list"><code class="docutils literal notranslate"><span class="pre">generate_linestring_from_coordinates_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.generate_linestring_from_nearest_points_col"><code class="docutils literal notranslate"><span class="pre">generate_linestring_from_nearest_points_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.generate_point_from_coordinates"><code class="docutils literal notranslate"><span class="pre">generate_point_from_coordinates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.geoalchemy2_to_shape_col"><code class="docutils literal notranslate"><span class="pre">geoalchemy2_to_shape_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.geoalchemy2_to_wkt_col"><code class="docutils literal notranslate"><span class="pre">geoalchemy2_to_wkt_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.geojson_to_wkt_col"><code class="docutils literal notranslate"><span class="pre">geojson_to_wkt_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_coordinates_col"><code class="docutils literal notranslate"><span class="pre">get_coordinates_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_coordinates_list_from_col"><code class="docutils literal notranslate"><span class="pre">get_coordinates_list_from_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_geometry_difference"><code class="docutils literal notranslate"><span class="pre">get_geometry_difference()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_geometry_list"><code class="docutils literal notranslate"><span class="pre">get_geometry_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_linestring_boundaries_col"><code class="docutils literal notranslate"><span class="pre">get_linestring_boundaries_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_linestring_from_point_list"><code class="docutils literal notranslate"><span class="pre">get_linestring_from_point_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_linestring_list_boundary_intersection_col"><code class="docutils literal notranslate"><span class="pre">get_linestring_list_boundary_intersection_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_multigeometry_from_col"><code class="docutils literal notranslate"><span class="pre">get_multigeometry_from_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_multilinestring_from_wkt_list_col"><code class="docutils literal notranslate"><span class="pre">get_multilinestring_from_wkt_list_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_multipoint_from_wkt_list_col"><code class="docutils literal notranslate"><span class="pre">get_multipoint_from_wkt_list_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_nearest_point_within_distance_col"><code class="docutils literal notranslate"><span class="pre">get_nearest_point_within_distance_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_point_list_centroid_col"><code class="docutils literal notranslate"><span class="pre">get_point_list_centroid_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.get_polygon_centroid_col"><code class="docutils literal notranslate"><span class="pre">get_polygon_centroid_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.linestring_is_ring_col"><code class="docutils literal notranslate"><span class="pre">linestring_is_ring_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.linestring_splitter_col"><code class="docutils literal notranslate"><span class="pre">linestring_splitter_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.merge_linestring_list"><code class="docutils literal notranslate"><span class="pre">merge_linestring_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.move_geometry_col"><code class="docutils literal notranslate"><span class="pre">move_geometry_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.retrograde_multigeometry"><code class="docutils literal notranslate"><span class="pre">retrograde_multigeometry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.shape_coordinate_transformer_col"><code class="docutils literal notranslate"><span class="pre">shape_coordinate_transformer_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.shape_intersect_polygon"><code class="docutils literal notranslate"><span class="pre">shape_intersect_polygon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.shape_intersect_shape_col"><code class="docutils literal notranslate"><span class="pre">shape_intersect_shape_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.shape_to_geoalchemy2_col"><code class="docutils literal notranslate"><span class="pre">shape_to_geoalchemy2_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.shape_to_wkt_col"><code class="docutils literal notranslate"><span class="pre">shape_to_wkt_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.simplify_linestring_col"><code class="docutils literal notranslate"><span class="pre">simplify_linestring_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.simplify_multilinestring_col"><code class="docutils literal notranslate"><span class="pre">simplify_multilinestring_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.wkt_to_geoalchemy_col"><code class="docutils literal notranslate"><span class="pre">wkt_to_geoalchemy_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars_shapely_function.html#polars_shapely_function.wkt_to_shape_col"><code class="docutils literal notranslate"><span class="pre">wkt_to_shape_col()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="numpy_function.html">numpy_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="numpy_function.html#numpy_function.error_within_boundaries"><code class="docutils literal notranslate"><span class="pre">error_within_boundaries()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="numpy_function.html#numpy_function.relative_error_within_boundaries"><code class="docutils literal notranslate"><span class="pre">relative_error_within_boundaries()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="networkx_function.html">networkx_function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.generate_and_connect_segment_from_linestring_list"><code class="docutils literal notranslate"><span class="pre">generate_and_connect_segment_from_linestring_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.generate_bfs_tree_with_edge_data"><code class="docutils literal notranslate"><span class="pre">generate_bfs_tree_with_edge_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.generate_nx_edge"><code class="docutils literal notranslate"><span class="pre">generate_nx_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.generate_shortest_path_length_matrix"><code class="docutils literal notranslate"><span class="pre">generate_shortest_path_length_matrix()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.generate_tree_graph_from_edge_data"><code class="docutils literal notranslate"><span class="pre">generate_tree_graph_from_edge_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_all_edge_data"><code class="docutils literal notranslate"><span class="pre">get_all_edge_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_connected_edges_data"><code class="docutils literal notranslate"><span class="pre">get_connected_edges_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_edge_data_from_node_list"><code class="docutils literal notranslate"><span class="pre">get_edge_data_from_node_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_edge_data_from_path"><code class="docutils literal notranslate"><span class="pre">get_edge_data_from_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_edge_data_list"><code class="docutils literal notranslate"><span class="pre">get_edge_data_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_edge_param_from_node_list"><code class="docutils literal notranslate"><span class="pre">get_edge_param_from_node_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_node_neighbor_edge_data"><code class="docutils literal notranslate"><span class="pre">get_node_neighbor_edge_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_shortest_path_between_col"><code class="docutils literal notranslate"><span class="pre">get_shortest_path_between_col()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_shortest_path_dijkstra_col_from_multisource"><code class="docutils literal notranslate"><span class="pre">get_shortest_path_dijkstra_col_from_multisource()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_shortest_path_dijkstra_from_multisource"><code class="docutils literal notranslate"><span class="pre">get_shortest_path_dijkstra_from_multisource()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="networkx_function.html#networkx_function.get_shortest_path_edge_data"><code class="docutils literal notranslate"><span class="pre">get_shortest_path_edge_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">IE Utility Functions documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="general_function.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">general_function</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/modules.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Luca Tomasini.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
