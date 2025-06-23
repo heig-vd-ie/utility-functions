@@ -451,3 +451,18 @@ def keep_only_duplicated_list(data: pl.Expr) -> pl.Expr:
         pl.Expr: A boolean Polars expression indicating whether the concatenated list of elements is duplicated
     """
     return data.cast(pl.List(pl.Utf8)).list.sort().list.join(separator="_").is_duplicated()
+
+def keep_only_first_unique_list(data: pl.Expr) -> pl.Expr:
+    """
+    Return a boolean Polars expression indicating which rows in a list column are unique,
+    after sorting and joining the list elements with an underscore.
+    This function is useful for identifying rows in a DataFrame where the concatenated list of elements
+    contains unique elements, meaning that the concatenated list does not have any duplicates.
+    The function will return True for rows that have unique concatenated lists and False for rows that
+    have duplicates in their concatenated lists.
+    Args:
+        data (pl.Expr): A Polars expression representing a list column.
+    Returns:
+        pl.Expr: A boolean Polars expression indicating whether the concatenated list of elements is duplicated
+    """
+    return data.cast(pl.List(pl.Utf8)).list.sort().list.join(separator="_").is_first_distinct()
